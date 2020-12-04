@@ -8,6 +8,6 @@ public class adminMainController {
 
 	@RequestMapping("/admin/selectAdminMain.do")
 	public String selectAdminMain() {
-		return "admin/adminMain";
+		return "admin/adminMain"; 
 	}
 }
