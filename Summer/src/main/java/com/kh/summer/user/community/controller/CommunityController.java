@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommunityController {
 	
 	@RequestMapping("/community/selectCommunityMain.do")
-	public String selectStoreMain() {
+	public String selectCommunityMain() {
 		return "user/community/communityMain";
 	}
 }

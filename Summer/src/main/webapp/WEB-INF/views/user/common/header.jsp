@@ -15,58 +15,63 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
-	
+
 	<!-- Animate.css -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/animate.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/animate.css">
 	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/icomoon.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/icomoon.css">
 	<!-- Ion Icon Fonts-->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/ionicons.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/ionicons.min.css">
 	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/bootstrap.min.css">
 
 	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/magnific-popup.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/magnific-popup.css">
 
 	<!-- Flexslider  -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/flexslider.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/flexslider.css">
 
 	<!-- Owl Carousel -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/owl.theme.default.min.css">
 	
 	<!-- Date Picker -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/bootstrap-datepicker.css">
 	<!-- Flaticons  -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/fonts/flaticon/font/flaticon.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/fonts/flaticon/font/flaticon.css">
 
 	<!-- Theme style  -->
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/user/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/user/css/style.css">
 
 	<!-- jQuery -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.min.js"></script>
 	<!-- popper -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/popper.min.js"></script>
 	<!-- bootstrap 4.1 -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/bootstrap.min.js"></script>
 	<!-- jQuery easing -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.easing.1.3.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.easing.1.3.js"></script>
 	<!-- Waypoints -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.waypoints.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.waypoints.min.js"></script>
 	<!-- Flexslider -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.flexslider-min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.flexslider-min.js"></script>
 	<!-- Owl carousel -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/owl.carousel.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/owl.carousel.min.js"></script>
 	<!-- Magnific Popup -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.magnific-popup.min.js"></script>
-	<script src="<%= request.getContextPath() %>/resources/user/js/magnific-popup-options.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/magnific-popup-options.js"></script>
 	<!-- Date Picker -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/bootstrap-datepicker.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/bootstrap-datepicker.js"></script>
 	<!-- Stellar Parallax -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/jquery.stellar.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/jquery.stellar.min.js"></script>
 	<!-- Main -->
-	<script src="<%= request.getContextPath() %>/resources/user/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/user/js/main.js"></script>
 
+	<style>
+		.koreanFont * {
+			font-family: 'Open Sans';
+		}
+	</style>
 	</head>
 	<body>
 	<header>
@@ -109,10 +114,10 @@
 								<li id="navLookBook" class=<%= selectMenu != null && selectMenu.equals("lookBook") ? "'has-dropdown active'" : "'has-dropdown'" %>><a href="${pageContext.request.contextPath}/lookbook/selectLookbookList.do">LOOKBOOK</a></li>
 								<li id="navCommunity" class=<%= selectMenu != null && selectMenu.equals("community") ? "'has-dropdown active'" : "'has-dropdown'" %>>
 									<a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">COMMUNITY</a>
-									<ul class="dropdown">
+									<ul class="dropdown koreanFont">
 										<li><a href="cart.html">커뮤니티</a></li>
 										<li><a href="checkout.html">중고거래</a></li>
-										<li><a href="order-complete.html">공지사항</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">공지사항</a></li>
 									</ul>
 								</li>
 								<li id="navCS" class=<%= selectMenu != null && selectMenu.equals("cs") ? "'has-dropdown active'" : "'has-dropdown'" %>><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CS</a></li>

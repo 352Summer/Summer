@@ -44,7 +44,7 @@
 							</a>
 							<div class="desc">
 								<h2><a href="#">룩북 제목 - 신발</a></h2>
-								<span class="price">룩북 내용 - 사이트 색상에 알맞는 신발</span>
+								<span class="price" style="font-family: 'Open Sans'">룩북 내용 - 사이트 색상에 알맞는 신발</span>
 							</div>
 						</div>
 					</div>

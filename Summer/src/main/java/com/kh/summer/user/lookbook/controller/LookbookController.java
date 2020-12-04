@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LookbookController {
 	
 	@RequestMapping("/lookbook/selectLookbookList.do")
-	public String selectStoreMain() {
+	public String selectLookbookMain() {
 		return "user/lookbook/lookbookList";
 	}
 }
