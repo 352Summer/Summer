@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-	<title>Summer - COMMUNITY</title>
+	<title>Summer - COMMUNITY</title> 
 	<meta charset="utf-8">
    
 	</head>
