@@ -3,9 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%
-	String selectMenu = (String)request.getAttribute("selectMenu");
-%>
+<c:set var="selectMenu" value="${ requestScope.selectMenu }"/>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -71,6 +69,10 @@
 		.koreanFont * {
 			font-family: 'Open Sans';
 		}
+		
+		body * {
+			font-family: 'Open Sans';
+		}
 	</style>
 	</head>
 	<body>
@@ -100,8 +102,8 @@
 						<!-- 메뉴 시작 -->
 						<div class="col-sm-12 text-left menu-1">
 							<ul>
-								<li id="navHome" class=<%= selectMenu == null ? "'active'" : "" %>><a href="${pageContext.request.contextPath}">Home</a></li>
-								<li id="navStore" class=<%= selectMenu != null && selectMenu.equals("store") ? "'has-dropdown active'" : "'has-dropdown'" %>>
+								<li id="navHome" class=${ selectMenu eq null ? "'active'" : "" }><a href="${pageContext.request.contextPath}">Home</a></li>
+								<li id="navStore" class=${ selectMenu ne null and selectMenu eq "store" ? "'has-dropdown active'" : "'has-dropdown'" }>
 									<a href="${pageContext.request.contextPath}/store/selectStoreMain.do">STORE</a>
 									<ul class="dropdown">
 										<li><a href="product-detail.html">Product Detail</a></li>
@@ -111,17 +113,18 @@
 										<li><a href="add-to-wishlist.html">Wishlist</a></li>
 									</ul>
 								</li>
-								<li id="navLookBook" class=<%= selectMenu != null && selectMenu.equals("lookBook") ? "'has-dropdown active'" : "'has-dropdown'" %>><a href="${pageContext.request.contextPath}/lookbook/selectLookbookList.do">LOOKBOOK</a></li>
-								<li id="navCommunity" class=<%= selectMenu != null && selectMenu.equals("community") ? "'has-dropdown active'" : "'has-dropdown'" %>>
+								<li id="navLookBook" class=${ selectMenu ne null and selectMenu eq "lookbook" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/lookbook/selectLookbookList.do">LOOKBOOK</a></li>
+								<li id="navCommunity" class=${ selectMenu ne null and selectMenu eq "community" ? "'has-dropdown active'" : "'has-dropdown'" }>
 									<a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">COMMUNITY</a>
-									<ul class="dropdown koreanFont">
-										<li><a href="cart.html">커뮤니티</a></li>
+									<ul class="dropdown">
+										<li><a href="${pageContext.request.contextPath}/community/selectCommunityList.do">커뮤니티</a></li>
 										<li><a href="checkout.html">중고거래</a></li>
 										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">공지사항</a></li>
 									</ul>
 								</li>
-								<li id="navCS" class=<%= selectMenu != null && selectMenu.equals("cs") ? "'has-dropdown active'" : "'has-dropdown'" %>><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CS</a></li>
-								<li style="float : right;"><a href="cart.html">login</a></li>
+								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CS</a></li>
+								<li style="float : right;"><a href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
+								<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#loginModal">로그인</button> -->
 								<li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
 							</ul>
 						</div>
@@ -153,6 +156,35 @@
 			</div>
 		</nav>
 	</header>
+
+	<!-- Modal시작 -->
+	<!-- https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="loginModalLabel">로그인</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!--로그인폼 -->
+				<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
+				<form action="${pageContext.request.contextPath}/member/memberLogin.do" method="post">
+					<div class="modal-body">
+						<input type="text" class="form-control" name="userId" placeholder="아이디" required>
+						<br />
+						<input type="password" class="form-control" name="password" placeholder="비밀번호" required>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc;">로그인</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" style="background : #88c8bc; border : #88c8bc;">취소</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Modal 끝-->
 
 	<!-- 화면 상단으로 이동 -->
 	<div class="gototop js-top">
