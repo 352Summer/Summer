@@ -27,60 +27,53 @@
 						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>Community</span></p>
 					</div>
 				</div>
-				<h1>Community</h1>
+				<h1>자유게시판</h1>
 				<hr style="margin-top:-10px;"/>
 			</div>
 		</div>
 
 		<div class="colorlib-product" style="margin-top:-80px;">
 			<div class="container">
-				<div class="row row-pb-md">
+				<div class="row row-pb-md" style="margin-bottom: -50px;">
 					<div class="col text-center">
 						<!-- 게시판 -->
 						<table id="tbl-board" class="table table-hover table-striped">
 							<tr style="background : #88c8bc; border : #88c8bc;">
-								<th>번호</th>
+								<th style=" width : 70px;">번호</th>
 								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-								<th>첨부파일</th>
-								<th>조회수</th>
+								<th style="width : 100px;">작성자</th>
+								<th style="width : 80px;">작성일</th>
+								<th style="width : 70px;">파일</th>
+								<th style="width : 90px;">조회수</th>
 							</tr>
 							<c:forEach items="${list}" var="b"> 
-							<tr id="${b.boardNo}">
+							<tr id="${b.boardNo}" style="border-bottom : 1px solid lightgrey">
 								<td>${b.boardNo}</td>
-								<td>${b.boardTitle}</td>
+								<td style="text-align: left;">${b.boardTitle}22222222</td>
 								<td>${b.boardWriter}</td>
 								<td>${b.boardDate}</td>
 								<td align="center">
 									<c:if test="${b.fileCount>0}">
-										<img alt="첨부파일" src="${pageContext.request.contextPath}/resources/images/file.png" width=16px>
-									</c:if><c:if test="${b.fileCount eq 0}">
 										<i class="icon-large icon-file"></i>
 									</c:if>
 								</td>
 								<td>${b.boardReadCount }</td>
 							</tr>
 							</c:forEach>
-							
 						</table>
+						<button type="button" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc; float : right;"
+								onclick="location.href='${pageContext.request.contextPath}/community/insertFreeView.do?'">글쓰기</button>
 					</div>
 				</div>
+				<!-- 페이징 처리 사직-->
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<div class="block-27">
-		               <ul>
-			               <li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
-		                  <li class="active"><span>1</span></li>
-		                  <li><a href="#">2</a></li>
-		                  <li><a href="#">3</a></li>
-		                  <li><a href="#">4</a></li>
-		                  <li><a href="#">5</a></li>
-		                  <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
-		               </ul>
-		            </div>
+							<c:out value="${pageBar}" escapeXml="false"/>
+		            	</div>
 					</div>
 				</div>
+				<!-- 페이징 처리 끝-->
 			</div>
 		</div>
 
@@ -114,6 +107,16 @@
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>
+	
+	<script>
+		$(function(){
+			$("tr[id]").on("click",function(){
+				var boardNo = $(this).attr("id");
+				console.log("bordNo="+boardNo);
+				location.href = "${pageContext.request.contextPath}/community/selectFreeDetail.do?no="+boardNo;
+			});
+		});
+	</script>
 	
 	</body>
 </html>

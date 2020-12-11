@@ -20,30 +20,32 @@ public class Utils {
 		int pageEnd = pageNo+pageBarSize-1; // 페이지바 끝 번호
 		System.out.println("totalPage : "+totalPage);
 		System.out.println("pageStart["+pageNo+"] ~ pageEnd["+pageEnd+"]");
-		
-		pageBar += "<ul class='pagination justify-content-center pagination-sm'>";
+		 
+         
+         
+		pageBar += "<ul>";
 		//[이전]section
 		if(pageNo == 1 ){
-			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#' tabindex='-1'>이전</a>";
+			pageBar += "<li>";
+			pageBar += "<span><i class='ion-ios-arrow-back'></i></span>&nbsp;";
 			pageBar += "</li>";
 		}
 		else {
-			pageBar += "<li class='page-item'>";
-			pageBar += "<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>이전</a>";
+			pageBar += "<li>";
+			pageBar += "<a href='javascript:fn_paging("+(pageNo-1)+")'><i class='ion-ios-arrow-back'></i></a>&nbsp;";
 			pageBar += "</li>";
 		}
 		
 		// pageNo section
 		while(!(pageNo>pageEnd || pageNo > totalPage)){
 			if(cPage == pageNo ){
-				pageBar += "<li class='page-item active'>";
-				pageBar += "<a class='page-link'>"+pageNo+"</a>";
+				pageBar += "<li class='active'>";
+				pageBar += "<span>"+pageNo+"</span>&nbsp;";
 				pageBar += "</li>";
 			} 
 			else {
-				pageBar += "<li class='page-item'>";
-				pageBar += "<a class='page-link' href='javascript:fn_paging("+pageNo+")'>"+pageNo+"</a>";
+				pageBar += "<li>";
+				pageBar += "<a href='javascript:fn_paging("+pageNo+")'>"+pageNo+"</a>&nbsp;";
 				pageBar += "</li>";
 			}
 			pageNo++;
@@ -51,13 +53,13 @@ public class Utils {
 		
 		//[다음] section
 		if(pageNo > totalPage){
-			pageBar += "<li class='page-item disabled'>";
-			pageBar += "<a class='page-link' href='#'>다음</a>";
+			pageBar += "<li>";
+			pageBar += "<span><i class='ion-ios-arrow-forward'></i></span>";
 			pageBar += "</li>";
 			
 		} else {
-			pageBar += "<li class='page-item'>";
-			pageBar += "<a class='page-link' href='javascript:fn_paging("+pageNo+")'>다음</a> ";
+			pageBar += "<li>";
+			pageBar += "<a href='javascript:fn_paging("+pageNo+")'><i class='ion-ios-arrow-forward'></i></a> ";
 			pageBar += "</li>";
 		}
 		

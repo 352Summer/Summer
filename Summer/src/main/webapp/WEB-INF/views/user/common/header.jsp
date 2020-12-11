@@ -73,6 +73,12 @@
 		body * {
 			font-family: 'Open Sans';
 		}
+		
+		.thema {
+			background : #88c8bc;
+			border : #88c8bc;			
+		}
+		
 	</style>
 	</head>
 	<body>
@@ -117,9 +123,10 @@
 								<li id="navCommunity" class=${ selectMenu ne null and selectMenu eq "community" ? "'has-dropdown active'" : "'has-dropdown'" }>
 									<a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">COMMUNITY</a>
 									<ul class="dropdown">
-										<li><a href="${pageContext.request.contextPath}/community/selectCommunityList.do">커뮤니티</a></li>
-										<li><a href="checkout.html">중고거래</a></li>
-										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">공지사항</a></li>
+										<li><a href="${pageContext.request.contextPath}/community/selectFreeList.do">Free</a></li>
+										<li><a href="${pageContext.request.contextPath}/community/selectTradeList.do"">Trade</a></li>
+										<li><a href="${pageContext.request.contextPath}/community/selectNoticeList.do">Notice</a></li>
+										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
 									</ul>
 								</li>
 								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CS</a></li>
