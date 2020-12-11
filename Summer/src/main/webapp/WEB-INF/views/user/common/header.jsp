@@ -122,7 +122,7 @@
 										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">공지사항</a></li>
 									</ul>
 								</li>
-								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CS</a></li>
+								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CUSTOMER SERVICE</a></li>
 								<li style="float : right;"><a href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
 								<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#loginModal">로그인</button> -->
 								<li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
