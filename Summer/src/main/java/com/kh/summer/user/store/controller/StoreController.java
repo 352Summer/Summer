@@ -10,4 +10,19 @@ public class StoreController {
 	public String selectStoreMain() {
 		return "user/store/storeMain";
 	}
+	
+	@RequestMapping("/store/selectStoreTop.do")
+	public String selectStoreTop() {
+		return "user/store/topStore";	
+	}
+	
+	@RequestMapping("/store/selectStorePants.do")
+	public String selectStorePants() {
+		return "user/store/pantsStore";	
+	}
+	
+	@RequestMapping("/store/selectStoreOuter.do")
+	public String selectStoreOuter() {
+		return "user/store/outerStore";	
+	}
 }
