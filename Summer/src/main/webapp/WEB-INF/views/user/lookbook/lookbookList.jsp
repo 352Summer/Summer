@@ -88,14 +88,14 @@
 		</div>
 		<div class="colorlib-product" style="margin-top:-80px;" >
 			<div class="container">
-				<div class="row row-pb-md">
+				<div class="row row-pb-md" style="margin-bottom:-20px">
 					<div class="col-md-3 col-lg-3 mb-4 text-center">
 						<div class="product-entry border">
-							<a href="#" class="prod-img">
+							<a href="${pageContext.request.contextPath}/lookbook/selectLookbookDetail.do" class="prod-img">
 								<img src="${pageContext.request.contextPath}/resources/user/images/lookbook/LookBook1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
 							</a>
 							<div class="desc">
-								<h2><a href="#">데일리룩</a></h2>
+								<h2><a href="${pageContext.request.contextPath}/lookbook/selectLookbookDetail.do">데일리룩</a></h2>
 								<span>클래식한 슈트에만 어울릴법한 브리프케이스의 변신! 연말 모임룩, 파티룩, 데일리룩에도 잘 어울리는 패션 브리프케이스입니다.</span>
 							</div>
 						</div>
@@ -269,9 +269,8 @@
 						</div>
 					</div>
 				</div>
-				<hr />
 				<div style="text-align : right;">
-			        <button class="btn btn-success">글쓰기</button>
+			        <button onclick="location.href='${pageContext.request.contextPath}/lookbook/LookbookInsert.do'" class="btn btn-primary thema">글쓰기</button>
 			    </div>
 				<div class="row">
 					<div class="col-md-12 text-center">
