@@ -147,6 +147,36 @@
 		    <version>11.2.0.4</version>
 		</dependency>
 		
+		
+		<!-- lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.16</version>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.2.7.RELEASE</version>
+		</dependency>
+		
+		<!-- spring-security-web -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>5.2.7.RELEASE</version>
+		</dependency>
+				
+		<!-- spring-security-config -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>5.2.7.RELEASE</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

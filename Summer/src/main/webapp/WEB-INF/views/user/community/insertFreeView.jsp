@@ -9,7 +9,6 @@
 	<head>
 	<title>Summer - COMMUNITY</title> 
 	<meta charset="utf-8">
-   
 	</head>
 	<body>
 		
@@ -24,7 +23,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>Community</span></p>
+						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Free</span></p>
 					</div>
 				</div>
 				<h1>자유게시판 작성</h1>
@@ -37,29 +36,35 @@
 				<div class="row row-pb-md">
 					<div class="col" >
 						<div style="padding : 10px; margin-bottom : 10px;">
-							<table style="width : 100%">
-								<tr>
-									<td><input type="text" placeholder="제목을 입력해주세요" style="width : 100%"/></td>
-								</tr>
-								<tr>
-									<td><br /><textarea rows="20" placeholder="내용을 입력해주세요" style="width : 100%"></textarea></td>
-								</tr>
-								<tr>
-									<td>파일첨부 <img class="imageArea" width="100" height="100" onchange="fileAdd(this);"></td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">
-									<br />
-										<button type="button" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc;"
-												onclick="fn_submit();">등록</button>
-										<button type="button" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc;"
-												onclick="fn_cancel();">취소</button>							
-									</td>
-								</tr>
-							</table>
-							<div id="fileArea">
-								<input type="file" name="imageFile" class="imageFile" onchange="loadImg(this, 0);" />
-							</div>
+						<!-- 폼 시작 -->
+							<form id="freeBoard" action="#" enctype="multipart/form-data">
+								<!-- 게시글정보 시작 -->
+								<table style="width : 100%">
+									<tr>
+										<td><input type="text" name="title" placeholder="제목을 입력해주세요" style="width : 100%"/></td>
+									</tr>
+									<tr>
+										<td><br /><textarea rows="20" name="context" placeholder="내용을 입력해주세요" style="width : 100%"></textarea></td>
+									</tr>
+									<tr>
+										<td>파일첨부 <img id="imageTag0" width="100" height="100" onclick="clickFile(0);"></td>
+									</tr>
+									<tr>
+										<td style="text-align: center;">
+										<br />
+											<button type="button" class="btn btn-primary thema" onclick="fn_submit();">등록</button>
+											<button type="button" class="btn btn-primary thema" onclick="fn_cancel();">취소</button>							
+										</td>
+									</tr>
+								</table>
+								<!-- 게시글정보 끝 -->
+								<!-- 첨부파일 시작 -->
+								<div id="fileArea">
+									<input type="file" name="imageFile" id="imageFile0" onchange="loadImg(this, 0)"/>
+								</div>
+								<!-- 첨부파일 끝 -->
+							</form>
+							<!-- 폼 끝 -->
 						</div>
 					</div>
 				</div>
@@ -72,16 +77,26 @@
 	</div>
 		
 	<script>
-		var $imageTag = $('.imageArea')[0];
+		var fileIndex = 1;
 		
 		$(function(){
-			$('.imageArea').each(function(idx, item){
-				$(item).click(function(){
-					$('.imageFile')[idx].click();
-				});
-			});
+			$('#fileArea').hide();
 		});
 
+		// 이미지 클릭 시 파일추가 클릭
+		function clickFile(idx){
+			// 이미지가 없으면 추가, 있으면 삭제
+			if($($('#imageTag'+idx)).attr('src') == undefined){
+				$('#imageFile'+idx).click();
+			} else {
+				if(confirm("삭제하시겠습니까?")){
+					$($('#imageTag'+idx)).detach();
+					$($('#imageFile'+idx)).detach();
+				}
+			}
+		}
+
+		// 파일 선택 시 이미지 불러오기
 		function loadImg(img, num){
 			if(img.files && img.files[0]) {
 				
@@ -89,14 +104,14 @@
 				
 				reader.onload = function(e){
 					
-					$($('.imageArea')[num]).attr('src', e.target.result);
+					$($('#imageTag'+num)).attr('src', e.target.result);
 				}
 				reader.readAsDataURL(img.files[0]);
-				// 여기에 태그 추가
-				//$('#imageArea').clone(true).appendTo($('#result'));
-				console.log(img);
-				//img.clone(true).appendTo($('#fileArea'));
-				$('.imageArea').parent().append($($imageTag).clone(true));
+				// 파일을 불러왔으면 태그 추가
+				// $('.imageArea').parent().append($($imageTag).clone(true));
+				$('#imageTag'+num).parent().append('<img id="imageTag'+fileIndex+'" width="100" height="100" onclick="clickFile('+fileIndex+');">');
+				$('#imageFile'+num).parent().append('<input type="file" name="imageFile" id="imageFile'+fileIndex+'" onchange="loadImg(this, '+fileIndex+')"/>');
+				fileIndex++;
 			}
 		}
 
@@ -106,7 +121,7 @@
 		
 		function fn_submit() {
 			if(confirm('등록 하시겠습니까?')) {
-				
+				$('#freeBoard').submit();
 			}
 		}
 

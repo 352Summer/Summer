@@ -24,7 +24,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>Community</span></p>
+						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Free</span></p>
 					</div>
 				</div>
 				<h1>자유게시판</h1>
@@ -38,7 +38,7 @@
 					<div class="col text-center">
 						<!-- 게시판 -->
 						<table id="tbl-board" class="table table-hover table-striped">
-							<tr style="background : #88c8bc; border : #88c8bc;">
+							<tr style="background : #88c8bc; border : #88c8bc; color : white;">
 								<th style=" width : 70px;">번호</th>
 								<th>제목</th>
 								<th style="width : 100px;">작성자</th>
@@ -61,7 +61,7 @@
 							</tr>
 							</c:forEach>
 						</table>
-						<button type="button" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc; float : right;"
+						<button type="button" class="btn btn-primary thema" style="float : right;"
 								onclick="location.href='${pageContext.request.contextPath}/community/insertFreeView.do?'">글쓰기</button>
 					</div>
 				</div>
@@ -74,36 +74,24 @@
 					</div>
 				</div>
 				<!-- 페이징 처리 끝-->
+				<!-- 검색 시작 -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="#">
+							<select name="search" id="" class="btn thema" style="color : white;">
+								<option value="all" style="background: white; color : black;">전체</option>
+								<option value="title" style="background: white; color : black;">제목</option>
+								<option value="writer" style="background: white; color : black;">작성자</option>
+							</select>
+							<input type="search" name="search" class="form-control" placeholder="Search" style="border-radius: 30px; width:30%; display: inline-block;">
+							<button class="btn btn-primary thema" type="submit"><i class="icon-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- 검색 끝 -->
 			</div>
 		</div>
 
-		<div class="colorlib-partner">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-						<h2>Trusted Partners</h2>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col partner-col text-center">
-						<img src="${pageContext.request.contextPath}/resources/user/images/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-					</div>
-					<div class="col partner-col text-center">
-						<img src="${pageContext.request.contextPath}/resources/user/images/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-					</div>
-					<div class="col partner-col text-center">
-						<img src="${pageContext.request.contextPath}/resources/user/images/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-					</div>
-					<div class="col partner-col text-center">
-						<img src="${pageContext.request.contextPath}/resources/user/images/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-					</div>
-					<div class="col partner-col text-center">
-						<img src="${pageContext.request.contextPath}/resources/user/images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-					</div>
-				</div>
-			</div>
-		</div>
-		
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>

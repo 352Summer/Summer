@@ -66,9 +66,6 @@
 	<script src="${pageContext.request.contextPath}/resources/user/js/main.js"></script>
 
 	<style>
-		.koreanFont * {
-			font-family: 'Open Sans';
-		}
 		
 		body * {
 			font-family: 'Open Sans';
@@ -76,7 +73,7 @@
 		
 		.thema {
 			background : #88c8bc;
-			border : #88c8bc;			
+			border : #88c8bc;
 		}
 		
 	</style>
@@ -112,11 +109,11 @@
 								<li id="navStore" class=${ selectMenu ne null and selectMenu eq "store" ? "'has-dropdown active'" : "'has-dropdown'" }>
 									<a href="${pageContext.request.contextPath}/store/selectStoreMain.do">STORE</a>
 									<ul class="dropdown">
-										<li><a href="product-detail.html">Product Detail</a></li>
-										<li><a href="cart.html">Shopping Cart</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="order-complete.html">Order Complete</a></li>
-										<li><a href="add-to-wishlist.html">Wishlist</a></li>
+										<li><a href="product-detail.html">Best</a></li>
+										<li><a href="cart.html">New</a></li>
+										<li><a href="checkout.html">Top</a></li>
+										<li><a href="order-complete.html">Pants</a></li>
+										<li><a href="add-to-wishlist.html">Outer</a></li>
 									</ul>
 								</li>
 								<li id="navLookBook" class=${ selectMenu ne null and selectMenu eq "lookbook" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/lookbook/selectLookbookList.do">LOOKBOOK</a></li>
@@ -129,10 +126,15 @@
 										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
 									</ul>
 								</li>
-								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">CUSTOMER SERVICE</a></li>
-								<li style="float : right;"><a href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
-								<!-- <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target="#loginModal">로그인</button> -->
-								<li class="cart"><a href="cart.html"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a></li>
+								<c:if test="${empty member}">
+									<li style="float : right;"><a href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
+									<li style="float : right;"><a href="${pageContext.request.contextPath}/member/memberEnroll.do">Join</a></li>
+								</c:if>
+								<c:if test="${!empty member}">
+									<li style="float : right;"><a href="${pageContext.request.contextPath}/member/memberLogout.do">logout</a></li>
+									<li style="float : right;"><a href="cart.html">${member.nickName}님</a></li>
+								</c:if>
 							</ul>
 						</div>
 						<!-- 메뉴 끝 -->
@@ -184,8 +186,8 @@
 						<input type="password" class="form-control" name="password" placeholder="비밀번호" required>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc;">로그인</button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" style="background : #88c8bc; border : #88c8bc;">취소</button>
+						<button type="submit" class="btn btn-primary thema" >로그인</button>
+						<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
 					</div>
 				</form>
 			</div>
@@ -193,6 +195,12 @@
 	</div>
 	<!-- Modal 끝-->
 
+	<!-- 사이드바 시작 -->
+	<div>
+		
+	</div>
+	<!-- 사이드바 끝 -->
+	
 	<!-- 화면 상단으로 이동 -->
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>

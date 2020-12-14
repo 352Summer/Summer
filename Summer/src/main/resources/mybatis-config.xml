@@ -8,13 +8,13 @@
 	
 	<!-- 마이바티스 DB 연결 시 사용할 별칭 등록 -->
 	<typeAliases>
-		<typeAlias type="" alias=""/>
+		<typeAlias type="com.kh.summer.user.member.model.vo.Member" alias="Member" />
 	</typeAliases>
 	
 	<!-- 해당 프로젝트에서 사용하기 위한 TypeHandler 등록 -->
 	<typeHandlers>
 		<!-- 해당 패키지의 모든 핸들러 등록하기 -->
-		<package name=""/>
+		<!-- <package name=""/> -->
 	</typeHandlers>
 	
 </configuration>
