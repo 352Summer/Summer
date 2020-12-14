@@ -25,4 +25,8 @@ public class StoreController {
 	public String selectStoreOuter() {
 		return "user/store/outerStore";	
 	}
+	@RequestMapping("/store/storeDetail.do")
+	public String storeDetail() {
+		return "user/store/storeDetail";	
+	}
 }
