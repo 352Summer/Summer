@@ -136,7 +136,7 @@
 									<li style="float : right;"><a href="cart.html">${member.nickName}님</a></li>
 								</c:if>
 							</ul>
-						</div>
+						</div> 
 						<!-- 메뉴 끝 -->
 					</div>
 				</div>
