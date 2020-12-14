@@ -10,4 +10,15 @@ public class LookbookController {
 	public String selectLookbookMain() {
 		return "user/lookbook/lookbookList";
 	}
+	
+	@RequestMapping("/lookbook/selectLookbookDetail.do")
+	public String selectLookbookDetail() {
+		return "user/lookbook/lookbookDetail";
+	}
+	
+	@RequestMapping("/lookbook/LookbookInsert.do")
+	public String LookbookInsert() {
+		return "user/lookbook/lookbookInsert";
+	}
+	
 }
