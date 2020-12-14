@@ -19,7 +19,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>Store Main</span></p>
+						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>Store</span></p>
 					</div>
 				</div>
 				<h1>Store</h1>
