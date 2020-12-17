@@ -21,6 +21,34 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	
+	<!-- @ResponseBody 사용을 위한 의존성 주입 -->
+ 	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="jacksonMessageConverter"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 사용을 위한 인터셉터 등록하기 -->
+	<interceptors>
+		<!-- 로그인 유무를 확인하는 인터셉터 -->
+		<interceptor>
+			<mapping path="/member/memberUpdate.do"/>
+			<mapping path="/community/**/*.do"/>
+			<exclude-mapping path="/community/selectFreeList.do"/>
+			<beans:bean id="loginInterceptor" class="com.kh.summer.common.interceptor.LoginInterceptor" />
+		</interceptor>
+	</interceptors>
+	
+	<!--  파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의)  -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"/>
+		<!--  max 파일용량은 10MB이다.  -->
+	</beans:bean>
+	
 	<context:component-scan base-package="com.kh.summer" />
 	
 	

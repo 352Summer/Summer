@@ -42,13 +42,18 @@
 								<input type="hidden" name="userId" value="${member.userId}" required>
 								<table style="width : 100%">
 									<tr>
-										<td><input type="text" id="title" name="bTitle" placeholder="제목을 입력해주세요" required style="width : 100%"/></td>
+										<td><input type="text" id="title" name="bTitle" placeholder="제목을 입력해주세요" required style="width : 100%" value="${board.BTITLE}"/></td>
 									</tr>
 									<tr>
-										<td><br /><textarea rows="20" id="contents" name="bContents" placeholder="내용을 입력해주세요" required style="width : 100%"></textarea></td>
+										<td><br /><textarea rows="20" id="contents" name="bContents" placeholder="내용을 입력해주세요" required style="width : 100%">${board.BCONTENTS}</textarea></td>
 									</tr>
 									<tr>
-										<td>파일첨부 <img id="imageTag0" width="100" height="100" onclick="clickFile(0);"></td>
+										<td>파일첨부
+											<c:forEach items="${attachmentList}" var="attachment">
+											<img id="${attachment.ANO}" src="${pageContext.request.contextPath}${attachment.FILEPATH}${attachment.NEWFILENAME}" width="100" height="100" onclick="" alt="${attachment.OLDFILENAME}">
+											</c:forEach>
+											<img id="imageTag0" width="100" height="100" onclick="clickFile(0);">
+										</td>
 									</tr>
 									<tr>
 										<td style="text-align: center;">
@@ -126,7 +131,7 @@
 
 		function fn_cancel() {
 			if(confirm('작성 취소하시겠습니까?')) {
-				location.href='${pageContext.request.contextPath}/community/selectFreeList.do?';
+				location.href='${pageContext.request.contextPath}/community/selectFreeDetail.do?no='+${board.BNO};
 			}
 		}
 		

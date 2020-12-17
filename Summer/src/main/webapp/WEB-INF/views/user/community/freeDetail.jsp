@@ -37,38 +37,42 @@
 				<div class="row row-pb-md">
 					<div class="col" >
 					<div style="border : 1px solid lightgrey; padding : 10px; margin-bottom : 10px;">
-						<table>
+						<table style="width:100%;">
 							<tr>
-								<td><h2>${board.bTitle}남자분들 이거 생일선물로 받으면 별로 인가요?</h2></td>
+								<td><h2>${board.BTITLE}</h2></td>
 							</tr>
 							<tr>
-								<td>${board.bWriter}guest01 ${board.bMembership}일반회원</td>
+								<td>${board.WRITER} ${board.MEMBERSHIP}</td>
 							</tr>
 							<tr>
-								<td>${board.bDate}2020.12.02 01:30</td>
+								<td>${board.BDATE2CHAR}</td><td style="text-align: center;">댓글 ${board.COMMENTCOUNT}</td><td style="text-align: center;">조회 ${board.VIEWS}</td>
 							</tr>
 						</table>
 						
 						<hr />
 						
-						${board.bContents}내용
+						${board.BCONTENTS}
 						
+						<c:forEach items="${attachmentList}" var="attachment">
 						<div class="col partner-col text-center">
-							<img src="${pageContext.request.contextPath}/resources/user/images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+							<img src="${pageContext.request.contextPath}${attachment.FILEPATH}${attachment.NEWFILENAME}" class="img-fluid" alt="${attachment.OLDFILENAME}">
 						</div>
-						신고
-						댓글 11
+						</c:forEach>
+						
+						<div style="clear:both">
+						댓글 ${board.COMMENTCOUNT}
+						<button type="button" style="float:right;">신고</button>
+						</div>
+						
 						<hr style="margin-bottom : 0;"/>
 						<div style="padding : 10px;">
 							<h6 style="">댓글</h6>
-							<div style="padding : 10px; border-top : 1px solid lightgrey">
-								작성자 2020.12.02 00:57 <br />
-								댓글내용
+							<c:forEach items="${commentList}" var="comment">
+							<div id="${comment.BCNO}" style="padding : 10px; border-top : 1px solid lightgrey">
+								${comment.WRITER} ${comment.DATE2CHAR} <br />
+								${comment.CCONTENTS}
 							</div>
-							<div style="padding : 10px; border-top : 1px solid lightgrey">
-								작성자 2020.12.02 00:57 <br />
-								댓글내용
-							</div>
+							</c:forEach>
 							<div style="padding : 10px 10px 0 10px; border : 1px solid lightgrey; clear:both;">
 								<textarea rows="3" style="width : 100%; border : 1px solid lightgrey;"></textarea>
 								<button type="button" class="btn btn-primary" style="background : #88c8bc; border : #88c8bc; float : right;">등록</button>
@@ -79,7 +83,7 @@
 					<button type="button" class="btn btn-primary thema" onclick="fn_update();">수정</button>
 					<button type="button" class="btn btn-primary thema" onclick="fn_delete();">삭제</button>
 					<button type="button" class="btn btn-primary thema" style="float : right;"
-							onclick="location.href='${pageContext.request.contextPath}/community/selectFreeList.do?';">목록</button>
+							onclick="location.href='${pageContext.request.contextPath}/community/selectFreeList.do';">목록</button>
 					</div>
 				</div>
 				
@@ -94,7 +98,7 @@
 
 		function fn_update() {
 			if(confirm('수정하시겠습니까?')){
-				location.href='${pageContext.request.contextPath}/community/selectFreeList.do?';
+				location.href='${pageContext.request.contextPath}/community/updateFreeView.do?bNo='+${board.BNO};
 			}
 		}
 		

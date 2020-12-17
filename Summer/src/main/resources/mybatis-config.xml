@@ -9,6 +9,8 @@
 	<!-- 마이바티스 DB 연결 시 사용할 별칭 등록 -->
 	<typeAliases>
 		<typeAlias type="com.kh.summer.user.member.model.vo.Member" alias="Member" />
+		<typeAlias type="com.kh.summer.user.board.model.vo.Board" alias="Board" />
+		<typeAlias type="com.kh.summer.user.board.model.vo.Attachment" alias="Attachment" />
 	</typeAliases>
 	
 	<!-- 해당 프로젝트에서 사용하기 위한 TypeHandler 등록 -->

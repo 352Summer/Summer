@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.kh.summer.user.member.model.vo.Member;
+
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
@@ -13,7 +15,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		/*
+		
 		Member m = (Member)session.getAttribute("member");
 		
 		if( m == null ) {
@@ -24,7 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			// 화면 제어권을 넘기고
 			return false; // 강제로 종료 시킴
 		}
-		*/
+		
 		return super.preHandle(request, response, handler);
 	}
 

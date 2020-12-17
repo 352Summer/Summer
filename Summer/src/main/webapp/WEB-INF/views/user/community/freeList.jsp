@@ -42,24 +42,27 @@
 								<th style=" width : 70px;">번호</th>
 								<th>제목</th>
 								<th style="width : 100px;">작성자</th>
-								<th style="width : 80px;">작성일</th>
-								<th style="width : 70px;">파일</th>
+								<th style="width : 100px;">작성일</th>
+								<th style="width : 60px;">파일</th>
 								<th style="width : 90px;">조회수</th>
 							</tr>
 							<c:forEach items="${list}" var="b"> 
-							<tr id="${b.boardNo}" style="border-bottom : 1px solid lightgrey">
-								<td>${b.boardNo}</td>
-								<td style="text-align: left;">${b.boardTitle}22222222</td>
-								<td>${b.boardWriter}</td>
-								<td>${b.boardDate}</td>
+							<tr id="${b.BNO}" style="border-bottom : 1px solid lightgrey">
+								<td>${b.BNO}</td>
+								<td style="text-align: left;">${b.BTITLE}</td>
+								<td>${b.WRITER}</td>
+								<td>${b.BDATE2CHAR}</td>
 								<td align="center">
-									<c:if test="${b.fileCount>0}">
+									<c:if test="${b.FILECOUNT>0}">
 										<i class="icon-large icon-file"></i>
 									</c:if>
 								</td>
-								<td>${b.boardReadCount }</td>
+								<td>${b.VIEWS}</td>
 							</tr>
 							</c:forEach>
+							<c:if test="${empty list}">
+								<tr style="border-bottom : 1px solid lightgrey"><td colspan="6">조회된 게시글이 없습니다. <br />게시글을 작성해주세요</td></tr>
+							</c:if>
 						</table>
 						<button type="button" class="btn btn-primary thema" style="float : right;"
 								onclick="location.href='${pageContext.request.contextPath}/community/insertFreeView.do?'">글쓰기</button>
@@ -77,7 +80,7 @@
 				<!-- 검색 시작 -->
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<form action="#">
+						<form action="${pageContext.request.contextPath}/community/selectFreeList.do">
 							<select name="search" id="" class="btn thema" style="color : white;">
 								<option value="all" style="background: white; color : black;">전체</option>
 								<option value="title" style="background: white; color : black;">제목</option>
