@@ -63,6 +63,8 @@
 	
 		<c:import url="/WEB-INF/views/user/common/header.jsp"/>
 		
+		<button onclick="location.href='${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}'">마이페이지</button>
+		
 		<!-- 상단 페이지 정보 -->
 		<div class="breadcrumbs">
 			<div class="container">
@@ -272,34 +274,30 @@
 				<div style="text-align : right;">
 			        <button onclick="location.href='${pageContext.request.contextPath}/lookbook/LookbookInsert.do'" class="btn btn-primary thema">글쓰기</button>
 			    </div>
+				<!-- 페이징 처리 시작-->
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<div class="block-27">
-			               <ul>
-				              <li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
-			                  <li class="active"><span>1</span></li>
-			                  <li><a href="#">2</a></li>
-			                  <li><a href="#">3</a></li>
-			                  <li><a href="#">4</a></li>
-			                  <li><a href="#">5</a></li>
-			                  <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
-			               </ul>
+							<c:out value="${pageBar}" escapeXml="false"/>
 		            	</div>
-		            	<br>
-		            	<form action="#">
-			            	<div class="btn-group">
-			            		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-			            			<span id="category-value">제목</span>
-			            		</button>
-			            		<ul id="category" class="dropdown-menu text-center" role="menu">
-			            			<li>제목</li>
-			            			<li>작성자</li>
-			            		</ul>
-			           		</div>
-			            	<input type="text" style="width : 250px;"/>
-			            	<button type="submit" id="submitBtn">검색</button>
-		            	</form>
 					</div>
+				</div>
+				<!-- 페이징 처리 끝-->
+		        <!-- 검색 시작 -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="#">
+							<select name="search" id="" class="btn thema" style="color : white;">
+								<option value="all" style="background: white; color : black;">전체</option>
+								<option value="title" style="background: white; color : black;">제목</option>
+								<option value="writer" style="background: white; color : black;">작성자</option>
+							</select>
+							<input type="search" name="search" class="form-control" placeholder="Search" style="border-radius: 30px; width:30%; display: inline-block;">
+							<button class="btn btn-primary thema" type="submit"><i class="icon-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- 검색 끝 -->
 				</div>
 			</div>
 		</div>
