@@ -24,13 +24,13 @@
     	
     	#title {
     		margin-left : 10%;
-    		margin-top : 10%;
+    		margin-top : 5%;
     		padding : 8px;
     		text-align : center;
     		border-radius : 5px;
     		background : #88c8bc;
     		font-weight : bold;
-    		width : 500px;
+    		width : 80%;
     	}
     	
     	#content {
@@ -39,8 +39,8 @@
     		background : #88c8bc;
     		border-radius : 5px;
     		font-weight : bold;
-    		width : 500px;
-    		height : 250px;
+    		width : 80%;
+    		height : 320px;
     	}
     	
     	#content>div:first-child {
@@ -129,6 +129,14 @@
 		</div>
 		<div class="colorlib-product" style="margin-top:-80px;" >
 			<div class="container">
+			
+			<!-- 수정버튼 ( 작성자 ) -->
+			<c:if test="${!empty member}">
+				<div class="row" style="float:right;">
+					<button type="button" class="btn btn-info thema" onclick="fn_update();"">수정하기</button>
+				</div>
+			</c:if>
+			
 				<div class="row row-pb-md" >
 					<div class="col" >
 						<div class="col-md-12">
@@ -253,6 +261,14 @@
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>
+	
+	<script>
+		function fn_update() {
+			if(confirm('수정 하시겠습니까?')) {
+				location.href='${pageContext.request.contextPath}/lookbook/LookbookUpdate.do?';
+			}
+		}
+	</script>
 	
 	</body>
 </html>

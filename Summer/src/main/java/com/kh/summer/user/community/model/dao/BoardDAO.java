@@ -6,7 +6,7 @@ import java.util.Map;
 import com.kh.summer.user.attachment.model.vo.Attachment;
 import com.kh.summer.user.board.model.vo.Board;
 
-public interface FreeDAO {
+public interface BoardDAO {
 
 	List<Map<String, String>> selectBoardList(int cPage, int numPerPage);
 
@@ -16,13 +16,11 @@ public interface FreeDAO {
 	
 	int insertAttachment(Attachment a);
 	
-	Map<String, String> selectOneBoard(int bNo);
+	Board selectOneBoard(int bNo);
 	
-	List<Map<String, String>> selectAttachmentList(int bNo);
+	List<Attachment> selectAttachmentList(int bNo);
 	
-	List<Map<String, String>> selectBoardCommentList(int bNo);
-	
-	int updateViews(int bNo);
+	int updateReadCount(int bNo);
 	
 	int updateBoard(Board board);
 

@@ -10,7 +10,10 @@
 	<typeAliases>
 		<typeAlias type="com.kh.summer.user.member.model.vo.Member" alias="Member" />
 		<typeAlias type="com.kh.summer.user.board.model.vo.Board" alias="Board" />
-		<typeAlias type="com.kh.summer.user.board.model.vo.Attachment" alias="Attachment" />
+		<!-- <typeAlias type="com.kh.summer.user.board.model.vo.Attachment" alias="Attachment" /> -->
+		<typeAlias type="com.kh.summer.user.cart.model.vo.Cart" alias="Cart" />
+		<typeAlias type="com.kh.summer.user.attachment.model.vo.Attachment" alias="Attachment" />
+		<typeAlias type="com.kh.summer.user.product.model.vo.Product" alias="Product" />
 	</typeAliases>
 	
 	<!-- 해당 프로젝트에서 사용하기 위한 TypeHandler 등록 -->

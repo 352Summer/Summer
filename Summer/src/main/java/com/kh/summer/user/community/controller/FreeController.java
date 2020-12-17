@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.summer.common.util.Utils;
-import com.kh.summer.user.board.model.vo.Attachment;
+import com.kh.summer.user.attachment.model.vo.Attachment;
 import com.kh.summer.user.board.model.vo.Board;
 import com.kh.summer.user.community.model.service.FreeService;
 

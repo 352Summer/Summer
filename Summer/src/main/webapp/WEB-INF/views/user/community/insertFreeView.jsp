@@ -81,7 +81,7 @@
 		var fileIndex = 1;
 		
 		$(function(){
-			$('#fileArea').hide();
+			$('#fileArea');
 		});
 
 		// 이미지 클릭 시 파일추가 클릭

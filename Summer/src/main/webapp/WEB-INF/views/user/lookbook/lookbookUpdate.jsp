@@ -87,7 +87,7 @@
 						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>LookBook</span></p>
 					</div>
 				</div>
-				<h1>Lookbook 등록</h1>
+				<h1>Lookbook 수정</h1>
 				<hr style="margin-top:-10px;"/>
 			</div>
 		</div>
@@ -129,8 +129,11 @@
 				<hr />
 				<div class="row">
 					<div class="col-md-12">
-						<div id="box2">
-							<button type="button" class="btn btn-primary thema" onclick="fn_submit();">등록하기</button>
+						<div id="box2"">
+							<div style="text-align:right;">
+								<button type="button" class="btn btn-danger thema" onclick="fn_delete();">삭제하기</button>
+							</div>
+							<button type="button" class="btn btn-primary thema" onclick="fn_submit();">수정하기</button>
 							<button type="button" class="btn btn-primary thema" onclick="fn_cancel();">취소하기</button>
 						</div>
 					</div>

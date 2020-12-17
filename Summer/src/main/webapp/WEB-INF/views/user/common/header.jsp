@@ -133,7 +133,7 @@
 								</c:if>
 								<c:if test="${!empty member}">
 									<li style="float : right;"><a href="${pageContext.request.contextPath}/member/memberLogout.do">logout</a></li>
-									<li style="float : right;"><a href="cart.html">${member.nickName}님</a></li>
+									<li style="float : right;"><a href="${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}">${member.nickName}님</a></li>
 								</c:if>
 							</ul>
 						</div> 
