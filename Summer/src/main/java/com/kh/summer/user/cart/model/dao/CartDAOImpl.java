@@ -19,4 +19,10 @@ public class CartDAOImpl implements CartDAO {
 		return sqlSession.selectList("cartMapper.selectCartList", userId);
 	}
 
+	@Override
+	public int deleteCart(int cartNo) {
+		
+		return sqlSession.delete("cartMapper.deleteCart", cartNo);
+	}
+
 }

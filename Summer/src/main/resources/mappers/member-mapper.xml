@@ -6,5 +6,45 @@
 		SELECT * FROM MEMBER
 		WHERE USERID = #{userId}
 	</select>
-  
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER SET
+		  <if test='password != ""'>
+		      PASSWORD = #{ password }, 
+		  </if>
+		  <if test='address != " "'>
+			  ADDRESS = #{ address },
+		  </if>
+		  NICKNAME = #{ nickName },
+		  EMAIL = #{ email },
+		  PHONE = #{ phone }
+		WHERE USERID = #{ userId }
+	</update>
+	
+<!-- 
+	<delete id="deleteMember" parameterType="string">
+		DELETE FROM MEMBER
+		WHERE USERID = #{ userId }
+	</delete>
+-->
+
+	<select id="nickNameDupChk" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE NICKNAME = #{ nickName }
+	</select>
+	
+	<select id="checkIdDuplicate" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE USERID = #{ userId }
+	</select>
+	
 </mapper>
+
+
+
+
+
+
+
+
+

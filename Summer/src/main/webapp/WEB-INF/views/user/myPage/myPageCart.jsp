@@ -10,44 +10,21 @@
 	<title>Summer - MyPage</title>
 	<meta charset="utf-8">
     <style>
-    	#menu-box {
-    		height : 200px;
-    		display : flex;
-    		align-items : center;
-    	}
-    	
-    	#memberBox {
-    		height : 100%;
-    		display : flex;
-    		align-items : center;
-    		text-align : center;
-    	}
-    	
-    	#memberBox a:hover {
-    		color : #88c8bc;
-    		transition : 0.5s;
-    	}
-    	
-    	#box1>div {
-    		display : flex;
-    		align-items : center;
-    		text-align : center;
-    		font-size : 17px;
-    		font-weight : bold;
-    		color : gray;
-    	}
-    	
-    	#box1>div:hover {
-    		background : #88c8bc;
-    		color : white;
-    		transition : 0.5s;
-    		cursor : pointer;
-    	}
+
     	
     	#em {
     		height : 150px;
     		font-size : 20px;
     		padding-top : 60px;
+    	}
+    	
+    	#deleteCart:hover {
+    		cursor : pointer;
+    	}
+    	
+    	#myMenu1 {
+    		background : #88c8bc;
+    		color : white;
     	}
     
     </style>
@@ -59,68 +36,14 @@
 	<div id="page">
 	
 		<c:import url="/WEB-INF/views/user/common/header.jsp"/>
-		
-		<!-- 상단 페이지 정보 -->
-		<div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col ">
-						<p class="bread"><span><a href="${pageContext.request.contextPath}">Home</a></span> / <span>MyPage</span></p>
-					</div>
-				</div>
-				<h1>MyPage</h1>
-				<hr style="margin-top:-10px;"/>
-			</div>
-		</div>
-		<div class="container">
-		
-<!-- 마이페이지 상단 메뉴바 시작 -->
-			<div class="row">
-				<div class="col">
-					<div class="col-md-12" id="menu-box">
-						<div class="col-md-4 border" id="memberBox">
-							<div>
-								<p style="font-weight:bold; font-size:24px; margin-left:10px;">${ member.userName }님 환영합니다!</p>
-								<span><a href="#">> 회원 정보 수정</a></span>
-							</div>
-						</div>
-						<div class="col-8">
-							<div class="row" id="box1" style="height:100px;">
-								<div class="col-md-3 border" style="background:#88c8bc; color:white;">
-									장바구니
-								</div>
-								<div class="col-md-3 border">
-									구매내역
-								</div>
-								<div class="col-md-3 border">
-									구매후기
-								</div>
-								<div class="col-md-3 border">
-									배송조회
-								</div>
-							</div>
-							<div class="row" id="box1" style="height:100px;">
-								<div class="col-md-3 border">
-									마이사이즈
-								</div>
-								<div class="col-md-3 border">
-									좋아요목록
-								</div>
-								<div class="col-md-3 border">
-									포인트내역
-								</div>
-								<div class="col-md-3 border">
-									문의내역
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-<!-- 마이페이지 상단 메뉴바 끝 -->
-			<br><br><br><br>
+		<c:import url="/WEB-INF/views/user/myPage/myPageMenu.jsp"/>
+
 <!-- 마이페이지 장바구니 시작 -->
-			<h2 style="text-align:center;">장바구니</h2>
+			<div class="row row-pb-lg justify-content-md-center">
+				<div class="col-md-11" style="border-bottom : 3px solid #88c8bc;">
+					<h2 style="text-align:center;">장바구니</h2>
+				</div>
+			</div>
 			<div class="row row-pb-lg">
 				<div class="col-md-10 offset-md-1">
 					<div class="process-wrap">
@@ -168,9 +91,9 @@
 							</c:when>
 							<c:when test="${ !empty c }">
 								<c:forEach items="${ c }" var="c">
-									<div class="product-cart d-flex">
+									<div class="product-cart d-flex" id="Cart">
 										<div class="one-forth">
-											<div class="product-img" style="background-image: url(${ c.FILEPATH }${ c.NEWFILENAME });">
+											<div class="product-img" style="background-image: url(${pageContext.request.contextPath}${ c.FILEPATH }${ c.NEWFILENAME });">
 											</div>
 											<div class="display-tc">
 												<h3>${ c.PNAME }</h3>
@@ -193,7 +116,7 @@
 										</div>
 										<div class="one-eight text-center">
 											<div class="display-tc">
-												<a href="#" class="closed"></a>
+												<span class="closed" id="deleteCart" onclick="deleteCart(this, '${ c.CARTNO }')"></span>
 											</div>
 										</div>
 									</div>
@@ -215,6 +138,27 @@
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>
+	
+	<script>
+		function deleteCart(obj, cartNo) {
+			if(confirm("정말 삭제하시겠습니까?") == true) {
+				$.ajax({
+					url : "${pageContext.request.contextPath}/myPage/cartDelete.do",
+					data : {cartNo : cartNo},
+					dataType : 'json',
+					success : function(data) {
+						if( data == true ) {
+							alert("삭제되었습니다.");
+							$(obj).parent().parent().parent().remove();
+						} else {
+							alert("삭제 실패!");
+						}
+					}
+				})
+			}
+		}
+
+	</script>
 	
 	</body>
 </html>

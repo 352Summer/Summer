@@ -20,4 +20,10 @@ public class CartServiceImpl implements CartService {
 		return cartDAO.selectCartList(userId);
 	}
 
+	@Override
+	public int deleteCart(int cartNo) {
+		
+		return cartDAO.deleteCart(cartNo);
+	}
+
 }
