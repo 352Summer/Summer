@@ -49,7 +49,7 @@
 							<c:forEach items="${list}" var="b"> 
 							<tr id="${b.BNO}" style="border-bottom : 1px solid lightgrey">
 								<td>${b.BNO}</td>
-								<td style="text-align: left;">${b.BTITLE}</td>
+								<td style="text-align: left;">${b.BTITLE}<c:if test="${b.COMMENTS>0}"> (${b.COMMENTS})</c:if></td>
 								<td>${b.WRITER}</td>
 								<td>${b.BDATE2CHAR}</td>
 								<td align="center">

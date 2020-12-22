@@ -22,9 +22,13 @@ public interface FreeService {
 	
 	Map<String, String> updateView(int bNo);
 	
-	int updateBoard(Board board, List<Attachment> attachList);
+	int updateBoard(Map<String, String> board, List<Map<String, String>> attachList);
 	
 	int deleteBoard(int bNo);
 
-	int deleteFile(int attNo);
+	int deleteFile(int aNo);
+
+	int insertComment(Map<String, String> comment);
+
+	int deleteComment(int bcNo);
 }

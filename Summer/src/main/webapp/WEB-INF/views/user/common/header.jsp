@@ -186,6 +186,7 @@
 						<input type="password" class="form-control" name="password" placeholder="비밀번호" required>
 					</div>
 					<div class="modal-footer">
+						<button type="button" class="btn btn-primary thema" >아이디 / 비밀번호 찾기</button>
 						<button type="submit" class="btn btn-primary thema" >로그인</button>
 						<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
 					</div>

@@ -14,6 +14,7 @@
 		<typeAlias type="com.kh.summer.user.cart.model.vo.Cart" alias="Cart" />
 		<typeAlias type="com.kh.summer.user.attachment.model.vo.Attachment" alias="Attachment" />
 		<typeAlias type="com.kh.summer.user.product.model.vo.Product" alias="Product" />
+		<typeAlias type="com.kh.summer.user.report.model.vo.Report" alias="Report" />
 	</typeAliases>
 	
 	<!-- 해당 프로젝트에서 사용하기 위한 TypeHandler 등록 -->

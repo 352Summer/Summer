@@ -26,7 +26,7 @@
 						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Free</span></p>
 					</div>
 				</div>
-				<h1>자유게시판 작성</h1>
+				<h1>게시글 수정</h1>
 				<hr style="margin-top:-10px;"/>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 					<div class="col" >
 						<div style="padding : 10px; margin-bottom : 10px;">
 						<!-- 폼 시작 -->
-							<form id="freeBoard" action="${pageContext.request.contextPath}/community/insertFreeEnd.do" method="post" onsubmit="return fn_submit();" enctype="multipart/form-data">
+							<form id="freeBoard" action="${pageContext.request.contextPath}/community/updateFreeEnd.do?bNo=${board.BNO}" method="post" onsubmit="return fn_submit();" enctype="multipart/form-data">
 								<!-- 게시글정보 시작 -->
 								<input type="hidden" name="userId" value="${member.userId}" required>
 								<table style="width : 100%">
@@ -50,7 +50,7 @@
 									<tr>
 										<td>파일첨부
 											<c:forEach items="${attachmentList}" var="attachment">
-											<img id="${attachment.ANO}" src="${pageContext.request.contextPath}${attachment.FILEPATH}${attachment.NEWFILENAME}" width="100" height="100" onclick="" alt="${attachment.OLDFILENAME}">
+											<img id="${attachment.ANO}" src="${pageContext.request.contextPath}${attachment.FILEPATH}${attachment.NEWFILENAME}" width="100" height="100" onclick="fn_deleteImg(this, '${attachment.ANO}', '${attachment.NEWFILENAME}');" alt="${attachment.OLDFILENAME}">
 											</c:forEach>
 											<img id="imageTag0" width="100" height="100" onclick="clickFile(0);">
 										</td>
@@ -58,7 +58,7 @@
 									<tr>
 										<td style="text-align: center;">
 										<br />
-											<button type="submit" class="btn btn-primary thema">등록</button>
+											<button type="submit" class="btn btn-primary thema">수정</button>
 											<button type="button" class="btn btn-primary thema" onclick="fn_cancel();">취소</button>							
 										</td>
 									</tr>
@@ -114,7 +114,6 @@
 				}
 				reader.readAsDataURL(img.files[0]);
 				// 파일을 불러왔으면 태그 추가
-				// $('.imageArea').parent().append($($imageTag).clone(true));
 				$('#imageTag'+num).parent().append('<img id="imageTag'+fileIndex+'" width="100" height="100" onclick="clickFile('+fileIndex+');">');
 				$('#imageFile'+num).parent().append('<input type="file" name="imageFile" id="imageFile'+fileIndex+'" onchange="loadImg(this, '+fileIndex+')"/>');
 				fileIndex++;
@@ -126,12 +125,35 @@
 				alert('게시글 내용을 입력해주세요.');
 				return false;
 			}
-			return confirm('등록 하시겠습니까?');
+			return confirm('수정 하시겠습니까?');
 		}
 
 		function fn_cancel() {
-			if(confirm('작성 취소하시겠습니까?')) {
+			if(confirm('수정 취소하시겠습니까?')) {
 				location.href='${pageContext.request.contextPath}/community/selectFreeDetail.do?no='+${board.BNO};
+			}
+		}
+
+		function fn_deleteImg(obj, aNo, newFileName) {
+			if(confirm('삭제하시겠습니까?')){
+
+				$.ajax({
+					url : '${pageContext.request.contextPath}/community/deleteFreeFile.do',
+					data : { aNo : aNo, newFileName : newFileName }, 
+					dataType : 'json',
+					success : function(data){
+						if(data == true) {
+							alert("첨부파일 삭제 완료!");
+							$(obj).remove();
+						} else {
+							alert("첨부파일 삭제 실패!");
+						}
+					}, error : function(req, status, error){
+						console.log(req);
+						console.log(status);
+						console.log(error);
+					}
+				});
 			}
 		}
 		

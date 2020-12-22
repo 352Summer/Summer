@@ -59,12 +59,13 @@ public class FreeDAOImpl implements FreeDAO {
 	}
 
 	@Override
-	public int updateBoard(Board board) {
+	public int updateBoard(Map<String, String> board) {
 		return sqlSession.update("freeMapper.updateFree", board);
 	}
 
 	@Override
-	public int updateAttachment(Attachment a) {
+	public int updateAttachment(Map<String, String> a) {
+		System.out.println(a);
 		return sqlSession.insert("freeMapper.updateAttachment", a);
 	}
 
@@ -79,8 +80,18 @@ public class FreeDAOImpl implements FreeDAO {
 	}
 
 	@Override
-	public int deleteFile(int attNo) {
-		return sqlSession.delete("freeMapper.deleteFile", attNo);
+	public int deleteFile(int aNo) {
+		return sqlSession.delete("freeMapper.deleteFile", aNo);
+	}
+
+	@Override
+	public int insertComment(Map<String, String> comment) {
+		return sqlSession.insert("freeMapper.insertComment", comment);
+	}
+
+	@Override
+	public int deleteComment(int bcNo) {
+		return sqlSession.delete("freeMapper.deleteComment", bcNo);
 	}
 
 }
