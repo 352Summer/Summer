@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -121,40 +123,50 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
-	/*
-	@RequestMapping("/member/memberView.do")
+	@RequestMapping("/member/mUpdate.do")
 	public String memberView(@RequestParam String userId, Model model) {
 		
 		Member m = memberService.selectOneMember(userId);
 		
 		model.addAttribute("member", m);
 		
-		return "member/memberView";
+		return "user/member/memberUpdate";
 	}
 	
-	@RequestMapping("/member/memberUpdate.do")
-	public String memberUpdate(Member member, Model model) {
+	@RequestMapping("/member/mUpdateEnd.do")
+	public String memberUpdate(@RequestParam String userId,
+							   @RequestParam(value="password", required = false) String password,
+							   @RequestParam String nickName,
+							   @RequestParam String email,
+							   @RequestParam String phone,
+							   @RequestParam(value="address1", required = false) String address1,
+							   @RequestParam(value="address2", required = false) String address2,
+							   Model model) {
 		
-		// 1. 서비스 로직 수행
+		String address = address1 + " " + address2;
+		
+		Member member = new Member(userId, password, nickName, email, phone, address);
+		
+		System.out.println(member);
+		
 		int result = memberService.updateMember(member);
 		
-		// 2. 처리 결과에 따른 화면 분리
-		String loc = "/";
 		String msg = "";
 		
 		if( result > 0 ) {
-			msg = "회원 정보 수정~!";
-			model.addAttribute("member", member);
+			msg = "회원정보 수정 완료";
 		} else {
-			msg = "회원 정보 수정 실패..ㅠㅠ";
+			msg = "회원정보 수정 실패!";
 		}
 		
-		model.addAttribute("loc", loc);
+		System.out.println(msg);
+		
 		model.addAttribute("msg", msg);
 		
-		return "common/msg";
+		return "user/myPage/myPageCart";
 	}
 	
+	/*
 	@RequestMapping("/member/memberDelete.do")
 	public String memberDelete(SessionStatus sessionStatus, Model model, Member member) {
 		
@@ -178,9 +190,8 @@ public class MemberController {
 	}
 	*/
 	
-	
-	@RequestMapping("/member/checkIdDuplicate.do")
 	@ResponseBody // 자동으로 json으로 바꿔서 보내줌
+	@RequestMapping("/member/checkIdDuplicate.do")
 	public Map<String, Object> checkIdDuplicate(@RequestParam String userId) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -191,4 +202,33 @@ public class MemberController {
 		
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/member/nickNameDupChk.do")
+	public Map<String, Object> nickChk(@RequestParam String nickName) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean isUsable
+			= memberService.nickNameDupChk(nickName) == 0 ? true : false;
+	
+		map.put("isUsable", isUsable);
+		
+		return map;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

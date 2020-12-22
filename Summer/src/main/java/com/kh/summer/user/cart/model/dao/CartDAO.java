@@ -8,4 +8,6 @@ public interface CartDAO {
 	
 	List<Map<String, String>> selectCartList(String userId);
 	
+	int deleteCart(int cartNo);
+	
 }

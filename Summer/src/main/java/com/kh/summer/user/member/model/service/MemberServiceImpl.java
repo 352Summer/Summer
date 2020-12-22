@@ -46,4 +46,13 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.deleteMember(userId);
 	}
 
+	@Override
+	public int nickNameDupChk(String nickName) {
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("nickName", nickName);
+		
+		return memberDAO.nickNameDupChk(hmap);
+	}
+
 }

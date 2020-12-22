@@ -32,4 +32,14 @@ public class Member implements Serializable {
 	private String mstatus;
 	private Date deleteDate;
 	
+	public Member(String userId, String password, String nickName, String email, String phone, String address) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.nickName = nickName;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
+	
 }

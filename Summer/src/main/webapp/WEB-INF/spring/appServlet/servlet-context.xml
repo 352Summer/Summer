@@ -38,6 +38,7 @@
 		<interceptor>
 			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/community/**/*.do"/>
+			<mapping path="/myPage/*.do"/>
 			<exclude-mapping path="/community/selectFreeList.do"/>
 			<beans:bean id="loginInterceptor" class="com.kh.summer.common.interceptor.LoginInterceptor" />
 		</interceptor>

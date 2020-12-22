@@ -41,4 +41,6 @@ public interface MemberDAO {
 	 */
 	int checkIdDuplicate(HashMap<String, Object> hmap);
 
+	int nickNameDupChk(HashMap<String, Object> hmap);
+
 }
