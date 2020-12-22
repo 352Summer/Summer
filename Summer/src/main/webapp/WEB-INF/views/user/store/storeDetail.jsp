@@ -242,8 +242,8 @@
 		display : inline-block;
 		text-align : center;
 		
-		margin-top : 10px;
-		margin-bottom : 10px;
+		margin-top : 20px;
+		margin-bottom : 20px;
 		border-top : 1px solid black;
 		border-bottom : 1px solid black;
 		font-weight: bold;
@@ -273,10 +273,66 @@
 		background : #88c8bc;
 		color : White;
 	}
+	.all-wrap{
+		margin-top : 20px;
+		border : 1px solid grey;
+		width : 100%;
+		height : 4000px;
+	}
+	.description-wrap{
+		width : 100%;
+
+	}
+	.description-title{
+		text-align : center;
+		width : 100%;
+		height : 60px;
+		padding-top:5px;
+		font-size : 25px;
+		color : black;
+		font-weight : bold;
+	}
+	.description-contents{
+		width : 100%;
+		padding-bottom : 20px;
+		border-bottom : 1px solid grey;
+	}
+	.graph-title{
+		text-align : center;
+		width : 100%;
+		height : 60px;
+		padding-top:5px;
+		font-size : 25px;
+		color : black;
+		font-weight : bold;
+	}
+	.graph-contents{
+		width : 100%;
+		padding-bottom : 20px;
+		border-bottom : 1px solid grey;
+	}
+	.review-title{
+		text-align : center;
+		width : 100%;
+		height : 60px;
+		padding-top:5px;
+		font-size : 25px;
+		color : black;
+		font-weight : bold;
+	}
+	.review-contents{
+		width : 95%;
+		padding-bottom : 20px;
+		border-bottom : 1px solid grey;
+		border : 1px solid grey;
+		margin : 20px;
+	}
+	
+
+	
 
 	</style>
 	<body>
-
 		<c:import url="/WEB-INF/views/user/common/header.jsp"/>
 		<!-- 상단 페이지 정보 -->
 		<div class="breadcrumbs">
@@ -348,19 +404,19 @@
 					<div class="col-sm-6">
 						<div class="about-wrap">
 							<div class="title-wrap">
-								<div class="title" id="title">겨울용 여성 털부츠</div>
+								<div class="title" id="title">${store.PNAME}</div>
 								<div class="title" id="like-box">
-									<div><i class="icon-heart" aria-hidden="true"></i>좋아요</div>
+									<div class="p1234" id="${ store.BNO }"><i class="icon-heart" aria-hidden="true"></i>좋아요</div>
 								</div>
 							</div>
 							<div class="contents">
-								겨울에 따듯하게 신을수 있는 부츠
+								${store.PDESCRIPTION}
 							</div>
 							<div class="information">
 								<table>
 									<tr>
 										<th>판매가</th>
-										<th>109,000원</th>
+										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th>색상 종류</th>
@@ -372,7 +428,7 @@
 									</tr>
 									<tr>
 										<th>좋아요</th>
-										<th><i class="icon-heart" aria-hidden="true"></i>100</th>
+										<th><i class="icon-heart" aria-hidden="true"></i>${store.BLIKE}</th>
 									</tr>								
 								</table>
 							</div>
@@ -402,30 +458,30 @@
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>S</th>
 										<th>1</th>
-										<th>109,000원</th>
+										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>M</th>
 										<th>1</th>
-										<th>109,000원</th>
+										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>L</th>
 										<th>1</th>
-										<th>109,000원
-										</th>
+										<th>${store.PPRICE}원</th>
 									</tr>							
 								</table>
 							</div>
 							<div class="totalprice-wrap">
 								<div class="totalprice" id="totalprice-title">총 상품 금액</div>
-								<div class="totalprice" id="totalprice-contents">327,000원</div>
+								<div class="totalprice" id="totalprice-contents">${store.PPRICE+100}원</div>
 							</div>
 							<div class="order-wrap">
 			       		 		<button onclick="location.href='#'" class="btn btn-primary thema" id="shopping-basket">장바구니</button>
-			       		 		<button onclick="location.href='#'" class="btn btn-primary thema" id="order">주문하기</button>
+			       		 		<button onclick="location.href='${pageContext.request.contextPath}/store/selectBuyStore.do'" 
+			       		 			class="btn btn-primary thema" id="order">주문하기</button>
 			    			</div>
 						</div>
 					</div>
@@ -446,33 +502,56 @@
 							리뷰
 						</div>
 					</div>
-				</div>
-				<div class="description-wrap">
-					<div class="description-title">
-					상품 상세 설명
+					<div class="all-wrap">
+						<div class="description-wrap">
+							<div class="description-title">
+								상품 상세 설명
+							</div>
+							<div class="description-contents">
+								<img src="${pageContext.request.contextPath}/resources/user/images/store/boots-0.jpg" class="img-boots" 
+								alt="boots-0" style="width:1130px;">
+								<img src="${pageContext.request.contextPath}/resources/user/images/store/boots-1.jpg" class="img-boots" 
+								alt="boots-1" style="width:1130px;">
+								<img src="${pageContext.request.contextPath}/resources/user/images/store/boots-2.jpg" class="img-boots" 
+								alt="boots-2" style="width:1130px;">
+								<img src="${pageContext.request.contextPath}/resources/user/images/store/boots-3.jpg" class="img-boots" 
+								alt="boots-3" style="width:1130px;">
+							</div>
+						</div>
+						<div class="graph-wrap">
+							<div class="graph-title">
+								구매 현황
+							</div>
+							<div class="graph-contents">
+								<img src="${pageContext.request.contextPath}/resources/user/images/store/graph-1.jpg" class="img-boots" alt="boots-1">
+							</div>
+						</div>
+						<div class="review-wrap">
+							<div class="review-title">
+								리뷰
+							</div>
+							<div class="review-contents">
+								리뷰입니다.
+							</div>
+						</div>
 					</div>
-					<div class="description-contents">
-					</div>
-				</div>
-				<div class="graph-wrap">
-					<div class="graph-title">
-					상품 상세 설명
-					</div>
-					<div class="graph-contents">
-					</div>
-				</div>
-				<div class="review-wrap">
-					<div class="review-title">
-					상품 상세 설명
-					</div>
-					<div class="review-contents">
-					</div>
+				
 				</div>
 		</div>	
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>
-	<script src="js/bootstrap.min.js"></script>
+	
+	<script>
+	
+		$(function(){
+			$(".p1234").on("click",function(){
+				var storeNo = $(this).attr("id");
+				console.log("storeNo="+storeNo);
+				location.href = "${pageContext.request.contextPath}/store/updateLike.do?no="+storeNo;
+			});
+		});
+	</script>
 	</body>
 </html>
 

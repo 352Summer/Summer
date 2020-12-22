@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="selectMenu" value="store" scope="request"/>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -93,50 +94,19 @@
 					</div>
 				</div>
 				<div class="row row-pb-md">
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
+					<c:forEach items="${list}" var="p" begin="0" end="3"> 
+					<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ p.BNO }">
 						<div class="product-entry border">
 						<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
 							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						</a>
 						<div class="desc">
-							<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
+							<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
+							<span class="price">${p.PPRICE}</span>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Minam Meaghan</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Men's Taja Commissioner</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Russ Men's Sneakers</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
+						</c:forEach>
 			</div>
 			<br>
 			<div class="row">
@@ -152,95 +122,16 @@
 			</div>
 			<br><br><br><br>
 			<div class="row row-pb-md">
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
+				<c:forEach items="${list}" var="b"> 
+				<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ b.BNO }">
+					<div class="product-entry border" id="${b.BNO}">
+						<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
+							<h2>${b.PNAME}</h2>
+							￦${b.PPRICE}원</div>
 					</div>
 				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Minam Meaghan</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Men's Taja Commissioner</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Russ Men's Sneakers</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="w-100"></div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-5.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-6.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-7.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-8.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
+				</c:forEach>
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center">
@@ -268,9 +159,20 @@
 				</div>
 			</div>
 		</div>
-	
+		
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 	</div>
+	
+	<script>
+		$(function(){
+			$(".p123").on("click",function(){
+				var storeNo = $(this).attr("id");
+				console.log("storeNo="+storeNo);
+				location.href = "${pageContext.request.contextPath}/store/storeDetail.do?no="+storeNo;
+			});
+		});
+	</script>
+	
 	</body>
 </html>
 
