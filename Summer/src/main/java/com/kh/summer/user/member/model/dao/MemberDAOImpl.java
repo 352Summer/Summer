@@ -51,11 +51,16 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int nickNameDupChk(HashMap<String, Object> hmap) {
-		System.out.println("[before] hmap : " + hmap);
 		
-		 int result = sqlSession.selectOne("memberMapper.nickNameDupChk", hmap);
+		int result = sqlSession.selectOne("memberMapper.nickNameDupChk", hmap);
 		
-		System.out.println(result);
+		return result;
+	}
+
+	@Override
+	public int emailDupChk(HashMap<String, Object> hmap) {
+		
+		int result = sqlSession.selectOne("memberMapper.emailDupChk", hmap);
 		
 		return result;
 	}

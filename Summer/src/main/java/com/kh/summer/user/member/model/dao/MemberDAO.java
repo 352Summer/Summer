@@ -41,6 +41,18 @@ public interface MemberDAO {
 	 */
 	int checkIdDuplicate(HashMap<String, Object> hmap);
 
+	/**
+	 * 닉네임 중복 체크
+	 * @param hmap
+	 * @return int
+	 */
 	int nickNameDupChk(HashMap<String, Object> hmap);
+	
+	/**
+	 * 이메일 중복 체크
+	 * @param hmap
+	 * @return int
+	 */
+	int emailDupChk(HashMap<String, Object> hmap);
 
 }

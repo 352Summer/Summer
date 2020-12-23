@@ -113,7 +113,10 @@
 								<p>비밀번호 확인</p>
 							</div>
 							<div class="col-md-9">
-								<input type="password" name="password" class="inp" id="pwChk"/>
+								<input type="password" name="password" class="inp" id="pwChk"/> &nbsp;
+								<span id="pwO" style="color:green; display:none;">비밀번호가 일치합니다.</span>
+								<span id="pwX" style="color:red; display:none;">비밀번호가 일치하지 않습니다.</span>
+								<input type="hidden" id="passCheck" value="N" />
 							</div>
 						</div>
 						
@@ -158,7 +161,13 @@
 								<p>이메일 <span style="float:right; color:red;">필수</span></p>
 							</div>
 							<div class="col-md-9">
-								<input type="text" name="email" value="${ member.email }" id="email" class="inp" required/>
+								<input type="text" name="email" value="${ member.email }" id="email" class="inp"/>
+								<button type="button" id="emailChk" class="btn btn-primary" style="display:none;">이메일 중복체크</button>
+								<button type="button" id="emailChk2" class="btn btn-primary thema" data-toggle="modal" data-target="#emailModal" style="display:none;">이메일 인증</button>
+								<span id="ecO" style="color:green; display:none;">O</span>
+								<span id="ecX" style="color:red; display:none;">X</span>
+								<input type="hidden" id="emailCheck" value="N"/>
+								<input type="hidden" id="emailVal" value="${ member.email }" />
 							</div>
 						</div>
 						
@@ -203,9 +212,231 @@
 
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
+		<!-- 이메일 Modal시작 -->
+		<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailCheckModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="emailCheckModalLabel">이메일 인증</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<!-- 이메일인증 -->
+					<div class="modal-body" style="text-align:right;">
+						<input type="text" class="form-control" id="key" placeholder="인증번호" required>
+						<button type="button" class="btn btn-info" id="sendMail">인증번호 전송</button>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary thema" id="keyChk">인증하기</button>
+						<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 이메일 Modal 끝-->
+		
 	</div>
 	
-<!------------------------------------ 다음 주소 API 시작 --------------------------------------------->
+
+	<script>
+<!------------------------------------ 닉네임 중복확인 시작 --------------------------------------------->
+		
+		var nickChkVal = $('#nickChk').val();
+		$('#nickName').on('keydown', function(){
+			$('#nickChk').attr("value", "N");
+		});
+		
+		function fn_nickChk() {
+			
+			if( nickChkVal == 'N' ) {
+				if( $('#nickName').val() == $('#nick').val() ) {
+					$('#nickChk').attr("value", "Y");
+					alert("회원님의 닉네임입니다.");
+				} else {
+					$.ajax({
+						url : "${pageContext.request.contextPath}/member/nickNameDupChk.do",
+						type : "post",
+						dataType : "json",
+						data : { "nickName" : $('#nickName').val() },
+						success : function(data) {
+							if( data.isUsable == false ) {
+								alert("존재하는 닉네임입니다.")
+							} else if( data.isUsable == true ) {
+								$('#nickChk').attr("value", "Y");
+								alert("사용가능한 닉네임입니다.");
+							}
+						}
+					})
+				}
+			}
+		}
+
+<!------------------------------------ 닉네임 중복확인 끝 --------------------------------------------->
+
+<!------------------------------------ 비밀번호 확인 시작 --------------------------------------------->
+		$('#pw').on('keyup', function(){
+			if( $('#pw').val() != $('#pwChk').val() ) {
+				$('#passCheck').attr("value", "N");
+				$('#pwO').hide();
+				$('#pwX').show();
+			} else {
+				$('#passCheck').attr("value", "Y");
+				$('#pwO').show();
+				$('#pwX').hide();
+			}
+		});
+		
+		$('#pwChk').on('keyup', function(){
+			if( $('#pw').val() != $('#pwChk').val() ) {
+				$('#passCheck').attr("value", "N");
+				$('#pwO').hide();
+				$('#pwX').show();
+			} else {
+				$('#passCheck').attr("value", "Y");
+				$('#pwO').show();
+				$('#pwX').hide();
+			}
+		});
+
+<!------------------------------------ 비밀번호 확인 끝 --------------------------------------------->
+
+<!------------------------------------ 이메일 인증 시작 --------------------------------------------->
+		var emailCode;  // 이메일 인증 코드 비교용 전역변수
+		//if( $('#email').attr("readonly") == false ) {
+			$('#email').on('keydown', function(){
+				$('#emailCheck').attr("value", "N");
+				$('#ecO').hide();
+				$('#ecX').show();
+				$('#emailChk').show();
+				$('#emailChk2').hide();
+			});
+		//}
+		
+		$('#emailChk').on('click', function(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/member/emailCheck.do',
+				type : "post",
+				dataType : 'json',
+				data : { "email" : $('#email').val() },
+				success : function(data) {
+					if( data.isUsable == false ) {
+						alert("사용중인 이메일입니다.");
+						return false;
+					} else if( data.isUsable == true ) {
+						alert("사용가능한 이메일입니다. 이메일 인증을 해주세요.");
+						$('#emailChk').hide();
+						$('#emailChk2').show();
+					}
+				}
+			});
+		});
+		
+		$('#sendMail').on('click', function(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/member/sendMail.do',
+				type : 'post',
+				data : { 'email' : $('#email').val() },
+				success : function(data) {
+					if( data.length > 0 ) {
+						alert("인증코드 전송 성공");
+						$('#sendMail').text('인증번호 재전송');
+						emailCode = data;
+					} else {
+						alert("인증코드 전송 실패");
+						$('#sendMail').text('인증번호 재전송');
+						emailCode = '';
+					}
+				}
+			});
+		});
+		$('#keyChk').on('click', function() {
+			if( $('#key').val() != '' ){
+				if( $('#key').val() == emailCode ) {
+					alert("인증 성공");
+					$('#emailModal').modal("hide");
+					$('#ecO').show();
+					$('#ecX').hide();
+					$('#emailCheck').attr('value', 'Y');
+					$('#email').attr('readonly', true);
+					$('#emailChk2').hide();
+				} else {
+					alert("인증 실패");
+					$('#key').focus();
+					return false;
+				}
+			} else {
+				alert("인증번호를 입력해주세요.");
+			}
+		});
+<!------------------------------------ 이메일 인증 끝 --------------------------------------------->
+
+<!------------------------------------ 수정/취소/탈퇴 버튼 시작 --------------------------------------------->
+		<!-- 수정버튼 -->
+		function fn_submit() {
+			if($('#nickName').val() == "") {
+				alert("닉네임을 입력해주세요.");
+				$('#nickName').focus();
+				return false;
+			}
+
+			if($('#pw').val() != $('#pwChk').val() ) {
+				alert("비밀번호가 일치하지 않습니다.");
+				$('#pw').val('');
+				$('#pwChk').val('');
+				$('#pw').focus();
+				return false;
+			}
+
+			if($('#email').val() == "") {
+				alert("이메일을 입력해주세요.");
+				$('#email').focus();
+				return false;
+			}
+
+			if($('#phone').val() == "") {
+				alert("연락처를 입력해주세요.");
+				$('#phone').focus();
+				return false;
+			}
+			
+			if($('#emailVal').val() == $('#email').val()) {
+				$('#emailCheck').attr('value', 'Y');
+			}
+
+			if($('#emailCheck').val() == 'N') {
+				alert("이메일인증을 해주세요.");
+				$('#email').focus();
+				return false;
+			}
+				
+			if( $('#nickChk').val() == 'N' ) {
+				alert("닉네임 중복확인을 해주세요.");
+				$('#nickName').focus();
+			} else if( $('#nickChk').val() == 'Y' ) {
+				if(confirm('수정하시겠습니까?')) {
+					$('#mUpdate').submit();
+				}
+			}
+		}
+
+		<!-- 취소버튼 -->
+		function fn_cancel() {
+			if(confirm('취소하시겠습니까?')) {
+				location.href='${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}';
+			}
+		}
+
+		<!-- 탈퇴버튼 -->
+		function fn_delete() {
+			if(confirm('정말 탈퇴하시겠습니까?')) {
+				location.href='${pageContext.request.contextPath}/member/memberDelete.do';
+			}
+		}
+<!------------------------------------ 수정/취소 버튼 끝 --------------------------------------------->
+	</script>
+	
+	<!------------------------------------ 다음 주소 API 시작 --------------------------------------------->
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	    function sample6_execDaumPostcode() {
@@ -256,85 +487,6 @@
 	        }).open();
 	    }
 <!------------------------------------ 다음 주소 API 끝 --------------------------------------------->
-
-<!------------------------------------ 닉네임 중복확인 시작 --------------------------------------------->
-		
-		var nickChkVal = $('#nickChk').val();
-		$('#nickName').on('keydown', function(){
-			$('#nickChk').attr("value", "N");
-		});
-		
-		function fn_nickChk() {
-			
-			if( nickChkVal == 'N' ) {
-				if( $('#nickName').val() == $('#nick').val() ) {
-					$('#nickChk').attr("value", "Y");
-					alert("회원님의 닉네임입니다.");
-				} else {
-					$.ajax({
-						url : "${pageContext.request.contextPath}/member/nickNameDupChk.do",
-						type : "post",
-						dataType : "json",
-						data : { "nickName" : $('#nickName').val() },
-						success : function(data) {
-							if( data.isUsable == false ) {
-								alert("존재하는 닉네임입니다.")
-							} else if( data.isUsable == true ) {
-								$('#nickChk').attr("value", "Y");
-								alert("사용가능한 닉네임입니다.");
-							}
-						}
-					})
-				}
-			}
-		}
-
-<!------------------------------------ 닉네임 중복확인 끝 --------------------------------------------->
-
-<!------------------------------------ 수정/취소 버튼 시작 --------------------------------------------->
-		function fn_submit() {
-			if($('#nickName').val() == "") {
-				alert("닉네임을 입력해주세요.");
-				$('#nickName').focus();
-				return false;
-			}
-
-			if($('#pw').val() != $('#pwChk').val() ) {
-				alert("비밀번호가 일치하지 않습니다.");
-				$('#pw').val('');
-				$('#pwChk').val('');
-				$('#pw').focus();
-				return false;
-			}
-
-			if($('#email').val() == "") {
-				alert("이메일을 입력해주세요.");
-				$('#email').focus();
-				return false;
-			}
-
-			if($('#phone').val() == "") {
-				alert("연락처를 입력해주세요.");
-				$('#phone').focus();
-				return false;
-			}
-			
-			if( $('#nickChk').val() == 'N' ) {
-				alert("닉네임 중복확인을 해주세요.");
-				$('#nickName').focus();
-			} else if( $('#nickChk').val() == 'Y' ) {
-				if(confirm('수정하시겠습니까?')) {
-					$('#mUpdate').submit();
-				}
-			}
-		}
-
-		function fn_cancel() {
-			if(confirm('취소하시겠습니까?')) {
-				location.href='${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}';
-			}
-		}
-<!------------------------------------ 수정/취소 버튼 끝 --------------------------------------------->
 	</script>
 
 	</body>
