@@ -12,5 +12,10 @@
 		WHERE USERID = #{ userId }
 		AND A.FINDEX = 0
 	</select>
+	
+	<delete id="deleteCart" parameterType="_int">
+		DELETE FROM CART
+		WHERE CARTNO = #{ cartNo }
+	</delete>
   
 </mapper>

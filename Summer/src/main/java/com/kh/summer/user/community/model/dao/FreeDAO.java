@@ -24,9 +24,9 @@ public interface FreeDAO {
 	
 	int updateViews(int bNo);
 	
-	int updateBoard(Board board);
+	int updateBoard(Map<String, String> board);
 
-	int updateAttachment(Attachment a);
+	int updateAttachment(Map<String, String> a);
 
 	int deleteBoard(int bNo);
 
@@ -35,5 +35,9 @@ public interface FreeDAO {
 	// 이 메소드로 첨부파일 삭제도 구현해야 한다.
 	int deleteAttachment(int bNo);
 	
-	int deleteFile(int attNo);
+	int deleteFile(int aNo);
+
+	int insertComment(Map<String, String> comment);
+
+	int deleteComment(int bcNo);
 }

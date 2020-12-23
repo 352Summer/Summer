@@ -85,26 +85,16 @@ public class FreeServiceImpl implements FreeService {
 	}
 
 	@Override
-	public int updateBoard(Board board, List<Attachment> attachList) {
-		
+	public int updateBoard(Map<String, String> board, List<Map<String, String>> attachList) {
+
 		int totalResult = 0;
-		
-		List<Map<String, String>> originList = freeDAO.selectAttachmentList(board.getBNo());
 		
 		totalResult = freeDAO.updateBoard(board);
 		
 		if(totalResult == 0) throw new BoardException("게시글 수정 실패!");
-		
-		// 이전 첨부파일이 있다면, DB의 이전 파일 기록을 삭제하기
-		if( originList.size() > 0 ) {
-			totalResult = freeDAO.deleteAttachment(board.getBNo());
-			
-			if(totalResult == 0) throw new BoardException("첨부 파일 삭제 실패!");
-		}
-		
-		// 이전의 첨부파일은 없고, 새로 추가한 첨부파일이 있다면
+
 		if(attachList.size() > 0) {
-			for(Attachment a : attachList) {
+			for(Map<String, String> a : attachList) {
 				// update라고 쓰지만, SQL은 insert로
 				totalResult = freeDAO.updateAttachment(a);
 				
@@ -121,8 +111,18 @@ public class FreeServiceImpl implements FreeService {
 	}
 
 	@Override
-	public int deleteFile(int attNo) {
-		return freeDAO.deleteFile(attNo);
+	public int deleteFile(int aNo) {
+		return freeDAO.deleteFile(aNo);
+	}
+
+	@Override
+	public int insertComment(Map<String, String> comment) {
+		return freeDAO.insertComment(comment);
+	}
+
+	@Override
+	public int deleteComment(int bcNo) {
+		return freeDAO.deleteComment(bcNo);
 	}
 
 }

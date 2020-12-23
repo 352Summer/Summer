@@ -26,7 +26,7 @@
 						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Free</span></p>
 					</div>
 				</div>
-				<h1>자유게시판 작성</h1>
+				<h1>게시글 작성</h1>
 				<hr style="margin-top:-10px;"/>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 		var fileIndex = 1;
 		
 		$(function(){
-			$('#fileArea');
+			$('#fileArea').hide();
 		});
 
 		// 이미지 클릭 시 파일추가 클릭

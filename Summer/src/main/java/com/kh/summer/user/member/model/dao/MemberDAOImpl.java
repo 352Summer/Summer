@@ -42,11 +42,22 @@ public class MemberDAOImpl implements MemberDAO {
 	public int checkIdDuplicate(HashMap<String, Object> hmap) {
 		// System.out.println("[before] hmap : " + hmap);
 		
-		sqlSession.selectOne("memberMapper.checkIdDuplicate", hmap);
+		int result = sqlSession.selectOne("memberMapper.checkIdDuplicate", hmap);
 		
 		// System.out.println("[after] hmap : " + hmap);
 		
-		return (Integer)hmap.get("result");
+		return result;
+	}
+
+	@Override
+	public int nickNameDupChk(HashMap<String, Object> hmap) {
+		System.out.println("[before] hmap : " + hmap);
+		
+		 int result = sqlSession.selectOne("memberMapper.nickNameDupChk", hmap);
+		
+		System.out.println(result);
+		
+		return result;
 	}
 
 }

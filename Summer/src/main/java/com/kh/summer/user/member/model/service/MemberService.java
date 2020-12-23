@@ -38,4 +38,6 @@ public interface MemberService {
 	 * @return int
 	 */
 	int deleteMember(String userId);
+
+	int nickNameDupChk(String nickName);
 }

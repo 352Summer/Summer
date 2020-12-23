@@ -2,11 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="freeMapper">
 
+	<resultMap type="hashmap" id="ResultMapBoard">
+		<id property="BNO" column="BNO" javaType="string" jdbcType="NUMERIC" />
+	</resultMap>
+
 	<select id="selectFreeList" resultType="hashmap">
 		SELECT A.*
 			 , (SELECT COUNT(*) FROM ATTACHMENT WHERE BNO = A.BNO) AS FILECOUNT
 			 , (SELECT NICKNAME FROM MEMBER WHERE USERID = A.USERID) AS WRITER
 			 , TO_CHAR(BDATE,'YYYY.MM.DD') AS BDATE2CHAR
+			 , (SELECT COUNT(*) FROM BOARDCOMMENT WHERE BNO = A.BNO) AS COMMENTS
 		FROM BOARD A
 		WHERE A.BTNO = 4 AND A.BSTATUS = 'Y'
 		ORDER BY BDATE DESC, BNO DESC
@@ -33,7 +38,7 @@
 		VALUES (SEQ_ANO.NEXTVAL, #{oldFileName}, #{newFileName}, #{filePath}, DEFAULT, DEFAULT, #{bNo}, DEFAULT)
 	</insert>
 	
-	<select id="selectOneFree" parameterType="_int" resultType="hashmap">
+	<select id="selectOneFree" parameterType="_int" resultMap="ResultMapBoard">
 		SELECT A.*
 			 , (SELECT NICKNAME FROM MEMBER WHERE USERID = A.USERID) AS WRITER
 			 , (SELECT MNAME FROM MEMBERSHIP WHERE MCODE = (SELECT MEMBERSHIP FROM MEMBER WHERE USERID = A.USERID)) AS MEMBERSHIP
@@ -62,17 +67,16 @@
 		WHERE BNO = #{ bNo } AND BSTATUS = 'Y'
 	</update>
 	
-	<update id="updateFree" parameterType="Board">
+	<update id="updateFree" parameterType="hashmap">
 		UPDATE BOARD
-		SET BTITLE = #{ bTitle },
-		    BCONTENT = #{ bContent }
-		WHERE BNO = #{ bNo }
+		SET BTITLE = #{ BTITLE },
+		    BCONTENTS = #{ BCONTENTS }
+		WHERE BNO = #{ BNO }
 	</update>
 	
-	<insert id="updateAttachment" parameterType="Attachment">
+	<insert id="updateAttachment" parameterType="hashmap">
 		INSERT INTO ATTACHMENT VALUES
-		(SEQ_ATTACHMENTNO.NEXTVAL, #{ bNo }, #{ originalFileName }, #{ renamedFileName },
-		DEFAULT, DEFAULT, DEFAULT)
+		(SEQ_ANO.NEXTVAL, #{OLDFILENAME}, #{NEWFILENAME}, #{FILEPATH}, DEFAULT, DEFAULT, #{BNO}, DEFAULT)
 	</insert>
 	
 	<delete id="deleteAttachment" parameterType="_int">
@@ -84,7 +88,14 @@
 	</delete>
 	
 	<delete id="deleteFile" parameterType="_int">
-		DELETE FROM ATTACHMENT WHERE ATTACHMENTNO = #{ attNo }
+		DELETE FROM ATTACHMENT WHERE ANO = #{ aNo }
 	</delete>
 	
+	<insert id="insertComment" parameterType="hashmap">
+		INSERT INTO BOARDCOMMENT VALUES(SEQ_BCNO.NEXTVAL, #{BNO}, #{CCONTENTS}, #{USERID}, SYSDATE, 'Y', 'N', 0, DEFAULT)
+	</insert>
+	
+	<delete id="deleteComment" parameterType="_int">
+		DELETE FROM BOARDCOMMENT WHERE BCNO = #{ bcNo }
+	</delete>
 </mapper>
