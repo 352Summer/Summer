@@ -186,7 +186,9 @@
         <li><a href="charts.html"><i class="icon-user"></i><span>회원관리</span> </a> </li>
         <li><a href="shortcodes.html"><i class="icon-credit-card"></i><span>결제/포인트</span> </a> </li>
         <li><a href="shortcodes.html"><i class="icon-comments"></i><span>커뮤니티 관리</span> </a> </li>
-        <li><a href="shortcodes.html"><i class="icon-question-sign"></i><span>고객센터</span> </a> </li>
+        
+        <li><a href="${pageContext.request.contextPath}/admin/customerService/customerService.do"><i class="icon-question-sign"></i><span>고객센터</span> </a> </li>
+        
         <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="icons.html">Icons</a></li>
