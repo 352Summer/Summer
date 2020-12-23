@@ -24,7 +24,7 @@ public interface StoreDAO {
 
 	List<Map<String, String>> selectStoreCommentList(int bNo);
 
-	int updateLike(int bNo);
+	int updateLike(Map<String, String> like);
 
 	
 }

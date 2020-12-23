@@ -59,8 +59,8 @@ public class StoreDAOImpl implements StoreDAO {
 	}
 	
 	@Override
-	public int updateLike(int bNo) {
-		return sqlSession.update("storeMapper.updateLike", bNo);
+	public int updateLike(Map<String, String> like) {
+		return sqlSession.update("storeMapper.updateLike", like);
 		
 	}
 

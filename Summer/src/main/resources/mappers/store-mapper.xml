@@ -39,9 +39,9 @@
 		WHERE BNO = #{ bNo } AND BSTATUS = 'Y'
 	</update>
 	
-	<update id="updateLike" parameterType="_int">
+	<update id="updateLike" parameterType="hashmap">
 		INSERT INTO LIKELIST
-		VALUES(SEQ_LNO.NEXTVAL, #{ bNo } , DEFAULT ,DEFAULT)
+		VALUES(SEQ_LNO.NEXTVAL, #{no} , #{userId} ,DEFAULT)
 	</update>
 	
 </mapper>

@@ -221,11 +221,11 @@
 		padding-top : 20px;
 		text-align : center;
 	}
-	#shopping-basket{
+	.shopping-basket{
 		width : 484px;
 		font-weight:bold;
 	}
-	#order{
+	.order{
 		margin-top : 15px;
 		width : 484px;
 		font-weight:bold;
@@ -447,6 +447,10 @@
 								</div>
 							</div>
 							<div class="price">
+							<% int sAmount = 1; 
+							    int mAmount = 1;
+							    int lAmount = 1;
+							%>
 								<table>
 									<tr class="price-tr-1">
 										<th>&nbsp;색상</th>
@@ -457,19 +461,19 @@
 									<tr>
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>S</th>
-										<th>1</th>
+										<th><i class="icon-heart" aria-hidden="true" id="sAmount-minus"><%=sAmount %><i class="icon-heart" aria-hidden="true" id="sAmount-plus"></th>
 										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>M</th>
-										<th>1</th>
+										<th><i class="icon-heart" aria-hidden="true"><%=mAmount%><i class="icon-heart" aria-hidden="true"></th>
 										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th><span id='close' onclick="#">X</span>blue</th>
 										<th>L</th>
-										<th>1</th>
+										<th><i class="icon-heart" aria-hidden="true"><%=lAmount %><i class="icon-heart" aria-hidden="true"></th>
 										<th>${store.PPRICE}원</th>
 									</tr>							
 								</table>
@@ -479,10 +483,10 @@
 								<div class="totalprice" id="totalprice-contents">${store.PPRICE+100}원</div>
 							</div>
 							<div class="order-wrap">
-			       		 		<button onclick="location.href='#'" class="btn btn-primary thema" id="shopping-basket">장바구니</button>
-			       		 		<button onclick="location.href='${pageContext.request.contextPath}/store/selectBuyStore.do'" 
-			       		 			class="btn btn-primary thema" id="order">주문하기</button>
+			       		 		<button onclick="location.href='#'" class="btn btn-primary thema shopping-basket" id="shopping-basket">장바구니</button>
+			       		 		<button class="btn btn-primary thema order" id="${ store.BNO }">주문하기</button>
 			    			</div>
+			    			
 						</div>
 					</div>
 				</div>
@@ -532,7 +536,7 @@
 							</div>
 							<div class="review-contents">
 								리뷰입니다.
-							</div>
+							</div>+
 						</div>
 					</div>
 				
@@ -543,14 +547,42 @@
 	</div>
 	
 	<script>
+
 	
 		$(function(){
 			$(".p1234").on("click",function(){
 				var storeNo = $(this).attr("id");
-				console.log("storeNo="+storeNo);
-				location.href = "${pageContext.request.contextPath}/store/updateLike.do?no="+storeNo;
+				var userId = '${member.userId}';
+				
+				$.ajax({
+					url : '${pageContext.request.contextPath}/store/updateLike.do',
+					data : { no : storeNo, userId : userId }, 
+					dataType : 'json',
+					success : function(data){
+						if(data == true) {
+							alert("좋아요 등록 완료!");
+							// 좋아요 수 증가
+							
+						} else {
+							alert("좋아요 등록 실패!");
+						}
+					}, error : function(req, status, error){
+						console.log(req);
+						console.log(status);
+						console.log(error);
+					}
+				});
 			});
 		});
+		
+		$(function(){
+			$(".order").on("click",function(){
+				var storeNo = $(this).attr("id");
+				console.log("storeNo="+storeNo);
+				location.href = "${pageContext.request.contextPath}/store/selectBuyStore.do?no="+storeNo;
+			});
+		});
+		
 	</script>
 	</body>
 </html>

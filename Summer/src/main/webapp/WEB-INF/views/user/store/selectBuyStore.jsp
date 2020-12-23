@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,8 +81,12 @@
 		height : 130px;	
 		
 	}
-	.t tr, .t th{
+	.t-title{
 		font-size : 20px;
+		padding : 5px;
+	}
+	.t-contents{
+		font-size : 13px;
 		padding : 5px;
 	}
 	.br{
@@ -111,6 +116,9 @@
 		border : 1px solid grey;
 	}
 	.phone{
+		width : 80px;
+	}
+	#address_3, #sample6_extraAddress{
 		width : 80px;
 	}
 	.center{
@@ -150,6 +158,7 @@
 											<th class="product-5">배송비</th>
 											<th class="product-6">주문 금액</th>
 										</tr>
+										<% int sAmount = 1; %>
 										<tr id="product-bottom">
 											<td>
 												<div class = "row" id="productInfo-wrap">
@@ -158,13 +167,13 @@
 													</div>
 													<div class="productInfo-contents">
 														<table class="t">
-															<tr>
+															<tr class="t-title">
 																<th>상품명</th>
-																<th>겨울용 여성 털부츠</th>
+																<th>${ store.PNAME }</th>
 															</tr>
-															<tr>
-																<th>색상</th>
-																<th>갈색</th>
+															<tr class="t-contents">
+																<th>상품설명</th>
+																<th>${ store.PDESCRIPTION }</th>
 															</tr>
 																							
 														</table>
@@ -173,9 +182,9 @@
 											</td>
 											<td>S</td>
 											<td>1개</td>
-											<td>1090</td>
+											<td>${store.PPRICE / 10}</td>
 											<td>무료</td>
-											<td>109,000원</td>
+											<td>${store.PPRICE}원</td>
 										</tr>
 										<c:forEach items="${list}" var="b"> 
 										<tr id="product-bottom">
@@ -216,29 +225,34 @@
 							      </tr>
 						         <tr>
 						           <th>수령인</th>
-						           <td><input type="text" name="username" placeholder="수령인을 입력해주세요"></td>
+						           <td><input type="text" name="username" value="${member.userName}"></td>
 						         </tr>
 						         <tr>
 							         <th>연락처</th>
-							         <td><input type="text" name="phone1" placeholder="010" class="phone"> - 
-							            <input type="text" name="phone2" class="phone"> -
-							            <input type="text" name="phone3" class="phone">
+							         <td><input type="text" name="phone1" class="phone" value="${member.phone}"> - 
+							            <input type="text" name="phone2" class="phone" value="${member.phone}"> -
+							            <input type="text" name="phone3" class="phone" value="${member.phone}">
 							         </td>
 							     </tr>
 							     <tr>
 						            <th>주소</th>
 						            <td>
-						               <input type="text" name="zip_h_1"> 
-						               <button onclick="location.href='#'" class="btn btn-primary thema" id="shopping-basket">주소찾기</button><br>
-						               <input type="text" name="addr_h1"><br>
-						               <input type="text" name="addr_h1">
+						               <input type="text" name="zip_code" id="sample6_postcode" placeholder="우편번호"> 
+						               <button onclick="sample6_execDaumPostcode()" class="btn btn-primary thema" id="shopping-basket">우편번호 찾기</button><br>
+						               <input type="text" class = "address" name="address_1" id = "sample6_address" value="${member.address}">
+						               <input type="text" class = "address" name="address_2" id = "sample6_detailAddress" value="${member.address}">
+						               <input type="text" class = "address" name="address_3" id = "sample6_extraAddress" placeholder="참고항목">
 						            </td>
 						         </tr>
 						  		</table>
-						   <!--테이블 끝-->
+						   <!--테이블 끝-->		   
 						   </div>
 						</div>
 					</div>
+					
+					
+					
+					
 					<div class="col-sm-6">
 						<!-- 수령자 정보 -->
 						<div class="recipient-wrap">
@@ -253,22 +267,22 @@
 						         <table width="600px" class="recipient-table">		
 						         <tr>
 						           <th>회원명</th>
-						           <td><input type="text" name="username" value="홍길동"></td>
+						           <td><input type="text" name="username" value="${ member.userName }"></td>
 						         </tr>
 						         <tr>
 							         <th>연락처</th>
-							         <td><input type="text" name="phone1" placeholder="010" class="phone"> - 
-							            <input type="text" name="phone2" class="phone"> -
-							            <input type="text" name="phone3" class="phone">
+							         <td><input type="text" name="phone1" class="phone" value="${ member.phone }"> - 
+							            <input type="text" name="phone2" class="phone" value="${ member.phone }"> -
+							            <input type="text" name="phone3" class="phone" value="${ member.phone }">
 							         </td>
 							     </tr>
 							     <tr>
 						            <th>이메일 주소</th>
 						            <td>
-						               <input type="text" name="email1"> @
-            						   <input type="text" name="email2">
+						               <input type="text" name="email1" value="${ member.email }"> @
+            						   <input type="text" name="email2" value="${ member.email }">
 						            </td>
-						         </tr>
+						         </tr>  
 						  		</table>
 						   <!--테이블 끝-->
 						   </div>
@@ -276,7 +290,7 @@
 					</div>
 				</div>
 				<div class="center">
-					<button onclick="location.href='#'" class="btn btn-primary thema" id="shopping-basket">결제하기</button>&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-primary thema" id="payBtn">결제하기</button>&nbsp;&nbsp;&nbsp;&nbsp;
 					<button onclick="location.href='#'" class="btn btn-primary thema" id="shopping-basket">취소하기</button>
 				</div>
 			</div>
@@ -284,6 +298,118 @@
 			</div>
 		</div>
          <c:import url="/WEB-INF/views/user/common/footer.jsp"/>
+         
+         <!------------------------------------ 다음 주소 API 시작 --------------------------------------------->
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+	    function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+	
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample6_extraAddress").value = extraAddr;
+	                
+	                } else {
+	                    document.getElementById("sample6_extraAddress").value = '';
+	                }
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('sample6_postcode').value = data.zonecode;
+	                document.getElementById("sample6_address").value = addr;
+	                // 커서를 상세주소 필드로 이동한다.
+	                document.getElementById("sample6_detailAddress").focus();
+	            }
+	        }).open();
+	    }
+<!------------------------------------ 다음 주소 API 끝 --------------------------------------------->
+
+
+
+<!--------------------------------------- 결제 api --------------------------------------------------> 
+
+var IMP = window.IMP; // 생략가능
+
+$(function() {
+	IMP.init('imp54566140');
+}); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+ 	// 내 REST API 키를 찾아서 수정하기 // 1178841415834492
+
+$('#payBtn').on('click', function(){
+	// 문서 로딩될 때 바로 호출
+		IMP.request_pay({
+			pg : 'inicis',
+		    pay_method : 'card',
+		    merchant_uid : 'merchant_' + new Date().getTime(),
+			name : '주문명:결제테스트',
+			amount : 100, // 판매 가격
+			buyer_email : 'iamport@siot.do',
+			buyer_name : '구매자이름',
+			buyer_tel : '010-1234-5678',
+			buyer_addr : '서울시 강남구 역삼동',
+			buyer_postcode : '01234'
+		},  function(rsp) {
+		    if ( rsp.success ) {
+		    	 var msg = '결제가 완료되었습니다.';
+		    	 /*
+		    	 
+			        $.ajax({
+					url : '${pageContext.request.contextPath}/store/successBuyStore.do',
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						
+						imp_uid : rsp.imp_uid,
+						pay_method : rsp.pay_method,
+						price : rsp.paid_amount,
+						status : rsp.status,
+						title : rsp.name,
+						pg_tid : rsp.pg_tid,
+						buyer_name : rsp.buyer_name,
+						paid_at : rsp.paid_at,
+						receipt_url : rsp.receipt_url
+					//기타 필요한 데이터가 있으면 추가 전달
+					}
+				});
+				*/
+			        location.href='${pageContext.request.contextPath}/store/successBuyStore.do';
+		    } else {
+		        var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+		    }
+		    alert(msg);
+		});
+});
+
+
+</script>
 		
 	
 

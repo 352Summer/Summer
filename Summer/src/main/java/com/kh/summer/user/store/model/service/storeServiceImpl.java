@@ -43,8 +43,8 @@ public class storeServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public int updateLike(int bNo){
-		return storeDAO.updateLike(bNo);
+	public int updateLike(Map<String, String> like){
+		return storeDAO.updateLike(like);
 	}
 
 	@Override 

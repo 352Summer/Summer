@@ -1,5 +1,6 @@
 package com.kh.summer.user.store.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.summer.common.util.Utils;
 import com.kh.summer.user.member.model.service.MemberService;
@@ -69,36 +71,44 @@ public class StoreController {
 	public String storeDetail(@RequestParam int no, Model model) {
 		
 		Map<String, String> store = storeService.selectOneStore(no);
-		
-		System.out.println("store : " + store);
-		
 		List<Map<String, String>> attachmentList = storeService.selectAttachmentList(no);
-		
-		System.out.println("attachmentList : " + attachmentList);
-		
 		List<Map<String, String>> commentList = storeService.selectStoreCommentList(no);
-		
-		System.out.println("commentList : " + commentList);
-		
+
 		model.addAttribute("store", store)
 			 .addAttribute("attachmentList", attachmentList)
 			 .addAttribute("commentList", commentList);
 		
-		System.out.println("model : " + model);
-		
 		return "user/store/storeDetail";	
 	}
 	@RequestMapping("/store/selectBuyStore.do")
-	public String selectBuyStore() {
+	public String selectBuyStore(@RequestParam int no, Model model) {
+		
+		Map<String, String> store = storeService.selectOneStore(no);
+		List<Map<String, String>> attachmentList = storeService.selectAttachmentList(no);
+		
+		model.addAttribute("store", store)
+			 .addAttribute("attachmentList", attachmentList);
+
+		
 		return "user/store/selectBuyStore";	
 	}
 	@RequestMapping("/store/updateLike.do")
-	public String updateLike(@RequestParam int no) {
+	@ResponseBody
+	public boolean updateLike(@RequestParam int no, @RequestParam String userId) {
 		
+		Map<String, String> like = new HashMap<String, String>();
 		
-		storeService.updateLike(no);
+		like.put("no", String.valueOf(no));
+		like.put("userId", userId);
 		
-		return "user/store/storeDetail";	
+		boolean check = storeService.updateLike(like) == 0 ? false : true;
+		
+		return check;
+	}
+	@RequestMapping("/store/successBuyStore.do")
+	public String successBuyStore() {
+		
+		return "user/store/successBuyStore";
 	}
 	
 	
