@@ -41,5 +41,21 @@ public class Member implements Serializable {
 		this.phone = phone;
 		this.address = address;
 	}
+
+	public Member(String userId, String password, String nickName, String userName, String gender, String birth,
+			String email, String phone, String address) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.nickName = nickName;
+		this.userName = userName;
+		this.gender = gender;
+		this.birth = birth;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
+	
+	
 	
 }

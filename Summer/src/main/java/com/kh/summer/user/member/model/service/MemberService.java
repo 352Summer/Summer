@@ -39,5 +39,17 @@ public interface MemberService {
 	 */
 	int deleteMember(String userId);
 
+	/**
+	 * 닉네임 중복 체크
+	 * @param nickName
+	 * @return int
+	 */
 	int nickNameDupChk(String nickName);
+	
+	/**
+	 * 이메일 중복 체크
+	 * @param email
+	 * @return int
+	 */
+	int emailDupChk(String email);
 }

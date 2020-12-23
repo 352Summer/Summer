@@ -55,4 +55,13 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.nickNameDupChk(hmap);
 	}
 
+	@Override
+	public int emailDupChk(String email) {
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("email", email);
+		
+		return memberDAO.emailDupChk(hmap);
+	}
+
 }

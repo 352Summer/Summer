@@ -2,19 +2,23 @@ package com.kh.summer.user.member.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.summer.common.exception.MemberException;
+import com.kh.summer.common.mail.MailService;
 import com.kh.summer.user.member.model.service.MemberService;
 import com.kh.summer.user.member.model.vo.Member;
 
@@ -28,13 +32,26 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private MailService mailService;
+ 	
 	@RequestMapping("/member/memberEnroll.do")
 	public String memberEnroll() {
 		return "user/member/memberEnroll";
 	}
-	/*
+
+	
 	@RequestMapping("/member/memberEnrollEnd.do")
-	public String memberEnrollEnd(Member member, Model model) {
+	public String memberEnrollEnd(@RequestParam String userId, @RequestParam String nickName,
+								  @RequestParam String password, @RequestParam String userName,
+								  @RequestParam String birth, @RequestParam String gender,
+								  @RequestParam String phone, @RequestParam String email,
+								  @RequestParam String address1, @RequestParam String address2,
+								  Model model) {
+		
+		String address = address1 + address2;
+		
+		Member member = new Member(userId, password, nickName, userName, gender, birth, email, phone, address);
 		
 		System.out.println("memberEnroll : " + member);
 		
@@ -73,7 +90,6 @@ public class MemberController {
 		
 		return "common/msg";
 	}
-	*/
 
 	// 로그인
 	@RequestMapping("/member/memberLogin.do")
@@ -91,8 +107,8 @@ public class MemberController {
 		if( m == null ) {
 			msg = "존재하지 않는 아이디 입니다.";
 		} else {
-			if(password.equals(m.getPassword())) { // 암호화 안한거(임시)
-			//if( bcryptPasswordEncoder.matches(password, m.getPassword()) ) { // 입력 값과 암호화 값을 비교
+			// if(password.equals(m.getPassword())) { // 암호화 안한거(임시)
+			if( bcryptPasswordEncoder.matches(password, m.getPassword()) ) { // 입력 값과 암호화 값을 비교
 				msg = "로그인에 성공하였습니다!";
 				mv.addObject("member", m);
 				// @SessionAttributes 어노테이션에 등록된 'member'로 인식하면서
@@ -123,6 +139,12 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	/**
+	 * 회원정보 수정 페이지
+	 * @param userId
+	 * @return String
+	 */
 	@RequestMapping("/member/mUpdate.do")
 	public String memberView(@RequestParam String userId, Model model) {
 		
@@ -133,6 +155,11 @@ public class MemberController {
 		return "user/member/memberUpdate";
 	}
 	
+	/**
+	 * 회원정보 수정완료
+	 * @param userId
+	 * @return String
+	 */
 	@RequestMapping("/member/mUpdateEnd.do")
 	public String memberUpdate(@RequestParam String userId,
 							   @RequestParam(value="password", required = false) String password,
@@ -146,6 +173,15 @@ public class MemberController {
 		String address = address1 + " " + address2;
 		
 		Member member = new Member(userId, password, nickName, email, phone, address);
+		
+		String plainPassword = member.getPassword();
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(plainPassword);
+		
+		System.out.println("원문 : " + plainPassword);
+		System.out.println("암호문 : " + encryptPassword);
+		
+		member.setPassword(encryptPassword);
 		
 		System.out.println(member);
 		
@@ -166,7 +202,11 @@ public class MemberController {
 		return "user/myPage/myPageCart";
 	}
 	
-	/*
+	/**
+	 * 회원탈퇴
+	 * @param sessionStatus
+	 * @return String
+	 */
 	@RequestMapping("/member/memberDelete.do")
 	public String memberDelete(SessionStatus sessionStatus, Model model, Member member) {
 		
@@ -188,8 +228,12 @@ public class MemberController {
 		
 		return "common/msg";
 	}
-	*/
 	
+	/**
+	 * 아이디 중복 체크
+	 * @param userId
+	 * @return map
+	 */
 	@ResponseBody // 자동으로 json으로 바꿔서 보내줌
 	@RequestMapping("/member/checkIdDuplicate.do")
 	public Map<String, Object> checkIdDuplicate(@RequestParam String userId) {
@@ -203,6 +247,11 @@ public class MemberController {
 		return map;
 	}
 	
+	/**
+	 * 닉네임 중복 체크
+	 * @param nickName
+	 * @return map
+	 */
 	@ResponseBody
 	@RequestMapping("/member/nickNameDupChk.do")
 	public Map<String, Object> nickChk(@RequestParam String nickName) {
@@ -214,6 +263,66 @@ public class MemberController {
 		map.put("isUsable", isUsable);
 		
 		return map;
+	}
+	
+	/**
+	 * 이메일 중복 체크
+	 * @param email
+	 * @return map
+	 */
+	@ResponseBody
+	@RequestMapping("/member/emailCheck.do")
+	public Map<String, Object> emailChk(@RequestParam String email) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean isUsable
+			= memberService.emailDupChk(email) == 0 ? true : false;
+	
+		map.put("isUsable", isUsable);
+		
+		return map;
+	}
+	
+	/**
+	 * 이메일 인증키 전송
+	 * @param email
+	 * @return 인증키
+	 */
+	@ResponseBody
+	@RequestMapping("/member/sendMail.do")
+	public String sendMail(@RequestParam String email, HttpSession session) {
+		
+		//인증 번호 생성기
+	    StringBuffer key = new StringBuffer();
+	    Random rnd = new Random();
+	    for(int i=0;i<10;i++)
+	    {
+	        int rIndex = rnd.nextInt(3);
+	        switch (rIndex) {
+	        case 0:
+	            // a-z
+	            key.append((char) ((int) (rnd.nextInt(26)) + 97));
+	            break;
+	        case 1:
+	            // A-Z
+	            key.append((char) ((int) (rnd.nextInt(26)) + 65));
+	            break;
+	        case 2:
+	            // 0-9
+	            key.append((rnd.nextInt(10)));
+	            break;
+	        }
+	    }
+	    
+	    System.out.println("key Generate : " + key);
+	    
+	    String subject = "[SUMMER]회원가입 이메일 인증코드입니다.";
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("인증코드는 [ " + key + " ] 입니다.");
+	  
+		mailService.send(subject, sb.toString(), "summer13121312@gmail.com", email);
+		
+		return key.toString();
 	}
 }
 

@@ -76,7 +76,7 @@
 					<h2 style="text-align:center;">회원가입</h2>
 				</div>
 			</div>
-			<form action="${pageContext.request.contextPath}/member/mUpdateEnd.do" id="mUpdate" method="post">
+			<form action="${pageContext.request.contextPath}/member/memberEnrollEnd.do" id="mInsert" method="post">
 				<div class="row row-pb-lg justify-content-md-center">
 					<div class="col-md-10" id="MU">
 					<!-- 아이디 -->
@@ -136,7 +136,8 @@
 								<p>이름</p>
 							</div>
 							<div class="col-md-9">
-								<input type="text" placeholder="이름 입력" class="inp" name="userName" id="userName" maxlength="20"/>
+								<input type="text" placeholder="이름 입력" class="inp" name="userName" id="userName" maxlength="20"
+								       oninput="this.value = this.value.replace(/[^A-Za-z가-힣.]/g, '').replace(/(\..*)\./g, '$1');"/>
 							</div>
 						</div>
 						
@@ -146,7 +147,8 @@
 								<p>생년월일</p>
 							</div>
 							<div class="col-md-9">
-								<input type="text" placeholder="생년월일 입력 ex)19980101" class="inp" name="birth" id="birth" maxlength="8"/>
+								<input type="text" placeholder="생년월일 입력 ex)19980101" class="inp" name="birth" id="birth" maxlength="8"
+									   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 							</div>
 						</div>
 						
@@ -169,8 +171,11 @@
 							</div>
 							<div class="col-md-9">
 								<input type="text" name="email" placeholder="이메일 입력 ex)oooo@example.com" id="email" class="inp"/>
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">이메일 인증</button>
-								<input type="hidden" id="emailCheck" />
+								<button type="button" id="emailChk" class="btn btn-primary">이메일 중복체크</button>
+								<button type="button" id="emailChk2" class="btn btn-primary thema" data-toggle="modal" data-target="#emailModal" style="display:none;">이메일 인증</button>
+								<span id="ecO" style="color:green; display:none;">O</span>
+								<span id="ecX" style="color:red;">X</span>
+								<input type="hidden" id="emailCheck" value="N"/>
 							</div>
 						</div>
 						
@@ -180,7 +185,8 @@
 								<p>연락처</p>
 							</div>
 							<div class="col-md-9">
-								<input type="text" name="phone" value="${ member.phone }" maxlength="11" id="phone" class="inp"/>
+								<input type="text" name="phone" value="${ member.phone }" maxlength="11" id="phone" class="inp"
+									   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 							</div>
 						</div>
 						
@@ -202,13 +208,8 @@
 				<br><br>
 				<div class="row">
 					<div class="col" style="text-align:center;">
-						<button type="button" class="btn btn-success thema" onclick="fn_submit();">수정하기</button>
+						<button type="button" class="btn btn-success thema" onclick="fn_submit();">가입하기</button>
 						<button type="button" class="btn btn-primary thema" onclick="fn_cancel();">취소하기</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col" style="text-align:right; margin-right:8%;">
-						<button type="button" class="btn btn-danger" onclick="fn_delete();">회원탈퇴</button>
 					</div>
 				</div>
 			</form>
@@ -216,8 +217,7 @@
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 	</div>
 	
-	<!-- Modal시작 -->
-	<!-- https://getbootstrap.com/docs/4.1/components/modal/#live-demo -->
+	<!-- 이메일 Modal시작 -->
 	<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailCheckModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -228,20 +228,18 @@
 					</button>
 				</div>
 				<!-- 이메일인증 -->
-				<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
-				<form action="${pageContext.request.contextPath}/member/memberLogin.do" method="post">
-					<div class="modal-body">
-						<input type="text" class="form-control" name="userId" placeholder="인증번호" required>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary thema" >인증하기</button>
-						<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
-					</div>
-				</form>
+				<div class="modal-body" style="text-align:right;">
+					<input type="text" class="form-control" id="key" placeholder="인증번호" required>
+					<button type="button" class="btn btn-info" id="sendMail">인증번호 전송</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary thema" id="keyChk">인증하기</button>
+					<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Modal 끝-->
+	<!-- 이메일 Modal 끝-->
 	
 	<script>
 	<!------------------------------------ 아이디 중복확인 시작 --------------------------------------------->
@@ -375,13 +373,147 @@
 			$('#genderF').css('background', '#E2E2E2').css('color', 'black');
 			$('#genderCheck').attr('value', 'M');
 		});
-
+		
 		$('#genderF').on('click', function(){
 			$(this).css('background', '#88c8bc').css('color', 'white');
 			$('#genderM').css('background', '#E2E2E2').css('color', 'black');
 			$('#genderCheck').attr('value', 'M');
 		});
 	<!------------------------------------ 성별 체크 끝 --------------------------------------------->
+
+	<!------------------------------------ 이메일 인증 시작 --------------------------------------------->
+		var emailCode;  // 이메일 인증 코드 비교용 전역변수
+		if( $('#emailCheck').attr("readonly") == false ) {
+			$('#email').on('keydown', function(){
+				$('#emailCheck').attr("value", "N");
+				$('#ecO').hide();
+				$('#ecX').show();
+				$('#emailChk').show();
+				$('#emailChk2').hide();
+			});
+		}
+	
+		$('#emailChk').on('click', function(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/member/emailCheck.do',
+				type : "post",
+				dataType : 'json',
+				data : { "email" : $('#email').val() },
+				success : function(data) {
+					if( data.isUsable == false ) {
+						alert("사용중인 이메일입니다.");
+						return false;
+					} else if( data.isUsable == true ) {
+						alert("사용가능한 이메일입니다. 이메일 인증을 해주세요.");
+						$('#emailChk').hide();
+						$('#emailChk2').show();
+					}
+				}
+			});
+		});
+
+		$('#sendMail').on('click', function(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/member/sendMail.do',
+				type : 'post',
+				data : { 'email' : $('#email').val() },
+				success : function(data) {
+					if( data.length > 0 ) {
+						alert("인증코드 전송 성공");
+						$('#sendMail').text('인증번호 재전송');
+						emailCode = data;
+					} else {
+						alert("인증코드 전송 실패");
+						$('#sendMail').text('인증번호 재전송');
+						emailCode = '';
+					}
+				}
+			});
+		});
+		$('#keyChk').on('click', function() {
+			if( $('#key').val() != '' ){
+				if( $('#key').val() == emailCode ) {
+					alert("인증 성공");
+					$('#emailModal').modal("hide");
+					$('#ecO').show();
+					$('#ecX').hide();
+					$('#emailCheck').attr('value', 'Y');
+					$('#email').attr('readonly', true);
+					$('#emailChk2').hide();
+				} else {
+					alert("인증 실패");
+					$('#key').focus();
+					return false;
+				}
+			} else {
+				alert("인증번호를 입력해주세요.");
+			}
+		});
+	<!------------------------------------ 이메일 인증 끝 --------------------------------------------->
+
+	<!------------------------------------ 전송버튼 시작 --------------------------------------------->
+		function fn_submit() {
+			if( $('#idDuplicateCheck').val() == "0" ) {
+				alert("아이디가 올바르지 않습니다.");
+				$('#userId').focus();
+				return false;
+			}
+
+			if( $('#nickChk').val() == 'N' ) {
+				alert("닉네임 중복체크를 해주세요.");
+				$('#nickName').focus();
+				return false;
+			}
+
+			if( $('#passCheck').val() == 'N' ) {
+				alert("비밀번호가 올바르지 않습니다.");
+				#('#pw').val('');
+				#('#pwChk').val('');
+				$('#pw').focus();
+				return false;
+			}
+
+			if( $('#userName').val() == "" ) {
+				alert("이름을 입력해주세요.");
+				$('#userName').focus();
+				return false;
+			}
+
+			if( $('#birth').val() == "" ) {
+				alert("생년월일을 입력해주세요.");
+				$('#birth').focus();
+				return false;
+			}
+
+			if( $('#emailCheck').val() == 'N' ) {
+				alert("이메일인증을 해주세요.");
+				$('#email').focus();
+				return false;
+			}
+
+			if( $('#phone').val() == "" ) {
+				alert("연락처를 입력해주세요.");
+				$('#phone').focus();
+				return false;
+			}
+
+			if( $('#sample6_address').val() == "" ) {
+				alert("주소를 입력해주세요.");
+				$('#sample6_address').focus();
+				return false;
+			}
+
+			if( confirm('가입하시겠습니까?') ) {
+				$('#mInsert').submit();
+			}
+		}
+
+		function fn_cancel() {
+			if(confirm('취소하시겠습니까?')) {
+				location.href='${pageContext.request.contextPath}/';
+			}
+		}
+	<!------------------------------------ 전송버튼 끝 --------------------------------------------->
 	</script>
 	
 	<!------------------------------------ 다음 주소 API 시작 --------------------------------------------->
