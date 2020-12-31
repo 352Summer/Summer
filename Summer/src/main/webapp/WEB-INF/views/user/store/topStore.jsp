@@ -44,8 +44,8 @@
 			border-bottom : 1px solid grey;
 		}
 		.order{
-			width : 100px;
-			padding-left : 30px;
+			width : 110px;
+			padding-left : 20px;
 			display: inline-block;
 		}
 		.order a{
@@ -54,6 +54,18 @@
 		#noworder a{
 			color : #88c8bc;
 		}
+		
+		.desc_price{
+			display: inline-block;
+			font-weight : bold;
+		}
+		
+		.desc_like{
+			display: inline-block;
+			float: right;
+		}
+		
+	
 		
 	</style>
 	<body>	
@@ -98,7 +110,7 @@
 					<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ p.BNO }">
 						<div class="product-entry border">
 						<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+							<img src="${pageContext.request.contextPath}${ p.FILEPATH }${ p.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						</a>
 						<div class="desc">
 							<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
@@ -115,49 +127,57 @@
 						<div class="orderdiv">
 							<div class=order id = noworder><a href="${pageContext.request.contextPath}/store/selectStoreTop.do">신상품</a></div>
 							<div class=order><a href="${pageContext.request.contextPath}/store/selectStorePants.do">조회순</a></div>
-							<div class=order><a href="${pageContext.request.contextPath}/store/selectStoreOuter.do">판매순</a></div>
+							<div class=order><a href="${pageContext.request.contextPath}/store/selectStoreOuter.do">좋아요순</a></div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<br><br><br><br>
+			<!--  상품8개 시작-->
 			<div class="row row-pb-md">
 				<c:forEach items="${list}" var="b"> 
 				<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ b.BNO }">
 					<div class="product-entry border" id="${b.BNO}">
-						<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+						<img src="${pageContext.request.contextPath}${ b.FILEPATH }${ b.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						<div class="desc">
-							<h2>${b.PNAME}</h2>
-							￦${b.PPRICE}원</div>
+							<h2>${b.BTITLE}</h2>
+							<div class="desc_price">
+								￦${b.PPRICE}원
+							</div>
+							<div class="desc_like">
+								<i class="icon-heart" aria-hidden="true"></i>${b.BLIKE} &nbsp;
+								<i class="icon-eye" aria-hidden="true"></i>${b.VIEWS} 
+							</div>
+						</div>
 					</div>
 				</div>
 				</c:forEach>
 			</div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<div class="block-27">
-		               <ul>
-			              <li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
-		                  <li class="active"><span>1</span></li>
-		                  <li><a href="#">2</a></li>
-		                  <li><a href="#">3</a></li>
-		                  <li><a href="#">4</a></li>
-		                  <li><a href="#">5</a></li>
-		                  <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
-		               </ul>
-	            	</div>
-	            	<br>
-	            	<form action="#">
-		            	<div class="btn-group">
-		            		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		            			<span id="category-value">상품명</span>
-		            		</button>
-		           		</div>
-		            	<input type="text" style="width : 300px;"/>
-		            	<button type="submit" id="submitBtn">검색</button>
-	            	</form>
+			<!--  상품8개 끝-->
+			<!-- 페이징 처리 사직-->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="block-27">
+							<c:out value="${pageBar}" escapeXml="false"/>
+		            	</div>
+					</div>
 				</div>
-			</div>
+				<!-- 페이징 처리 끝-->
+				<!-- 검색 시작 -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="${pageContext.request.contextPath}/community/selectFreeList.do">
+							<select name="search" id="" class="btn thema" style="color : white;">
+								<option value="all" style="background: white; color : black;">전체</option>
+								<option value="title" style="background: white; color : black;">제목</option>
+								<option value="writer" style="background: white; color : black;">작성자</option>
+							</select>
+							<input type="search" name="search" class="form-control" placeholder="Search" style="border-radius: 30px; width:30%; display: inline-block;">
+							<button class="btn btn-primary thema" type="submit"><i class="icon-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- 검색 끝 -->
 		</div>
 		
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>

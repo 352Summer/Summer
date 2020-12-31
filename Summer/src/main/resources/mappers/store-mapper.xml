@@ -3,21 +3,35 @@
 <mapper namespace="storeMapper">
 
 	<select id="selectStoreList" resultType="hashmap">
-		SELECT *
-		FROM PRODUCT
-		WHERE LCNO = 1 AND PSTOCK > 0
+		SELECT B.*, P.*,  A.*
+                , NVL((SELECT COUNT(*) FROM LIKELIST WHERE B.BNO = BNO GROUP BY B.BNO), 0) AS BLIKE
+		FROM PRODUCT P , BOARD B JOIN ATTACHMENT A ON (A.BNO = B.BNO)
+		WHERE LCNO = 1 AND PSTOCK > 0 AND BTNO = 2 AND B.BSTATUS = 'Y' AND P.BNO = B.BNO
+        ORDER BY B.BNO DESC
+		<!-- 
+		<choose>
+         <when test='sort == "time"'>ORDER BY B.BNO DESC</when>
+         <when test='sort == "views"'>ORDER BY B.VIEWS DESC</when>
+         <when test='sort == "like"'>ORDER BY LIKE_COUNT DESC</when>
+         <otherwise>ORDER BY B.BNO DESC</otherwise>
+      </choose>
+		-->
 	</select>
 	
 	<select id="selectStoreTotalContents" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
+		SELECT COUNT(*) FROM BOARD WHERE BTNO = 2 AND BSTATUS = 'Y'
 	</select>
 	
 	<select id="selectOneStore" parameterType="_int" resultType="hashmap">
-		SELECT B.*, P.*
+		SELECT B.*, P.*, C.COMNAME
         	, (SELECT COUNT(*) FROM BOARDCOMMENT WHERE BNO = B.BNO AND CSTATUS = 'Y' AND REVIEW = 'N') AS COMMENTCOUNT
-            , (SELECT COUNT(*) FROM (SELECT USERID FROM LIKELIST WHERE BNO = 200 GROUP BY USERID)) AS BLIKE
-		FROM BOARD B, PRODUCT P
-		WHERE (B.BNO = P.BNO) AND B.BNO = #{ bNo }
+            , (SELECT COUNT(*) FROM (SELECT USERID FROM LIKELIST WHERE BNO = #{ bNo })) AS BLIKE
+		FROM BOARD B, PRODUCT P, COMPANY C
+		WHERE (B.BNO = P.BNO) AND B.BNO = #{ bNo } AND P.COMNO = C.COMNO
+	</select>
+	
+	<select id="selectAllAttachmentList" resultType="hashmap">
+		SELECT * FROM ATTACHMENT WHERE BNO = #{ bNo } ORDER BY ANO
 	</select>
 	
 	<select id="selectAttachmentList" parameterType="_int" resultType="hashmap">
@@ -43,5 +57,25 @@
 		INSERT INTO LIKELIST
 		VALUES(SEQ_LNO.NEXTVAL, #{no} , #{userId} ,DEFAULT)
 	</update>
+	
+	<select id="selectSize" parameterType="_int" resultType="hashmap">
+		SELECT T.*
+		FROM TOP T, PRODUCT P
+		WHERE T.PCODE = P.PCODE AND P.BNO = #{ bNo }
+	</select>
+	
+	<select id="selectSmallSize" parameterType="hashmap" resultType="hashmap">
+		SELECT T.TSIZE, P.PPRICE
+		FROM TOP T, PRODUCT P
+		WHERE (T.PCODE = P.PCODE) AND (T.TSIZE = #{ storeSize }) AND T.PCODE = #{ pCode };
+	</select>
+	
+	<insert id="insertStoreComment" parameterType="hashmap">
+		INSERT INTO BOARDCOMMENT VALUES(SEQ_BCNO.NEXTVAL, #{BNO}, #{CCONTENTS}, #{USERID}, SYSDATE, 'Y', 'N', 0, DEFAULT)
+	</insert>
+	
+	<delete id="deleteStoreComment" parameterType="_int">
+		DELETE FROM BOARDCOMMENT WHERE BCNO = #{ bcNo }
+	</delete>
 	
 </mapper>

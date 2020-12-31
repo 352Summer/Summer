@@ -55,6 +55,17 @@
     		color : grey;
     		height : 50px;
     		padding-top : 10px;
+    		
+    	}
+    	.contents_1{
+    		display : inline-block;
+    	}
+    	.contents_2{
+    		display : inline-block;
+    		float: right;
+    		font-weight : bold;
+    		font-size : 15px;
+    		margin-right : 10px;
     	}
     	.information{
     		border-bottom : 1px solid grey;
@@ -256,6 +267,7 @@
 		background : #88c8bc;
 		color : white;
 	}
+	
 	.tab-graph{
 		width : 33.3%;
 		margin-left : -4px;
@@ -277,7 +289,9 @@
 		margin-top : 20px;
 		border : 1px solid grey;
 		width : 100%;
-		height : 4000px;
+		padding-bottom : 20px;
+		height : auto;
+		
 	}
 	.description-wrap{
 		width : 100%;
@@ -326,6 +340,10 @@
 		border-bottom : 1px solid grey;
 		border : 1px solid grey;
 		margin : 20px;
+	}
+	.dropbox{
+	font-weight: bold;
+	font-size : 13px;
 	}
 	
 
@@ -377,27 +395,15 @@
 									<th>-</th>
 									<th>-</th>
 								</tr>
+								<c:forEach items="${size}" var="s">
 								<tr>
-									<th>S</th>
-									<th>70</th>
-									<th>47</th>
-									<th>51.5</th>
-									<th>57.5</th>
-								</tr>
-								<tr>
-									<th>M</th>
-									<th>71</th>
-									<th>48.5</th>
-									<th>54</th>
-									<th>58.5</th>
-								</tr>
-								<tr>
-									<th>L</th>
-									<th>72.5</th>
-									<th>50</th>
-									<th>56.5</th>
-									<th>59.5</th>
-								</tr>							
+									<th>${s.TSIZE}</th>
+									<th>${s.TOTAL}</th>
+									<th>${s.SHOULDER}</th>
+									<th>${s.CHEST}</th>
+									<th>${s.SLEEVE}</th>
+								</tr>	
+								</c:forEach>					
 							</table>
 						</div>
 					</div>
@@ -410,21 +416,22 @@
 								</div>
 							</div>
 							<div class="contents">
-								${store.PDESCRIPTION}
+								<div class="contents_1">
+									${store.PDESCRIPTION}
+								</div>
+								<div class="contents_2">
+									리뷰 ${store.COMMENTCOUNT} 조회 ${store.VIEWS} 
+								</div>
 							</div>
 							<div class="information">
 								<table>
 									<tr>
-										<th>판매가</th>
-										<th>${store.PPRICE}원</th>
+										<th>제조회사 / 품번</th>
+										<th>${store.COMNAME} / ${store.PCODE}</th>
 									</tr>
 									<tr>
-										<th>색상 종류</th>
-										<th>
-											<i class="icon-heart" aria-hidden="true">
-											<i class="icon-heart" aria-hidden="true">
-											<i class="icon-heart" aria-hidden="true">
-										</th>
+										<th>판매가</th>
+										<th>${store.PPRICE}원</th>
 									</tr>
 									<tr>
 										<th>좋아요</th>
@@ -439,43 +446,42 @@
 									 		사이즈를 선택해주세요 <div class="sel-icon">
 									 	</div>
 										<ul tabindex="1">
-									    	<li><div class=dropbox">S</div></li>
-									    	<li>M</li>
-									    	<li>L</li>
+									    	<li class="small" id="S"><div class="dropbox">S</div></li>
+									    	<li class="medium" id="M">M</li>
+									    	<li class="large" id="L">L</li>
 										</ul>
 									</div>
 								</div>
 							</div>
 							<div class="price">
-							<% int sAmount = 1; 
+							<% int sAmount = 1;
 							    int mAmount = 1;
 							    int lAmount = 1;
 							%>
 								<table>
 									<tr class="price-tr-1">
-										<th>&nbsp;색상</th>
 										<th>사이즈</th>
 										<th>수량</th>
 										<th>금액</th>
 									</tr>
-									<tr>
-										<th><span id='close' onclick="#">X</span>blue</th>
-										<th>S</th>
-										<th><i class="icon-heart" aria-hidden="true" id="sAmount-minus"><%=sAmount %><i class="icon-heart" aria-hidden="true" id="sAmount-plus"></th>
+									<tr id ="sSize" style="visibility:none;">
+									
+										<th><span id='close' onclick="#">X</span>m</th>
+										<th><input type="number" placeholder="1" step="1" min="1" max="10"></th>
 										<th>${store.PPRICE}원</th>
 									</tr>
-									<tr>
-										<th><span id='close' onclick="#">X</span>blue</th>
-										<th>M</th>
+									<tr id ="sSize" style="visibility:none;">
+									
+										<th><span id='close' onclick="#">X</span>M</th>
 										<th><i class="icon-heart" aria-hidden="true"><%=mAmount%><i class="icon-heart" aria-hidden="true"></th>
 										<th>${store.PPRICE}원</th>
 									</tr>
-									<tr>
-										<th><span id='close' onclick="#">X</span>blue</th>
-										<th>L</th>
-										<th><i class="icon-heart" aria-hidden="true"><%=lAmount %><i class="icon-heart" aria-hidden="true"></th>
+									<tr id ="sSize" style="visibility:none;">
+									
+										<th><span id='close' onclick="#">X</span>M</th>
+										<th><i class="icon-heart" aria-hidden="true"><%=mAmount%><i class="icon-heart" aria-hidden="true"></th>
 										<th>${store.PPRICE}원</th>
-									</tr>							
+									</tr>				
 								</table>
 							</div>
 							<div class="totalprice-wrap">
@@ -496,19 +502,19 @@
 		<div class="container">
 				<div class="row">
 					<div class="tab-wrap">
-						<div class="tab-description">
-							상세 설명
+						<div class="tab-description" onclick="location.href='#description-title';">
+							<a href="#asd">상세 설명</a>
 						</div>
-						<div class="tab-graph">
+						<div class="tab-graph" onclick="location.href='#graph-title';">
 							구매 현황
 						</div>
-						<div class="tab-review">
+						<div class="tab-review" onclick="location.href='#review-title';">
 							리뷰
 						</div>
 					</div>
 					<div class="all-wrap">
 						<div class="description-wrap">
-							<div class="description-title">
+							<div class="description-title" id="description-title">
 								상품 상세 설명
 							</div>
 							<div class="description-contents">
@@ -523,7 +529,7 @@
 							</div>
 						</div>
 						<div class="graph-wrap">
-							<div class="graph-title">
+							<div class="graph-title" id="graph-title">
 								구매 현황
 							</div>
 							<div class="graph-contents">
@@ -531,12 +537,54 @@
 							</div>
 						</div>
 						<div class="review-wrap">
-							<div class="review-title">
+							<div class="review-title"  id="review-title">
 								리뷰
 							</div>
 							<div class="review-contents">
-								리뷰입니다.
-							</div>+
+							
+							
+							
+							
+							
+								<!-- 댓글 반복 시작 -->
+							<c:forEach items="${commentList}" var="comment">
+							<div id="${comment.BCNO}" style="padding : 10px; border-top : 1px solid lightgrey">
+								<table style="width: 100%; clear: both;">
+									<tr>
+										<td>${comment.WRITER} ${comment.DATE2CHAR}</td>
+										<td style="float:right;">
+										<c:if test="${member.userId eq comment.USERID}">
+											<button type="button" class="btn btn-primary thema">수정</button>
+											<button type="button" class="btn btn-primary thema" onclick="fn_deleteStoreComment(${comment.BCNO});">삭제</button>
+										</c:if>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											${comment.CCONTENTS}
+										</td>
+									</tr>
+								</table>
+							</div>
+							</c:forEach>
+							<!-- 댓글 반복 끝 -->
+							<!-- 댓글 등록 시작 -->
+							<div style="padding : 10px 10px 0 10px; border : 1px solid lightgrey; clear:both;">
+								<form action="${pageContext.request.contextPath}/store/insertStoreComment.do?bNo=${store.BNO}" method="post" onsubmit="return fn_submit();">
+									<input type="hidden" name="userId" value="${member.userId}" required>
+									<textarea id="cContents" name="cContents" rows="3" placeholder="댓글을 입력하세요" style="width : 100%; border : 1px solid lightgrey;"></textarea>
+									<button type="submit" class="btn btn-primary thema" style="float : right;">등록</button>
+								</form>
+								<br /><br />
+							</div>
+							<!-- 댓글 등록 끝 -->
+							
+							
+							
+							
+							
+							
+							</div>
 						</div>
 					</div>
 				
@@ -582,6 +630,41 @@
 				location.href = "${pageContext.request.contextPath}/store/selectBuyStore.do?no="+storeNo;
 			});
 		});
+
+		$(function(){
+			$(".small").on("click",function(){
+				var storeSize = $(this).attr("id");
+				var pCode = '${store.pCode}';
+				
+				location.href = "${pageContext.request.contextPath}/store/selectSmallSize.do?size="+storeSize;
+
+				$.ajax({
+					url : "${pageContext.request.contextPath}/store/selectSmallSize.do?size="+storeSize,
+					data : { pCode : pCode, storeSize : storeSize }, 
+					dataType : 'json',
+					success : function(data){
+						if(data == true) {
+							alert("사이즈 등록 완료!");
+							// 좋아요 수 증가
+							
+						} else {
+							alert("좋아요 등록 실패!");
+						}
+					}, error : function(req, status, error){
+						console.log(req);
+						console.log(status);
+						console.log(error);
+					}
+				});
+			});
+		});
+		
+		//댓글 삭제
+		function fn_deleteStoreComment(bcno){
+			if(confirm('삭제하시겠습니까?')){ 
+				location.href='${pageContext.request.contextPath}/store/deleteStoreComment.do?bNo=${store.BNO}&bcNo='+bcno;
+			}
+		}
 		
 	</script>
 	</body>

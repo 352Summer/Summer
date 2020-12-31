@@ -69,4 +69,29 @@ public class StoreDAOImpl implements StoreDAO {
 		return sqlSession.selectList("storeMapper.selectStoreCommentList", bNo);
 	}
 
+	@Override
+	public List<Map<String, String>> selectSize(int bNo) {
+		return sqlSession.selectList("storeMapper.selectSize", bNo);
+	}
+
+	@Override
+	public int selectSmallSize(Map<String, String> size) {
+		return sqlSession.selectOne("storeMapper.selectSmallSize", size);
+	}
+
+	@Override
+	public int insertStoreComment(Map<String, String> comment) {
+		return sqlSession.insert("storeMapper.insertStoreComment", comment);
+	}
+
+	@Override
+	public int deleteStoreComment(int bcNo) {
+		return sqlSession.delete("storeMapper.deleteStoreComment", bcNo);
+	}
+
+	//@Override
+	//public List<Map<String, String>> selectAllAttachmentList() {
+	//	return sqlSession.selectList("storeMapper.selectAllAttachmentList");
+	//}
+
 }

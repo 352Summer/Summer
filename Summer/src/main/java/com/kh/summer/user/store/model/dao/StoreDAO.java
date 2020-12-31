@@ -26,5 +26,15 @@ public interface StoreDAO {
 
 	int updateLike(Map<String, String> like);
 
+	List<Map<String, String>> selectSize(int bNo);
+
+	int selectSmallSize(Map<String, String> size);
+
+	int insertStoreComment(Map<String, String> comment);
+
+	int deleteStoreComment(int bcNo);
+
+	//List<Map<String, String>> selectAllAttachmentList();
+
 	
 }

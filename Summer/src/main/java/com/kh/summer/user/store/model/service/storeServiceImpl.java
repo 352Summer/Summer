@@ -57,4 +57,29 @@ public class storeServiceImpl implements StoreService {
 		return storeDAO.selectStoreCommentList(bNo);
 	}
 
+	@Override
+	public List<Map<String, String>> selectSize(int bNo) {
+		return storeDAO.selectSize(bNo);
+	}
+
+	@Override
+	public int selectSmallSize(Map<String, String> size) {
+		return storeDAO.selectSmallSize(size);
+	}
+
+	@Override
+	public int insertStoreComment(Map<String, String> comment) {
+		return storeDAO.insertStoreComment(comment);
+	}
+
+	@Override
+	public int deleteStoreComment(int bcNo) {
+		return storeDAO.deleteStoreComment(bcNo);
+	}
+
+	//@Override
+	//public List<Map<String, String>> selectAllAttachmentList() {
+	//	return storeDAO.selectAllAttachmentList();
+	//}
+
 }
