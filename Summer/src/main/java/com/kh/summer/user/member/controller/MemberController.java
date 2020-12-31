@@ -106,6 +106,8 @@ public class MemberController {
 		
 		if( m == null ) {
 			msg = "존재하지 않는 아이디 입니다.";
+		} else if( m.getMstatus().equals("N") ) {
+			msg = "탈퇴한 아이디입니다.";
 		} else {
 			// if(password.equals(m.getPassword())) { // 암호화 안한거(임시)
 			if( bcryptPasswordEncoder.matches(password, m.getPassword()) ) { // 입력 값과 암호화 값을 비교

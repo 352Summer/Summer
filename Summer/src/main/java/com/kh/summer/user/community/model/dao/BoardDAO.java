@@ -34,4 +34,5 @@ public interface BoardDAO {
 	int deleteAttachment(int bNo);
 	
 	int deleteFile(int attNo);
+	
 }

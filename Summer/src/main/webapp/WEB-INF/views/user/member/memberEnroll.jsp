@@ -60,6 +60,12 @@
 		div#userId-container span.guide {display:none;}
 		div#userId-container span.ok{color:green;}
 		div#userId-container span.error, span.invalid{color:red;}
+		
+		#loading {
+			position : absolute;
+			left : 210px;
+			display : none;
+		}
 	
 </style>
 
@@ -229,6 +235,9 @@
 				</div>
 				<!-- 이메일인증 -->
 				<div class="modal-body" style="text-align:right;">
+					<div id="loading">
+						<img src="${pageContext.request.contextPath}/resources/user/images/Loading.gif"/>
+					</div>
 					<input type="text" class="form-control" id="key" placeholder="인증번호" required>
 					<button type="button" class="btn btn-info" id="sendMail">인증번호 전송</button>
 				</div>
@@ -383,7 +392,7 @@
 
 	<!------------------------------------ 이메일 인증 시작 --------------------------------------------->
 		var emailCode;  // 이메일 인증 코드 비교용 전역변수
-		if( $('#emailCheck').attr("readonly") == false ) {
+		if( $('#email').attr("readonly") == false ) {
 			$('#email').on('keydown', function(){
 				$('#emailCheck').attr("value", "N");
 				$('#ecO').hide();
@@ -413,6 +422,7 @@
 		});
 
 		$('#sendMail').on('click', function(){
+			$('#loading').show();
 			$.ajax({
 				url : '${pageContext.request.contextPath}/member/sendMail.do',
 				type : 'post',
@@ -422,10 +432,12 @@
 						alert("인증코드 전송 성공");
 						$('#sendMail').text('인증번호 재전송');
 						emailCode = data;
+						$('#loading').hide();
 					} else {
 						alert("인증코드 전송 실패");
 						$('#sendMail').text('인증번호 재전송');
 						emailCode = '';
+						$('#loading').hide();
 					}
 				}
 			});
@@ -467,8 +479,8 @@
 
 			if( $('#passCheck').val() == 'N' ) {
 				alert("비밀번호가 올바르지 않습니다.");
-				#('#pw').val('');
-				#('#pwChk').val('');
+				$('#pw').val('');
+				$('#pwChk').val('');
 				$('#pw').focus();
 				return false;
 			}
