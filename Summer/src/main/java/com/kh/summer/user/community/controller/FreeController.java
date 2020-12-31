@@ -135,7 +135,7 @@ public class FreeController {
 	@RequestMapping("/community/updateFreeView.do")
 	public String updateFreeView(@RequestParam int bNo, Model model) {
 
-		Map<String, String> board = freeService.updateView(bNo);
+		Map<String, String> board = freeService.updateView(bNo); 
 		List<Map<String, String>> attachmentList = freeService.selectAttachmentList(bNo);
 		
 		model.addAttribute("board", board)
