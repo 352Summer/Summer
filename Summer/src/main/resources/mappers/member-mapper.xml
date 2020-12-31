@@ -22,7 +22,8 @@
 	</update>
 	
 	<delete id="deleteMember" parameterType="string">
-		DELETE FROM MEMBER
+		UPDATE MEMBER SET
+			MSTATUS = 'N'
 		WHERE USERID = #{ userId }
 	</delete>
 

@@ -25,4 +25,5 @@ public interface BoardService {
 	int deleteBoard(int bNo);
 
 	int deleteFile(int attNo);
+	
 }
