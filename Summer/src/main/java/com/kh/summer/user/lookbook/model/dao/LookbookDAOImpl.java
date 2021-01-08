@@ -101,8 +101,8 @@ public class LookbookDAOImpl implements LookbookDAO {
 	}
 
 	@Override
-	public int deleteLookbook(int bNo) {
-		return sqlSession.delete("lookbookMapper.deleteLookbook", bNo);
+	public int deleteLookbook(int bno) {
+		return sqlSession.update("lookbookMapper.deleteLookbook", bno);
 	}
 
 	@Override
@@ -111,11 +111,19 @@ public class LookbookDAOImpl implements LookbookDAO {
 	}
 
 	@Override
-	public int deleteFile(int attNo) {
-		return sqlSession.delete("lookbookMapper.deleteFile", attNo);
+	public int deleteFile(int aNo) {
+		return sqlSession.delete("lookbookMapper.deleteFile", aNo);
 	}
 
-	
+	@Override
+	public int viewUp(int bno) {
+		return sqlSession.update("lookbookMapper.lookbookViewUp", bno);
+	}
+
+	@Override
+	public List<Attachment> AttachmentList(int bno) {
+		return sqlSession.selectList("lookbookMapper.AttachmentList", bno);
+	}
 	
 
 }

@@ -102,7 +102,7 @@
 							</div>
 							<div class="col-md-8" style="display:inline-block;">
 								<div id="title">
-									<input type="text" placeholder="제목을 입력해주세요."/>
+									<input type="text" name="bTitle" placeholder="제목을 입력해주세요."/>
 								</div>
 								<br>
 								<div id="content">
@@ -110,10 +110,10 @@
 										설명
 									</div>
 									<div>
-										<textarea name="content" style="resize:none; width:100%; height:220px;" placeholder="설명을 입력해주세요."></textarea>
+										<textarea name="bContents" style="resize:none; width:100%; height:220px;" placeholder="설명을 입력해주세요."></textarea>
 									</div>
 								</div>
-								
+								<input type="hidden" name="userId" value="${ member.userId }"/>
 							</div>
 						</div>
 					</div>

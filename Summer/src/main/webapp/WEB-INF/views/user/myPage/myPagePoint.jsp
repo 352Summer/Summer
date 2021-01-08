@@ -17,7 +17,7 @@
     		padding-top : 60px;
     	}
     	
-    	#myMenu2 {
+    	#myMenu7 {
     		background : #88c8bc;
     		color : white;
     	}
@@ -36,63 +36,65 @@
 
 			<div class="row row-pb-lg justify-content-md-center">
 				<div class="col-md-11" style="border-bottom : 3px solid #88c8bc;">
-					<h2 style="text-align:center;">구매내역</h2>
+					<h2 style="text-align:center;">포인트 내역</h2>
 				</div>
 			</div>
+			<p style="font-size:16px; margin-left:3%;">${ msg }</p>
 			<div class="row row-pb-lg">
 					<div class="col-md-12">
 						<div class="product-name d-flex">
 							<div class="col-md-2 text-center">
 								<span>주문번호</span>
 							</div>
-							<div class="col-md-4 text-center">
+							<div class="col-md-6 text-center">
 								<span>주문정보</span>
 							</div>
-							<div class="col-md-2 text-center">
-								<span>주문금액</span>
+							<div class="col-md-1 text-center">
+								<span>적립</span>
+							</div>
+							<div class="col-md-1 text-center">
+								<span>사용</span>
 							</div>
 							<div class="col-md-2 text-center">
 								<span>주문날짜</span>
 							</div>
-							<div class="col-md-2 text-center px-4">
-								<span>주문상태</span>
-							</div>
 						</div>
 						<c:choose>
-							<c:when test="${ empty oi }">
+							<c:when test="${ empty point }">
 								<div class="product-cart d-flex">
 									<div class="col text-center" id="em">
-										구매내역이 없습니다.
+										포인트내역이 없습니다.
 									</div>
 								</div>
 							</c:when>
-							<c:when test="${ !empty oi }">
-								<c:forEach items="${ oi }" var="oi">
-									<div class="product-cart d-flex row align-items-center">
-										<div class="col-md-2">
-											<div class="display-tc col text-center">
-												<h3>${ oi.ONO }</h3>
-											</div>
-										</div>
-										<div class="col-md-4">
+							<c:when test="${ !empty point }">
+								<c:forEach items="${ point }" var="p">
+									<div class="product-cart d-flex">
+										<div class="col-md-2 text-center">
 											<div class="display-tc">
-												<span>${ oi.ORDERINFO }</span>
+												<h3>${ p.ONO }</h3>
 											</div>
 										</div>
-										<div class="col-md-2">
-											<div class="col justify-content-md-center text-center">
-												<span class="price">${ oi.TOTALPRICE }</span>
+										<div class="col-md-6 text-center" style="border-left:1px solid #E2E2E2;">
+											<div class="display-tc">
+												<span>${ p.ORDERINFO }</span>
 											</div>
 										</div>
-										<div class="col-md-2 text-center">
-											<div class="col justify-content-md-center text-center">
-												<c:set var="odate" value="${ oi.ORDERDATE }"/>
-												<span>${ fn:substring(odate, 0, 10) }</span>
+										<div class="col-md-1 text-center" style="border-left:1px solid #E2E2E2;">
+											<div class="display-tc">
+												<span class="price" style="color:green;">+${ p.EARN }</span>
 											</div>
 										</div>
-										<div class="col-md-2 text-center">
-											<div class="col justify-content-md-center text-center">
-												<span>${ oi.OSNAME }</span>
+										<div class="col-md-1 text-center" style="border-left:1px solid #E2E2E2;">
+											<div class="display-tc">
+											
+												<span class="price" style="color:red;">-${ p.USE }</span>
+											</div>
+										</div>
+										<div class="col-md-2 text-center" style="border-left:1px solid #E2E2E2;">
+											<div class="display-tc">
+												<c:set var="pDate" value="${ p.PDATE }"/>
+												<span>${ fn:substring(pDate, 0, 10) }</span>
 											</div>
 										</div>
 									</div>
@@ -101,34 +103,21 @@
 						</c:choose>
 					</div>
 				</div>
-			
-		</div>
-
-		
+				<!-- 페이징 처리 시작-->
+				<div class="row justify-content-md-center">
+					<div class="col-md-12 text-center">
+						<div class="block-27">
+							<c:out value="${pageBar}" escapeXml="false"/>
+		            	</div>
+					</div>
+				</div>
+				<!-- 페이징 처리 끝-->
+				
+				
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 		
 	</div>
-	
-	<script>
-		function deleteCart(obj, cartNo) {
-			if(confirm("정말 삭제하시겠습니까?") == true) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/myPage/cartDelete.do",
-					data : {cartNo : cartNo},
-					dataType : 'json',
-					success : function(data) {
-						if( data == true ) {
-							alert("삭제되었습니다.");
-							$(obj).parent().parent().parent().remove();
-						} else {
-							alert("삭제 실패!");
-						}
-					}
-				})
-			}
-		}
 
-	</script>
 	
 	</body>
 </html>

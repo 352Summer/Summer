@@ -53,6 +53,25 @@
 		)
 	</insert>
 	
+	<select id="findID" parameterType="Member" resultType="Member">
+		SELECT * FROM MEMBER
+		WHERE USERNAME = #{userName}
+		AND BIRTH = #{birth}
+		AND EMAIL = #{email}
+	</select>
+	
+	<select id="findInfoCheck" parameterType="Member" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE USERID = #{userId}
+		AND EMAIL = #{email}
+	</select>
+	
+	<update id="changePW" parameterType="Member">
+		UPDATE MEMBER
+		SET PASSWORD = #{password}
+		WHERE USERID = #{userId}
+	</update>
+	
 </mapper>
 
 

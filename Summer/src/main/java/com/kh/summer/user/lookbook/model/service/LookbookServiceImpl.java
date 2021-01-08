@@ -73,20 +73,17 @@ public class LookbookServiceImpl implements LookbookService {
 			
 			if(result1 == 0) throw new BoardException();
 			
-			// 현재 가져온 Attachment들은 boardNo가 없다...
-			// 이를 해결 방법은?
-			// 1. DB에서 가장 최근 생성된 boardNo를 DAO로 가져오는 방법
-			// 2. mapper의 insert문에서 selectKey 태그를 사용하는 방법
 			if(attachList.size() > 0) {
 				for(Attachment a : attachList) {
 					int result2 = lookbookDAO.insertAttachment(a);
 					if(result2 == 0) throw new BoardException("첨부파일 추가 실패!");
+					System.out.println(a);
 				}
 			}
 		} catch(Exception e) {
-			// 파일 삭제
-			throw new BoardException("등록된 파일 삭제 실패");
+			e.printStackTrace();
 		}
+		
 		return result1;
 	}
 
@@ -107,8 +104,8 @@ public class LookbookServiceImpl implements LookbookService {
 	}
 
 	@Override
-	public Board updateView(int boardNo) {
-		return lookbookDAO.selectOneLookbook(boardNo);
+	public Board updateView(int bNo) {
+		return lookbookDAO.selectOneLookbook(bNo);
 	}
 
 	@Override
@@ -117,6 +114,8 @@ public class LookbookServiceImpl implements LookbookService {
 		int totalResult = 0;
 		
 		List<Map<String, String>> originList = lookbookDAO.selectAttachmentList(board.getBNo());
+		
+		System.out.println("[service] 원본 첨부파일 : " + originList);
 		
 		totalResult = lookbookDAO.updateLookbook(board);
 		
@@ -143,15 +142,23 @@ public class LookbookServiceImpl implements LookbookService {
 	}
 
 	@Override
-	public int deleteLookbook(int boardNo) {
-		return lookbookDAO.deleteLookbook(boardNo);
+	public int deleteLookbook(int bno) {
+		return lookbookDAO.deleteLookbook(bno);
 	}
 
 	@Override
-	public int deleteFile(int attNo) {
-		return lookbookDAO.deleteFile(attNo);
+	public int deleteFile(int aNo) {
+		return lookbookDAO.deleteFile(aNo);
 	}
 
+	@Override
+	public int viewUp(int bno) {
+		return lookbookDAO.viewUp(bno);
+	}
 
+	@Override
+	public List<Attachment> AttachmentList(int bno) {
+		return lookbookDAO.AttachmentList(bno);
+	}
 
 }

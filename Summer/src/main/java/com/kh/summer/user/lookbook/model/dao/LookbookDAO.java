@@ -40,14 +40,18 @@ public interface LookbookDAO {
 
 	int updateAttachment(Attachment a);
 
-	int deleteLookbook(int bNo);
+	int deleteLookbook(int bno);
 
 	// 만약 DataBase에서 ATTACHMENT 테이블에 
 	// ON DELETE CASCADE 옵션이 선언되지 않았다면
 	// 이 메소드로 첨부파일 삭제도 구현해야 한다.
 	int deleteAttachment(int bNo);
 	
-	int deleteFile(int attNo);
+	int deleteFile(int aNo);
+
+	int viewUp(int bno);
+
+	List<Attachment> AttachmentList(int bno);
 
 	
 

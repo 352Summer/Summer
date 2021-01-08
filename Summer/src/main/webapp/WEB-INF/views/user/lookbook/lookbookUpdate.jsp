@@ -93,16 +93,17 @@
 		</div>
 		<div class="colorlib-product" style="margin-top:-80px;" >
 			<div class="container">
-			<form action="${pageContext.request.contextPath}/lookbook/LookbookInsertEnd.do" id="insertLookbook" method="post" enctype="multipart/form-data">
-				<div class="row row-pb-md" >
-					<div class="col" >
+			<form action="${pageContext.request.contextPath}/lookbook/LookbookUpdateEnd.do" id="updateLookbook" method="post" enctype="multipart/form-data">
+				<div class="row row-pb-md">
+					<div class="col">
 						<div class="col-md-12">
-							<div class="col-md-4">
-								<img id="imageTag0" onclick="clickFile(0);" class="img-thumbnail">							
+						<input type="hidden" name="bNo" value="${ list.BNO }"/>
+							<div class="col-md-4" id="thumbImg">
+								<img id="imageTag0" onclick="clickFile(0);" class="img-thumbnail" src="${pageContext.request.contextPath}${ list.FILEPATH }${ list.NEWFILENAME }">
 							</div>
 							<div class="col-md-8" style="display:inline-block;">
 								<div id="title">
-									<input type="text" placeholder="제목을 입력해주세요."/>
+									<input type="text" name="bTitle" value="${ list.BTITLE }" placeholder="제목을 입력해주세요."/>
 								</div>
 								<br>
 								<div id="content">
@@ -110,7 +111,7 @@
 										설명
 									</div>
 									<div>
-										<textarea name="content" style="resize:none; width:100%; height:220px;" placeholder="설명을 입력해주세요."></textarea>
+										<textarea name="bContents" style="resize:none; width:100%; height:220px;" placeholder="설명을 입력해주세요.">${ list.BCONTENTS }</textarea>
 									</div>
 								</div>
 								
@@ -123,7 +124,9 @@
 				</div>
 				<br /><br />
 				<div id="image1">
-					
+					<c:forEach items="${ attach }" var="at" begin="0" varStatus="status">
+						<img id="imageTag${ status.count }" class="img-rounded" onclick="clickFile(${ status.count });" src="${pageContext.request.contextPath}${ at.FILEPATH }${ at.NEWFILENAME }" width="200" height="267">
+					</c:forEach>
 				</div>
 				<br /><br />
 				<hr />
@@ -140,7 +143,9 @@
 				</div>
 				<!-- 첨부파일 시작 -->
 				<div id="fileArea">
-					<input type="file" name="imageFile" id="imageFile0" onchange="loadImg(this, 0)"/>
+					<c:forEach items="${ attach }" var="at" begin="0" varStatus="status">
+						<input type="file" name="imageFile" class="orgImage" id="imageFile${ status.count }" onchange="loadImg(this, ${ status.count })"/>
+					</c:forEach>
 				</div>
 				<!-- 첨부파일 끝 -->
 			</form>
@@ -153,20 +158,30 @@
 	</div>
 	
 	<script>
-		var fileIndex = 1;
+		var fileIndex = $('.orgImage').length+1;
 		
 		$(function(){
 			$('#fileArea').hide();
 		});
 
-		// 이미지 클릭 시 파일추가 클릭
+		$(function(){
+//			$('#thumbImg').append('<img id="imageTag0" onclick="clickOriginFile(0, ${ list.ANO }, ${ list.NEWFILENAME });" class="img-thumbnail" src="${pageContext.request.contextPath}${ list.FILEPATH }${ list.NEWFILENAME }">');
+			$('#thumbImg').append('<input type="file" name="imageFile" id="imageFile0" onchange="loadImg(this, 0)" style="display:none"/>');
+		});
+
+		$(function(){
+			$('#image1').append('&nbsp;<img id="imageTag'+fileIndex+'" width="200" height="267" class="img-rounded" onclick="clickFile('+fileIndex+');">');
+			$('#fileArea').append('<input type="file" name="imageFile" id="imageFile'+fileIndex+'" onchange="loadImg(this, '+fileIndex+')"/>');
+			fileIndex++;
+		});
+		
 		function clickFile(idx){
 			// 이미지가 없으면 추가, 있으면 삭제
 			if($($('#imageTag'+idx)).attr('src') == undefined){
 				$('#imageFile'+idx).click();
 			} else {
 				if(idx != 0){
-					if(confirm("삭제하시겠습니까?")){
+					if(confirm("첨부파일을 삭제하시겠습니까?")){
 						$($('#imageTag'+idx)).detach();
 						$($('#imageFile'+idx)).detach();
 					}
@@ -205,16 +220,29 @@
 				fileIndex++;
 			}
 		}
-		
+
+	<!-- 
 		function fn_submit() {
-			if(confirm('등록 하시겠습니까?')) {
-				$('#insertLookbook').submit();
+			if($('.img-rounded').length > 1) {
+				if(confirm('수정 하시겠습니까?')) {
+					$('#updateLookbook').submit();
+				}
+			} else {
+				alert("이미지가 한 장 이상 있어야합니다.");
+				return false;
 			}
 		}
+	 -->
 
 		function fn_cancel() {
 			if(confirm('작성 취소하시겠습니까?')) {
 				location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?';
+			}
+		}
+
+		function fn_delete() {
+			if(confirm('게시글을 삭제하시겠습니까?')) {
+				location.href='${pageContext.request.contextPath}/lookbook/deleteLookbook.do?bno=${list.BNO}';
 			}
 		}
 		

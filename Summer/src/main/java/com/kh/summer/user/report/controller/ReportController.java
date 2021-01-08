@@ -21,7 +21,7 @@ public class ReportController {
 	@RequestMapping("/report/insertReport.do")
 	public String insertBoard(@RequestParam(value="url", required=false) String url,
 							  @RequestParam(value="bNo", required=false) int bNo,
-							  @RequestParam(value="bcNo", required=false, defaultValue="0") int bcNo,
+							  @RequestParam(value="bcNo", required=false) int bcNo,
 							  @RequestParam(value="userId", required=false) String userId,
 							  @RequestParam(value="rReason", required=false) String rReason, Model model) {
 		

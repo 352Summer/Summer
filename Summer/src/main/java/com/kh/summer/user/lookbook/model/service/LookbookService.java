@@ -38,7 +38,11 @@ public interface LookbookService {
 	
 	int deleteLookbook(int bNo);
 
-	int deleteFile(int attNo);
+	int deleteFile(int aNo);
+
+	int viewUp(int bno);
+
+	List<Attachment> AttachmentList(int bno);
 
 
 
