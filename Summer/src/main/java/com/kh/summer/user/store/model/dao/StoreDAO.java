@@ -8,9 +8,17 @@ import com.kh.summer.user.store.model.vo.Store;
 
 public interface StoreDAO {
 
-	List<Map<String, String>> selectStoreList(int cPage, int numPerPage);
+	List<Map<String, String>> selectStoreTopList(int cPage, int numPerPage, String sort);
 
-	int selectStoreTotalContents();
+	int selectStoreTopTotalContents();
+	
+	List<Map<String, String>> selectStorePantsList(int cPage, int numPerPage, String sort);
+
+	int selectStorePantsTotalContents();
+	
+	List<Map<String, String>> selectStoreOuterList(int cPage, int numPerPage, String sort);
+
+	int selectStoreOuterTotalContents();
 	
 	int insertStore(Store store);
 	
@@ -34,7 +42,6 @@ public interface StoreDAO {
 
 	int deleteStoreComment(int bcNo);
 
-	//List<Map<String, String>> selectAllAttachmentList();
 
 	
 }

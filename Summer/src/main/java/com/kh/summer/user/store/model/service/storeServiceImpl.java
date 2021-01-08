@@ -17,14 +17,36 @@ public class storeServiceImpl implements StoreService {
 	StoreDAO storeDAO;
 	
 	@Override
-	public List<Map<String, String>> selectStoreList(int cPage, int numPerPage) {
+	public List<Map<String, String>> selectStoreTopList(int cPage, int numPerPage, String sort) {
 		
-		return storeDAO.selectStoreList(cPage, numPerPage);
+		return storeDAO.selectStoreTopList(cPage, numPerPage, sort);
 	}
 
 	@Override
-	public int selectStoreTotalContents() {
-		return storeDAO.selectStoreTotalContents();
+	public int selectStoreTopTotalContents() {
+		return storeDAO.selectStoreTopTotalContents();
+	}
+	
+	@Override
+	public List<Map<String, String>> selectStorePantsList(int cPage, int numPerPage, String sort) {
+		
+		return storeDAO.selectStorePantsList(cPage, numPerPage, sort);
+	}
+
+	@Override
+	public int selectStorePantsTotalContents() {
+		return storeDAO.selectStorePantsTotalContents();
+	}
+	
+	@Override
+	public List<Map<String, String>> selectStoreOuterList(int cPage, int numPerPage, String sort) {
+		
+		return storeDAO.selectStoreOuterList(cPage, numPerPage, sort);
+	}
+
+	@Override
+	public int selectStoreOuterTotalContents() {
+		return storeDAO.selectStoreOuterTotalContents();
 	}
 
 	@Override
@@ -77,9 +99,5 @@ public class storeServiceImpl implements StoreService {
 		return storeDAO.deleteStoreComment(bcNo);
 	}
 
-	//@Override
-	//public List<Map<String, String>> selectAllAttachmentList() {
-	//	return storeDAO.selectAllAttachmentList();
-	//}
 
 }

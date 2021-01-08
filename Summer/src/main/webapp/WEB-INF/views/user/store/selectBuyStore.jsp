@@ -35,7 +35,7 @@
 	#product-top th{
 		border: 1px solid grey;
 	}
-	#product-bottom, #product-bottom td{
+	.product-bottom, .product-bottom td{
 		border : 1px solid grey;
 	}
 	.product-1{width : 40%;}
@@ -60,7 +60,7 @@
 	}
 	.product-img{
 		margin-top : 15px;
-		margin-left : 5px;
+		
 		width : 100%;
 		height : 100%;
 	}
@@ -95,14 +95,19 @@
 	.recipient-wrap{
 		
 		margin-left : -15px;
-		width : 100%;
+		width : 560px;
 	}
-	.about-wrap{
-		border : 1px solid black;
+	.buyer-wrap{
+		
 		margin-left : 15px;
 		width : 100%;
 	}
+	
 	.recipientInfo{
+		font-weight : bold;
+		color : black;
+	}
+	.buyerInfo{
 		font-weight : bold;
 		color : black;
 	}
@@ -112,7 +117,16 @@
 		background : #88c8bc;
 		border : 1px solid grey;
 	}
+	.buyer-title{
+		font-weight : bold;
+		text-align : center;
+		background : #88c8bc;
+		border : 1px solid grey;
+	}
 	.recipient-conttents{
+		border : 1px solid grey;
+	}
+	.buyer-conttents{
 		border : 1px solid grey;
 	}
 	.phone{
@@ -123,6 +137,7 @@
 	}
 	.center{
 	text-align : center;
+	
 	}
 </style>
 <body>
@@ -158,34 +173,108 @@
 											<th class="product-5">배송비</th>
 											<th class="product-6">주문 금액</th>
 										</tr>
-										<% int sAmount = 1; %>
-										<tr id="product-bottom">
-											<td>
-												<div class = "row" id="productInfo-wrap">
-													<div class="productInfo-img">
-														<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="product-img" alt="product-img">
-													</div>
-													<div class="productInfo-contents">
-														<table class="t">
-															<tr class="t-title">
-																<th>상품명</th>
-																<th>${ store.PNAME }</th>
-															</tr>
-															<tr class="t-contents">
-																<th>상품설명</th>
-																<th>${ store.PDESCRIPTION }</th>
-															</tr>
-																							
-														</table>
-													</div>
-												</div>
-											</td>
-											<td>S</td>
-											<td>1개</td>
-											<td>${store.PPRICE / 10}</td>
-											<td>무료</td>
-											<td>${store.PPRICE}원</td>
-										</tr>
+										<c:choose>
+											<c:when test="${ sAmount == 0 }">
+												<tr class="product-bottom" id="small-ProductInfo" style="display:none;">
+											</c:when>
+											<c:otherwise>
+												<tr class="product-bottom" id="small-ProductInfo">
+											</c:otherwise>
+										</c:choose>
+													<td>
+														<div class = "row" id="productInfo-wrap">
+															<div class="productInfo-img">
+																<img src="${pageContext.request.contextPath}${ store.FILEPATH }${ store.NEWFILENAME }" class="product-img" alt="product-img">
+															</div>
+															<div class="productInfo-contents">
+																<table class="t">
+																	<tr class="t-title">
+																		<th>상품명</th>
+																		<th>${ store.PNAME }</th>
+																	</tr>
+																	<tr class="t-contents">
+																		<th>상품설명</th>
+																		<th>${ store.PDESCRIPTION }</th>
+																	</tr>
+																									
+																</table>
+															</div>
+														</div>
+													</td>
+													<td>S</td>
+													<td>${ sAmount }</td>
+													<td>ⓟ${ sAmount * store.PPRICE / 10 }</td>
+													<td>무료</td>
+													<td>${ sAmount * store.PPRICE }원</td>
+												</tr>
+										<c:choose>
+											<c:when test="${ mAmount == 0 }">
+												<tr class="product-bottom" id="medium-ProductInfo" style="display:none;">
+											</c:when>
+											<c:otherwise>
+												<tr class="product-bottom" id="medium-ProductInfo">
+											</c:otherwise>
+										</c:choose>
+													<td>
+														<div class = "row" id="productInfo-wrap">
+															<div class="productInfo-img">
+																<img src="${pageContext.request.contextPath}${ store.FILEPATH }${ store.NEWFILENAME }" class="product-img" alt="product-img">
+															</div>
+															<div class="productInfo-contents">
+																<table class="t">
+																	<tr class="t-title">
+																		<th>상품명</th>
+																		<th>${ store.PNAME }</th>
+																	</tr>
+																	<tr class="t-contents">
+																		<th>상품설명</th>
+																		<th>${ store.PDESCRIPTION }</th>
+																	</tr>
+																									
+																</table>
+															</div>
+														</div>
+													</td>
+													<td>M</td>
+													<td>${ mAmount }</td>
+													<td>ⓟ${ mAmount * store.PPRICE / 10 }</td>
+													<td>무료</td>
+													<td>${ mAmount * store.PPRICE }원</td>
+												</tr>
+										<c:choose>
+											<c:when test="${ lAmount == 0 }">
+												<tr class="product-bottom" id="large-ProductInfo" style="display:none;">
+											</c:when>
+											<c:otherwise>
+												<tr class="product-bottom" id="large-ProductInfo">
+											</c:otherwise>
+										</c:choose>
+													<td>
+														<div class = "row" id="productInfo-wrap">
+															<div class="productInfo-img">
+																<img src="${pageContext.request.contextPath}${ store.FILEPATH }${ store.NEWFILENAME }" class="product-img" alt="product-img">
+															</div>
+															<div class="productInfo-contents">
+																<table class="t">
+																	<tr class="t-title">
+																		<th>상품명</th>
+																		<th>${ store.PNAME }</th>
+																	</tr>
+																	<tr class="t-contents">
+																		<th>상품설명</th>
+																		<th>${ store.PDESCRIPTION }</th>
+																	</tr>
+																									
+																</table>
+															</div>
+														</div>
+													</td>
+													<td>L</td>
+													<td>${ lAmount }</td>
+													<td>ⓟ${ lAmount * store.PPRICE / 10}</td>
+													<td>무료</td>
+													<td>${ lAmount * store.PPRICE}원</td>
+												</tr>
 										<c:forEach items="${list}" var="b"> 
 										<tr id="product-bottom">
 											<td>${b.boardNo}</td>
@@ -216,34 +305,65 @@
 							<div class="recipient-conttents">
 								 <!--테이블 시작 -->
 						         <table width="600px" class="recipient-table">
-						         <tr>
-							         <th>배송지 선택</th>
-							         <td class="s">
-							            <input type="radio" name="destination" checked> 회원 배송지
-							            <input type="radio" name="newdestination" value="4"> 신규 배송지 
-							         </td>
-							      </tr>
-						         <tr>
-						           <th>수령인</th>
-						           <td><input type="text" name="username" value="${member.userName}"></td>
-						         </tr>
-						         <tr>
-							         <th>연락처</th>
-							         <td><input type="text" name="phone1" class="phone" value="${member.phone}"> - 
-							            <input type="text" name="phone2" class="phone" value="${member.phone}"> -
-							            <input type="text" name="phone3" class="phone" value="${member.phone}">
-							         </td>
-							     </tr>
-							     <tr>
-						            <th>주소</th>
-						            <td>
-						               <input type="text" name="zip_code" id="sample6_postcode" placeholder="우편번호"> 
-						               <button onclick="sample6_execDaumPostcode()" class="btn btn-primary thema" id="shopping-basket">우편번호 찾기</button><br>
-						               <input type="text" class = "address" name="address_1" id = "sample6_address" value="${member.address}">
-						               <input type="text" class = "address" name="address_2" id = "sample6_detailAddress" value="${member.address}">
-						               <input type="text" class = "address" name="address_3" id = "sample6_extraAddress" placeholder="참고항목">
-						            </td>
-						         </tr>
+						         <thead>
+							         <tr>
+								         <th>배송지 선택</th>
+								         <td class="s">
+								            <input type="radio" name="destination" id="memAddress" checked> 회원 배송지
+								            <input type="radio" name="destination" id="newAddress"> 신규 배송지 
+								         </td>
+								      </tr>
+						         </thead>
+							      <tbody id="mAdd">
+							         <tr>
+							           <th>수령인</th>
+							           <td><input type="text" name="username" value="${member.userName}"></td>
+							         </tr>
+							         <tr>
+								         <th>연락처</th>
+								         <c:set var="p" value="${ member.phone }"/>
+								         <td>
+								         	<input type="text" name="phone1" class="phone" value="${ fn:substring(p, 0, 3)}"> - 
+								            <input type="text" name="phone2" class="phone" value="${ fn:substring(p, 3, 7)}"> -
+								            <input type="text" name="phone3" class="phone" value="${ fn:substring(p, 7, 11)}">
+								         </td>
+								     </tr>
+								     <tr>
+							            <th>주소</th>
+							            <td>
+							               <input type="text" name="zip_code" id="sample6_postcode" placeholder="우편번호"> 
+							               <button onclick="sample6_execDaumPostcode()" class="btn btn-primary thema" id="shopping-basket">우편번호 찾기</button><br>
+							               <input type="text" class = "address" name="address_1" id = "sample6_address" value="${member.address}">
+							               <input type="text" class = "address" name="address_2" id = "sample6_detailAddress" value="${member.address}">
+							               <input type="text" class = "address" name="address_3" id = "sample6_extraAddress" placeholder="참고항목">
+							            </td>
+							         </tr>
+							      </tbody>
+							      
+							      <tbody id="nAdd" style="display : none;">
+							         <tr>
+							           <th>수령인</th>
+							           <td><input type="text" name="username"></td>
+							         </tr>
+							         <tr>
+								         <th>연락처</th>
+								         <td>
+								         	<input type="text" name="phone1" class="phone"> - 
+								            <input type="text" name="phone2" class="phone"> -
+								            <input type="text" name="phone3" class="phone">
+								         </td>
+								     </tr>
+								     <tr>
+							            <th>주소</th>
+							            <td>
+							               <input type="text" name="zip_code" id="sample6_postcode" placeholder="우편번호"> 
+							               <button onclick="sample6_execDaumPostcode()" class="btn btn-primary thema" id="shopping-basket">우편번호 찾기</button><br>
+							               <input type="text" class = "address" name="address_1" id = "sample6_address">
+							               <input type="text" class = "address" name="address_2" id = "sample6_detailAddress">
+							               <input type="text" class = "address" name="address_3" id = "sample6_extraAddress" placeholder="참고항목">
+							            </td>
+							         </tr>
+							      </tbody>
 						  		</table>
 						   <!--테이블 끝-->		   
 						   </div>
@@ -254,15 +374,15 @@
 					
 					
 					<div class="col-sm-6">
-						<!-- 수령자 정보 -->
-						<div class="recipient-wrap">
-							<div class="recipientInfo">
+						<!-- 구매자 정보 -->
+						<div class="buyer-wrap">
+							<div class="BuyerInfo">
 								BuyerInfo
 							</div>
-							<div class="recipient-title">
+							<div class="buyer-title">
 								구매자 정보
 							</div>
-							<div class="recipient-conttents">
+							<div class="buyer-conttents">
 							<!--테이블 시작 -->
 						         <table width="600px" class="recipient-table">		
 						         <tr>
@@ -271,20 +391,34 @@
 						         </tr>
 						         <tr>
 							         <th>연락처</th>
-							         <td><input type="text" name="phone1" class="phone" value="${ member.phone }"> - 
-							            <input type="text" name="phone2" class="phone" value="${ member.phone }"> -
-							            <input type="text" name="phone3" class="phone" value="${ member.phone }">
+							         <td>
+							         	<input type="text" name="phone1" class="phone" value="${ fn:substring(p, 0, 3)}"> - 
+								        <input type="text" name="phone2" class="phone" value="${ fn:substring(p, 3, 7)}"> -
+								        <input type="text" name="phone3" class="phone" value="${ fn:substring(p, 7, 11)}">
 							         </td>
 							     </tr>
 							     <tr>
-						            <th>이메일 주소</th>
+						            <th>이메일 주소</th>					          
 						            <td>
-						               <input type="text" name="email1" value="${ member.email }"> @
-            						   <input type="text" name="email2" value="${ member.email }">
+						               <input type="text" name="email" value="${member.email}">
 						            </td>
+						            
 						         </tr>  
 						  		</table>
 						   <!--테이블 끝-->
+						   </div>
+						  
+						   <c:set var = "totalprice" value="${(sAmount + mAmount + lAmount) * store.PPRICE }" />
+						   <div id="old" style="display:none;">
+						   		<form src="/store/successBuyStore.do">
+						   	    	수신자명 <input type="text" name="rName" value="${ member.userName }"/>
+						 	  	    <!--  배송주소 <input type="text" name="rAddress" value="${ member.userName }"/> -->
+						 	  		연락처  <input type="text" name="rPhone" value="${ member.phone }" />
+						 	 		총 가격 <input type="text" name="totalPrice" value="${ totalprice}"/>
+						 	 		아이디  <input type="text" name="userId" value="${ member.userId }"/>
+						 	 		주문날짜 <input type="text" name="orderDate" value=""/>
+						 	 		주문정보 <input type="text" name="orderInfo" value="${ member.userName }"/>
+						   		</form>
 						   </div>
 						</div>
 					</div>
@@ -368,8 +502,9 @@ $('#payBtn').on('click', function(){
 			pg : 'inicis',
 		    pay_method : 'card',
 		    merchant_uid : 'merchant_' + new Date().getTime(),
-			name : '주문명:결제테스트',
+			name : '${ store.PNAME }',
 			amount : 100, // 판매 가격
+			//amount : ${(sAmount + mAmount + lAmount) * store.PPRICE },
 			buyer_email : 'iamport@siot.do',
 			buyer_name : '구매자이름',
 			buyer_tel : '010-1234-5678',
@@ -402,10 +537,20 @@ $('#payBtn').on('click', function(){
 			        location.href='${pageContext.request.contextPath}/store/successBuyStore.do';
 		    } else {
 		        var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
+		        msg += '\n에러내용 : ' + rsp.error_msg;
 		    }
 		    alert(msg);
 		});
+});
+
+$('#memAddress').on('click', function(){
+	$('#mAdd').show();
+	$('#nAdd').hide();
+});
+
+$('#newAddress').on('click', function(){
+	$('#mAdd').hide();
+	$('#nAdd').show();
 });
 
 

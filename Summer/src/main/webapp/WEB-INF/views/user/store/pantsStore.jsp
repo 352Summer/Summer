@@ -14,7 +14,7 @@
 			border: none;
 			height : 100px;
 			text-align: center;
-			font-size : 50px;		
+			font-size : 30px;		
 		}
 		#borderorder{
 			text-align : left;
@@ -43,12 +43,14 @@
 			border-bottom : 1px solid grey;
 		}
 		.order{
-			width : 100px;
-			padding-left : 30px;
+			width : 110px;
+			padding-left : 20px;
 			display: inline-block;
-		}
-		.order a{
+			cursor : pointer;
 			color : black;
+		}
+		.order:hover{
+			color : #88c8bc;
 		}
 		#noworder a{
 			color : #88c8bc;
@@ -66,7 +68,7 @@
 						<p class="bread">
 							<span><a href="${pageContext.request.contextPath}">Home</a></span> 
 							/ <span><a href="${pageContext.request.contextPath}/store/selectStoreMain.do">Store</a></span> 
-							/ <span>PANTS</span>
+							/ <span>TOP</span>
 						</p>
 					</div>
 				</div>
@@ -86,191 +88,99 @@
 						</div>
 					</div>
 				</div>
-				<br><br><br>
+				
 				<div class="row">
 					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
 						<h2>BEST ITEMS</h2>
 					</div>
 				</div>
 				<div class="row row-pb-md">
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
+					<c:forEach items="${list}" var="p" begin="0" end="3"> 
+					<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ p.BNO }">
 						<div class="product-entry border">
-						<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
+							<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
+								<img src="${pageContext.request.contextPath}${ p.FILEPATH }${ p.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
+							</a>
+							<div class="desc">
+								<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
+								<span class="price">${p.PPRICE}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Minam Meaghan</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Men's Taja Commissioner</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Russ Men's Sneakers</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
+					</c:forEach>
 			</div>
 			<br>
 			<div class="row">
 				<div class="col">
 					<div class="border" id="borderorder">
 						<div class="orderdiv">
-							<div class=order id = noworder><a href="${pageContext.request.contextPath}/store/selectStoreTop.do">신상품</a></div>
-							<div class=order><a href="${pageContext.request.contextPath}/store/selectStorePants.do">조회순</a></div>
-							<div class=order><a href="${pageContext.request.contextPath}/store/selectStoreOuter.do">판매순</a></div>
+							<div class=order id = noworder onclick="location.href='${pageContext.request.contextPath}/store/selectStorePants.do?sortVal=time'">신상품</div>
+							<div class=order onclick="location.href='${pageContext.request.contextPath}/store/selectStorePants.do?sortVal=views'">조회순</a></div>
+							<div class=order onclick="location.href='${pageContext.request.contextPath}/store/selectStorePants.do?sortVal=like'">좋아요순</a></div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<br><br><br><br>
+			<!--  상품8개 시작-->
 			<div class="row row-pb-md">
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
+				<c:forEach items="${list}" var="b"> 
+				<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ b.BNO }">
+					<div class="product-entry border" id="${b.BO}">
+						<img src="${pageContext.request.contextPath}${ b.FILEPATH }${ b.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
+							<h2>${b.BTITLE}</h2>
+							<div class="desc_price">
+								￦${b.PPRICE}원
+							</div>
+							<div class="desc_like">
+								<i class="icon-heart" aria-hidden="true"></i>${b.BLIKE} &nbsp;
+								<i class="icon-eye" aria-hidden="true"></i>${b.VIEWS} 
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Minam Meaghan</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Men's Taja Commissioner</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Russ Men's Sneakers</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="w-100"></div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-5.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-6.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-7.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-8.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-							<span class="price">$139.00</span>
-						</div>
-					</div>
-				</div>
+				</c:forEach>
 			</div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<div class="block-27">
-		               <ul>
-			              <li><a href="#"><i class="ion-ios-arrow-back"></i></a></li>
-		                  <li class="active"><span>1</span></li>
-		                  <li><a href="#">2</a></li>
-		                  <li><a href="#">3</a></li>
-		                  <li><a href="#">4</a></li>
-		                  <li><a href="#">5</a></li>
-		                  <li><a href="#"><i class="ion-ios-arrow-forward"></i></a></li>
-		               </ul>
-	            	</div>
-	            	<br>
-	            	<form action="#">
-		            	<div class="btn-group">
-		            		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		            			<span id="category-value">상품명</span>
-		            		</button>
-		           		</div>
-		            	<input type="text" style="width : 300px;"/>
-		            	<button type="submit" id="submitBtn">검색</button>
-	            	</form>
+			<!--  상품8개 끝-->
+			<!-- 페이징 처리 사직-->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="block-27">
+							<c:out value="${pageBar}" escapeXml="false"/>
+		            	</div>
+					</div>
 				</div>
-			</div>
+				<!-- 페이징 처리 끝-->
+				<!-- 검색 시작 -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="${pageContext.request.contextPath}/community/selectFreeList.do">
+							<select name="search" id="" class="btn thema" style="color : white;">
+								<option value="all" style="background: white; color : black;">전체</option>
+								<option value="title" style="background: white; color : black;">제목</option>
+								<option value="writer" style="background: white; color : black;">작성자</option>
+							</select>
+							<input type="search" name="search" class="form-control" placeholder="Search" style="border-radius: 30px; width:30%; display: inline-block;">
+							<button class="btn btn-primary thema" type="submit"><i class="icon-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- 검색 끝 -->
 		</div>
 	
 		<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
 	</div>
+	
+	<script>
+		$(function(){
+			$(".p123").on("click",function(){
+				var storeNo = $(this).attr("id");
+				console.log("storeNo="+storeNo);
+				location.href = "${pageContext.request.contextPath}/store/storeDetail.do?no="+storeNo;
+			});
+		});
+	</script>
 	</body>
 </html>
 
