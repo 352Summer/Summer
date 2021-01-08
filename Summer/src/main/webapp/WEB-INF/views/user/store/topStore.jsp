@@ -47,10 +47,13 @@
 			width : 110px;
 			padding-left : 20px;
 			display: inline-block;
-		}
-		.order a{
+			cursor : pointer;
 			color : black;
 		}
+		.order:hover{
+			color : #88c8bc;
+		}
+		.
 		#noworder a{
 			color : #88c8bc;
 		}
@@ -64,7 +67,7 @@
 			display: inline-block;
 			float: right;
 		}
-		
+	
 	
 		
 	</style>
@@ -107,36 +110,37 @@
 				</div>
 				<div class="row row-pb-md">
 					<c:forEach items="${list}" var="p" begin="0" end="3"> 
-					<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ p.BNO }">
+					<div class="col-md-3 col-lg-3 mb-4 text-center top" id="${ p.BNO }">
 						<div class="product-entry border">
-						<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
-							<img src="${pageContext.request.contextPath}${ p.FILEPATH }${ p.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
-						</a>
-						<div class="desc">
-							<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
-							<span class="price">${p.PPRICE}</span>
+							<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
+								<img src="${pageContext.request.contextPath}${ p.FILEPATH }${ p.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
+							</a>
+							<div class="desc">
+								<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
+								<span class="price">${p.PPRICE}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-						</c:forEach>
+					</c:forEach>
 			</div>
 			<br>
 			<div class="row">
 				<div class="col">
 					<div class="border" id="borderorder">
 						<div class="orderdiv">
-							<div class=order id = noworder><a href="${pageContext.request.contextPath}/store/selectStoreTop.do">신상품</a></div>
-							<div class=order><a href="${pageContext.request.contextPath}/store/selectStorePants.do">조회순</a></div>
-							<div class=order><a href="${pageContext.request.contextPath}/store/selectStoreOuter.do">좋아요순</a></div>
+							<div class=order id = noworder onclick="location.href='${pageContext.request.contextPath}/store/selectStoreTop.do?sortVal=time'">신상품</div>
+							<div class=order onclick="location.href='${pageContext.request.contextPath}/store/selectStoreTop.do?sortVal=views'">조회순</a></div>
+							<div class=order onclick="location.href='${pageContext.request.contextPath}/store/selectStoreTop.do?sortVal=like'">좋아요순</a></div>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<br><br><br><br>
 			<!--  상품8개 시작-->
 			<div class="row row-pb-md">
 				<c:forEach items="${list}" var="b"> 
-				<div class="col-md-3 col-lg-3 mb-4 text-center p123" id="${ b.BNO }">
+				<div class="col-md-3 col-lg-3 mb-4 text-center top" id="${ b.BNO }">
 					<div class="product-entry border" id="${b.BNO}">
 						<img src="${pageContext.request.contextPath}${ b.FILEPATH }${ b.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
 						<div class="desc">
@@ -185,12 +189,14 @@
 	
 	<script>
 		$(function(){
-			$(".p123").on("click",function(){
+			$(".top").on("click",function(){
 				var storeNo = $(this).attr("id");
 				console.log("storeNo="+storeNo);
 				location.href = "${pageContext.request.contextPath}/store/storeDetail.do?no="+storeNo;
 			});
 		});
+
+		
 	</script>
 	
 	</body>

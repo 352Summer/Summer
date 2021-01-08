@@ -157,12 +157,7 @@
 	  text-align : center;
 	}
 	
-	.abtn:focus {
-	  border-top-left-radius: 0px;  
-	  border-top-right-radius:0px;
-	  margin-top:1px;
-	  cursor:default;  
-	}
+	
 	
 	.abtn ul li:hover{
 	   background-color:#e9e9e9;
@@ -197,14 +192,19 @@
 	.opt-sel ul li{    
 	  cursor:pointer;
 	}
-	
+	.abtn:focus {
+	  border-top-left-radius: 0px;  
+	  border-top-right-radius:0px;
+	  margin-top:1px;
+	  cursor:default;  
+	}
 	.opt-sel:focus ul {
 	  display:block;  
 	}
-	
 	.opt-sel:not(:focus) ul {  
-	  display:none;  
+	  <!--display:none; --> 
 	}
+	
 	#size-title{
 		position: absolute;
 	 	top: 270px;
@@ -373,8 +373,8 @@
 			<div class="container">
 				<div class="row row-pb-lg">
 					<div class="col-sm-6 mb-3">
-						<div class="video colorlib-video" style="background-image: url(images/about.jpg); height:540px;">
-							<img src="${pageContext.request.contextPath}/resources/user/images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+						<div class="video colorlib-video" height:540px;">
+							<img src="${pageContext.request.contextPath}${ store.FILEPATH }${ store.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
 							<div class="overlay"></div>
 						</div>
 						<br>
@@ -439,6 +439,7 @@
 									</tr>								
 								</table>
 							</div>
+							
 							<div class="size-wrap">
 								<div class="size" id="size-title">사이즈</div>
 									<div class="size" id="size-contents">
@@ -446,47 +447,35 @@
 									 		사이즈를 선택해주세요 <div class="sel-icon">
 									 	</div>
 										<ul tabindex="1">
-									    	<li class="small" id="S"><div class="dropbox">S</div></li>
-									    	<li class="medium" id="M">M</li>
-									    	<li class="large" id="L">L</li>
+									    	<li class="small" onclick="fn_size('S');" id="S"><div class="dropbox">S</div></li>
+									    	<li class="medium" onclick="fn_size('M');" id="M">M</li>
+									    	<li class="large" onclick="fn_size(L);" id="L">L</li>
 										</ul>
 									</div>
 								</div>
 							</div>
 							<div class="price">
-							<% int sAmount = 1;
-							    int mAmount = 1;
-							    int lAmount = 1;
-							%>
+							
 								<table>
-									<tr class="price-tr-1">
-										<th>사이즈</th>
-										<th>수량</th>
-										<th>금액</th>
-									</tr>
-									<tr id ="sSize" style="visibility:none;">
+									<thead>
+										<tr class="price-tr-1">
+											<th>사이즈</th>
+											<th>수량</th>
+											<th>금액</th>
+										</tr>
+									</thead>
+								</table>
+								<table>
+									<tbody id="sizeDiv">
+										
 									
-										<th><span id='close' onclick="#">X</span>m</th>
-										<th><input type="number" placeholder="1" step="1" min="1" max="10"></th>
-										<th>${store.PPRICE}원</th>
-									</tr>
-									<tr id ="sSize" style="visibility:none;">
-									
-										<th><span id='close' onclick="#">X</span>M</th>
-										<th><i class="icon-heart" aria-hidden="true"><%=mAmount%><i class="icon-heart" aria-hidden="true"></th>
-										<th>${store.PPRICE}원</th>
-									</tr>
-									<tr id ="sSize" style="visibility:none;">
-									
-										<th><span id='close' onclick="#">X</span>M</th>
-										<th><i class="icon-heart" aria-hidden="true"><%=mAmount%><i class="icon-heart" aria-hidden="true"></th>
-										<th>${store.PPRICE}원</th>
-									</tr>				
+										
+									</tbody>			
 								</table>
 							</div>
 							<div class="totalprice-wrap">
 								<div class="totalprice" id="totalprice-title">총 상품 금액</div>
-								<div class="totalprice" id="totalprice-contents">${store.PPRICE+100}원</div>
+								<div class="totalprice" id="totalprice-contents"></div>
 							</div>
 							<div class="order-wrap">
 			       		 		<button onclick="location.href='#'" class="btn btn-primary thema shopping-basket" id="shopping-basket">장바구니</button>
@@ -503,7 +492,7 @@
 				<div class="row">
 					<div class="tab-wrap">
 						<div class="tab-description" onclick="location.href='#description-title';">
-							<a href="#asd">상세 설명</a>
+							상세 설명
 						</div>
 						<div class="tab-graph" onclick="location.href='#graph-title';">
 							구매 현황
@@ -595,7 +584,6 @@
 	</div>
 	
 	<script>
-
 	
 		$(function(){
 			$(".p1234").on("click",function(){
@@ -626,39 +614,136 @@
 		$(function(){
 			$(".order").on("click",function(){
 				var storeNo = $(this).attr("id");
-				console.log("storeNo="+storeNo);
-				location.href = "${pageContext.request.contextPath}/store/selectBuyStore.do?no="+storeNo;
-			});
-		});
-
-		$(function(){
-			$(".small").on("click",function(){
-				var storeSize = $(this).attr("id");
-				var pCode = '${store.pCode}';
 				
-				location.href = "${pageContext.request.contextPath}/store/selectSmallSize.do?size="+storeSize;
-
-				$.ajax({
-					url : "${pageContext.request.contextPath}/store/selectSmallSize.do?size="+storeSize,
-					data : { pCode : pCode, storeSize : storeSize }, 
-					dataType : 'json',
-					success : function(data){
-						if(data == true) {
-							alert("사이즈 등록 완료!");
-							// 좋아요 수 증가
-							
-						} else {
-							alert("좋아요 등록 실패!");
-						}
-					}, error : function(req, status, error){
-						console.log(req);
-						console.log(status);
-						console.log(error);
-					}
-				});
+				console.log("storeNo="+storeNo);
+				location.href = "${pageContext.request.contextPath}/store/selectBuyStore.do?no="
+									+ storeNo + "&sAmount=" + sAmount + "&mAmount=" + mAmount + "&lAmount=" + lAmount;
 			});
 		});
 		
+		var sAmount = 0;
+		var mAmount = 0;
+		var lAmount = 0;
+		function fn_size(size) {
+
+			var totalprice = 0;
+		var pPrice = ${store.PPRICE};
+			if( size == "S" ) {
+				if(sAmount == 0) {
+					sAmount++;
+				}
+				if( $('#sizeDiv').find('#small').length > 0 ) {
+					
+					var sa = parseInt($('#sAmount').text());
+					Number($('#sAmount').text(sa + 1));
+					sAmount = sa +1;
+
+					var sp = parseInt($('#sPrice').text());
+					Number($('#sPrice').text(sp + pPrice));
+					var sPrice = sp + pPrice;
+					console.log("sPrice="+sPrice);
+					console.log(typeof(sPrice));
+					
+					$('#sPrice').text(sPrice + "원");
+					  
+					console.log("sAmount="+sAmount);
+					console.log("sPrice="+sPrice);
+				} else {
+					var small = "";
+	
+					small += "<tr id='small'>";
+					small += "<th id='sSize'>S</th>";
+					small += "<th id='sAmount'>" + sAmount + "</th>";
+					small += "<th id='sPrice'>" + ${store.PPRICE} + "원</th>";
+					small += "</tr>";
+					
+					$("#sizeDiv").append(small);
+					
+					sPrice = pPrice;
+					console.log("sPrice="+sPrice);
+					console.log(typeof(sPrice));
+				}
+			}else if(size == "M"){
+				if(mAmount == 0) {
+					mAmount++;
+				}
+				if( $('#sizeDiv').find('#medium').length > 0 ) {
+					
+					var ma = parseInt($('#mAmount').text());
+					Number($('#mAmount').text(ma + 1));
+					mAmount = ma +1;
+
+					var mp = parseInt($('#mPrice').text());
+					Number($('#mPrice').text(mp + pPrice));
+					mPrice = mp + pPrice;
+					
+					$('#mPrice').text(mPrice + "원");
+					
+					console.log("mAmount="+mAmount);
+					console.log("mPrice="+mPrice);
+					
+				} else {
+					var medium = "";
+	
+					medium += "<tr id='medium'>";
+					medium += "<th id= 'mSize' >M</th>";
+					medium += "<th id='mAmount'>" + mAmount + "</th>";
+					medium += "<th id='mPrice'>" + ${store.PPRICE} + "원</th>";
+					medium += "</tr>";
+					
+					$("#sizeDiv").append(medium);
+
+					mPrice = pPrice;
+					console.log("mPrice="+mPrice);
+					console.log(typeof(mPrice));
+				}
+			}else {
+				if(lAmount == 0) {
+					lAmount++;
+				}
+				if( $('#sizeDiv').find('#large').length > 0 ) {
+					
+					var la = parseInt($('#lAmount').text());
+					Number($('#lAmount').text(la + 1));
+					lAmount = la +1;
+
+					var lp = parseInt($('#lPrice').text());
+					Number($('#lPrice').text(lp + pPrice));
+					lPrice = lp + pPrice;
+					
+					$('#lPrice').text(lPrice + "원");
+					  
+					console.log("lAmount="+lAmount);
+					console.log("lPrice="+lPrice);
+					
+				} else {
+					var large = "";
+	
+					large += "<tr id='large'>";
+					large += "<th id='lSize'>L</th>";
+					large += "<th id='lAmount'>" + lAmount + "</th>";
+					large += "<th id='lPrice'>" + ${store.PPRICE} + "원</th>";
+					large += "</tr>";
+					
+					$("#sizeDiv").append(large);
+
+					lPrice = pPrice;
+					console.log("lPrice="+lPrice);
+					console.log(typeof(lPrice));
+				}
+			}
+			
+			totalprice = 0;
+
+			for(var i = 0; i < $('th[id*=Price]').length; i++ ){
+			    var price =  parseInt($($('th[id*=Price]')[i]).text());
+			    console.log("price : " + price);
+			    if(price != NaN) totalprice += price;
+			}
+			
+			$("#totalprice-contents").text(totalprice + "원");
+		}
+
 		//댓글 삭제
 		function fn_deleteStoreComment(bcno){
 			if(confirm('삭제하시겠습니까?')){ 

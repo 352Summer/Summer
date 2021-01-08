@@ -8,9 +8,17 @@ import com.kh.summer.user.store.model.vo.Store;
 
 public interface StoreService {
 
-	List<Map<String, String>> selectStoreList(int cPage, int numPerPage);
+	List<Map<String, String>> selectStoreTopList(int cPage, int numPerPage, String sort);
 
-	int selectStoreTotalContents();
+	int selectStoreTopTotalContents();
+	
+	List<Map<String, String>> selectStorePantsList(int cPage, int numPerPage, String sort);
+
+	int selectStorePantsTotalContents();
+	
+	List<Map<String, String>> selectStoreOuterList(int cPage, int numPerPage, String sort);
+
+	int selectStoreOuterTotalContents();
 
 	int insertStore(Store store, List<Attachment> attachList);
 	
@@ -30,5 +38,4 @@ public interface StoreService {
 
 	int deleteStoreComment(int bcNo);
 
-	//List<Map<String, String>> selectAllAttachmentList();
 }
