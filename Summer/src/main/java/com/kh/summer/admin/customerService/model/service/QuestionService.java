@@ -12,4 +12,10 @@ public interface QuestionService {
 	int selectQuestionTotalContents();
 	
 	Question selectOneQuestion(int qNo);
+	
+	int replyQuestion(int qno, String content);
+
+	int answerList(String acontents);
+	
+	int answerDelete(int qno);
 }

@@ -18,7 +18,6 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public List<Map<String, String>> selectQuestionList(int cPage, int numPerPage) {
 		
-		
 		return questionDAO.selectQuestionList(cPage, numPerPage);
 	}
 
@@ -30,8 +29,25 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public Question selectOneQuestion(int qNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return questionDAO.selectOneQuestion(qNo);
 	}
 
+	@Override
+	public int replyQuestion(int qno, String content) {
+		return questionDAO.replyQuestion(qno, content);
+	}
+
+	@Override
+	public int answerList(String acontents) {
+		
+		return questionDAO.answerList(acontents);
+	}
+
+	@Override
+	public int answerDelete(int qno) {
+
+		return questionDAO.answerDelete(qno);
+	}
+	
 }

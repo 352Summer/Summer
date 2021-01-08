@@ -30,8 +30,33 @@ public class QuestionDAOImpl implements QuestionDAO {
 
 	@Override
 	public Question selectOneQuestion(int qNo) {
-		// TODO Auto-generated method stub
-		return null;
+		 	
+		return sqlSession.selectOne("questionMapper.selectOneQuestion", qNo);
 	}
+
+	@Override
+	public int replyQuestion(int qno, String content) {
+		
+		Question q = new Question();
+		
+		q.setQno(qno);
+		q.setAcontents(content);
+		
+		return sqlSession.update("questionMapper.updateReply", q);
+	}
+
+	@Override
+	public int answerList(String acontents) {
+	
+		return sqlSession.selectOne("questionMapper.answerList", acontents);
+	}
+
+	@Override
+	public int answerDelete(int qno) {
+
+		return sqlSession.update("questionMapper.answerDelete", qno);
+	}
+	
+
 
 }

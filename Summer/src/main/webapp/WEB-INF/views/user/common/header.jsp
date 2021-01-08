@@ -126,7 +126,13 @@
 										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
 									</ul>
 								</li>
-								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a></li>
+	
+								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a>
+									<ul class="dropdown">
+										<li><a href="${pageContext.request.contextPath}/service/inquiryBoard.do">1:1 Inquiry</a></li>
+									</ul>
+								</li>
+								
 								<c:if test="${empty member}">
 									<li style="float : right;"><a href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
 									<li style="float : right;"><a href="${pageContext.request.contextPath}/member/memberEnroll.do">Join</a></li>

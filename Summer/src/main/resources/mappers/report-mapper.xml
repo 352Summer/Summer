@@ -6,5 +6,5 @@
 		INSERT INTO REPORT
 		VALUES (SEQ_RNO.NEXTVAL, #{bNo}, <if test="bcNo != 0">#{bcNo}</if><if test="bcNo == 0">DEFAULT</if>, #{userId}, #{rReason}, SYSDATE, 'N')
 	</insert>
-	
+	 
 </mapper>

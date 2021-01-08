@@ -1,4 +1,4 @@
-package com.kh.summer.admin.customerService.model.vo;
+package com.kh.summer.user.inquiry.model.vo;
 
 import java.sql.Date;
 
@@ -26,7 +26,5 @@ public class Question {
 	private String acontents;	// 답변내용
 	private String auserid;		// 담당자
 	private Date adate;			// 답변일
-
+	
 }
-
-

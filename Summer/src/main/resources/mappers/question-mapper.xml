@@ -4,9 +4,44 @@
 	
 	<select id="selectQuestionList" resultType="hashmap">
 		SELECT * FROM QUESTION
-		ORDER BY QDATE DESC, QNO DESC;
+		ORDER BY QNO DESC
 	</select>
   	<select id="selectQuestionTotalContents" resultType="_int">
   		SELECT COUNT(*) FROM QUESTION
   	</select>
+  	<select id="selectOneQuestion" parameterType="_int" resultType="Question">
+  		SELECT * FROM QUESTION
+  		WHERE QNO = #{qNo}
+  	</select>
+  
+  
+  	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+  	<update id="updateReply" parameterType="Question">
+  		UPDATE QUESTION SET ACONTENTS = #{acontents}
+  		WHERE QNO = #{qno}
+  	</update>
+  	
+  	<select id="answerList" parameterType="Question">
+  		SELECT ACONTENTS FROM QUESTION
+  		WHERE QNO=#{qNo}}
+  	</select> 
+  	
+  	<update id="answerDelete" parameterType="_int">
+  		UPDATE QUESTION
+  		SET ASTATUS = 'N', ACONTENTS = null
+  		WHERE QNO = #{qno}
+  	</update>
+  	
+  	<!-- 유저 -->
+  	<select id="selectInquiryBoardList" resultType="hashmap">
+		SELECT * FROM QUESTION
+		ORDER BY QNO DESC
+	</select>
+  	
+  	<!-- 게시판 -->
+  	
+  	<insert id="insertInquiryBoard" parameterType="Question">
+  		INSERT INTO QUESTION ()
+  	</insert>
+  	  	
 </mapper>

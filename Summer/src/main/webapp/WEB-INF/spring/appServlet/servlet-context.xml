@@ -39,12 +39,14 @@
 			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/community/**/*.do"/>
 			<mapping path="/store/**/*.do"/>
+			<mapping path="/service/**/*.do"/>
 			<mapping path="/myPage/*.do"/>
 			<exclude-mapping path="/store/selectStoreMain.do"/>
 			<exclude-mapping path="/store/selectStoreTop.do"/>
 			<exclude-mapping path="/store/storeDetail.do"/>
 			<exclude-mapping path="/community/selectFreeList.do"/>
 			<exclude-mapping path="/community/selectCommunityMain.do"/>
+			<exclude-mapping path="/service/inquiryBoard.do"/>
 			<beans:bean id="loginInterceptor" class="com.kh.summer.common.interceptor.LoginInterceptor" />
 		</interceptor>
 		
