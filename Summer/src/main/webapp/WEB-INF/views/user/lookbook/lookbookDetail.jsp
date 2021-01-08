@@ -106,6 +106,11 @@
     		background : #E2E2E2;
     		width : 80px;
     	}
+    	
+    	.modal-backdrop {
+    		display : none;
+    	}
+    	
     </style>
 	</head>
 	<body>
@@ -134,7 +139,7 @@
 			<!-- 수정버튼 ( 작성자 ) -->
 			<c:if test="${member.userId eq list.USERID}">
 				<div class="row" style="float:right;">
-					<button type="button" class="btn btn-info thema" onclick="fn_update();"">수정하기</button>
+					<button type="button" class="btn btn-info thema" onclick="fn_update()">수정하기</button>
 				</div>
 			</c:if>
 			
@@ -214,8 +219,8 @@
 						</div>
 					</div>
 				</div>
-				<c:if test="${member.userId ne list.USERID}">
-					<button type="button" class="btn btn-danger btn-sm" style="float:right;" onclick="fn_report();" data-toggle="modal" data-target="#reportModal">신고</button>
+				<c:if test="${member.userId ne list.USERID && !empty member}">
+					<button type="button" class="btn btn-danger btn-sm" style="float:right;" data-toggle="modal" data-target="#reportModal">신고</button>
 				</c:if>
 				<br /><br />
 				<hr />
@@ -239,8 +244,8 @@
 							<tr>
 								<td>${comment.WRITER} ${comment.DATE2CHAR}</td>
 								<td style="float:right;">
-								<c:if test="${member.userId ne comment.USERID}">
-									<button type="button" class="btn btn-danger btn-sm" style="float:right;" onclick="fn_report();" data-toggle="modal" data-target="#reportModal">신고</button>
+								<c:if test="${member.userId ne comment.USERID && !empty member}">
+									<button type="button" class="btn btn-danger btn-sm" onclick="fn_rpCom(${comment.BCNO});" style="float:right;" data-toggle="modal" data-target="#reportModal">신고</button>
 								</c:if>
 								<c:if test="${member.userId eq comment.USERID}">
 									<button type="button" class="btn btn-primary thema" id="ucC${ comment.BCNO }" onclick="fn_updateLookbookComment(${comment.BCNO});">수정</button>
@@ -293,18 +298,20 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+					
+					
 					<!--신고폼 -->
 					<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
 					<form action="${pageContext.request.contextPath}/report/insertReport.do" method="post">
 						<div class="modal-body">
 							<input type="hidden" name="url" value="/lookbook/selectLookbookDetail.do?bno=${list.BNO}"/>
 							<input type="hidden" name="bNo" value="${list.BNO}"/>
-							<input type="hidden" name="bcNo" value="${comment.BCNO}"/>
+							<input type="hidden" id="rp_bcno" name="bcNo" value="0"/>
 							<input type="hidden" name="userId" value="${member.userId}"/>
 							<input type="text" id="rReason" class="form-control" name="rReason" placeholder="신고사유" required>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-primary thema" >신고</button>
+							<button type="submit" class="btn btn-primary thema" onclick="fn_report();">신고</button>
 							<button type="button" class="btn btn-primary thema" data-dismiss="modal" onclick="fn_clear();">취소</button>
 						</div>
 					</form>
@@ -321,13 +328,13 @@
 	<script>
 		function fn_update() {
 			if(confirm('수정 하시겠습니까?')) {
-				location.href='${pageContext.request.contextPath}/lookbook/LookbookUpdate.do?';
+				location.href='${pageContext.request.contextPath}/lookbook/LookbookUpdate.do?bno=${list.BNO}';
 			}
 		}
 		
 		function fn_delete() {
 			if(confirm('삭제하시겠습니까?')){
-				location.href='${pageContext.request.contextPath}/community/deleteFree.do?bNo=${board.BNO}';
+				location.href='${pageContext.request.contextPath}/community/deleteFree.do?bno=${list.BNO}';
 			}
 		}
 
@@ -361,7 +368,7 @@
 			}
 		}
 
-		function fn_update(bcno) {
+		function fn_updateC(bcno) {
 			if($('cContentsUpd'+bcno).val().trim().length==0){
 				alert('댓글 내용을 입력해주세요.');
 				return false;
@@ -369,10 +376,21 @@
 			return true
 		}
 
-
 		function fn_clear(){
 			$('#rReason').val('');
 		}
+
+		function fn_report(bno) {
+			if(confirm('신고하시겠습니까?')){
+				return true;
+			}
+		}
+
+		function fn_rpCom(bcno) {
+			$('#rp_bcno').val(bcno);
+			console.log($('#rp_bcno').val());
+		}
+		
 	</script>
 	
 	</body>

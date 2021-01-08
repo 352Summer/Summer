@@ -101,6 +101,7 @@
 								</a>
 								<div class="desc">
 									<h2><a href="${pageContext.request.contextPath}/lookbook/selectLookbookDetail.do?bno=${ b.BNO }">${ b.BTITLE }</a></h2>
+									<p style="font-size:10px;">${ b.USERID }</p>
 									<span>${ b.BCONTENTS }</span>
 								</div>
 							</div>

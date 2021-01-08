@@ -143,7 +143,7 @@
 							</div>
 							<div class="col-md-9">
 								<input type="text" placeholder="이름 입력" class="inp" name="userName" id="userName" maxlength="20"
-								       oninput="this.value = this.value.replace(/[^A-Za-z가-힣.]/g, '').replace(/(\..*)\./g, '$1');"/>
+								       oninput="this.value = this.value.replace(/[^A-Za-zㄱ-ㅎ가-힣.]/g, '').replace(/(\..*)\./g, '$1');"/>
 							</div>
 						</div>
 						

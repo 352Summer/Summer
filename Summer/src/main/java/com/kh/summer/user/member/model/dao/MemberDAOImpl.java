@@ -1,7 +1,6 @@
 package com.kh.summer.user.member.model.dao;
 
 import java.util.HashMap;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -63,6 +62,21 @@ public class MemberDAOImpl implements MemberDAO {
 		int result = sqlSession.selectOne("memberMapper.emailDupChk", hmap);
 		
 		return result;
+	}
+
+	@Override
+	public Member findID(Member member) {
+		return sqlSession.selectOne("memberMapper.findID", member);
+	}
+
+	@Override
+	public int findInfoCheck(Member member) {
+		return sqlSession.selectOne("memberMapper.findInfoCheck", member);
+	}
+
+	@Override
+	public int changePW(Member member) {
+		return sqlSession.update("memberMapper.changePW", member);
 	}
 
 }

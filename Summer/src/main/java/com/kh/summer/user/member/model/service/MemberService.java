@@ -52,4 +52,10 @@ public interface MemberService {
 	 * @return int
 	 */
 	int emailDupChk(String email);
+
+	Member findID(Member member);
+
+	int findInfoCheck(Member member);
+
+	int changePW(Member member);
 }

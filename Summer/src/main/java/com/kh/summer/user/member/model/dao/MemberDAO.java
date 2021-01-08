@@ -55,4 +55,10 @@ public interface MemberDAO {
 	 */
 	int emailDupChk(HashMap<String, Object> hmap);
 
+	Member findID(Member member);
+
+	int findInfoCheck(Member member);
+
+	int changePW(Member member);
+
 }

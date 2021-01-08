@@ -123,7 +123,9 @@
 										<li><a href="${pageContext.request.contextPath}/community/selectFreeList.do">Free</a></li>
 										<li><a href="${pageContext.request.contextPath}/community/selectTradeList.do"">Trade</a></li>
 										<li><a href="${pageContext.request.contextPath}/community/selectNoticeList.do">Notice</a></li>
-										<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
+										<c:if test="${ member.membership eq 'A' }">
+											<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
+										</c:if>
 									</ul>
 								</li>
 								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a></li>
@@ -133,7 +135,7 @@
 								</c:if>
 								<c:if test="${!empty member}">
 									<li style="float : right;"><a href="${pageContext.request.contextPath}/member/memberLogout.do">logout</a></li>
-									<li style="float : right;"><a href="${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}">${member.nickName}님</a></li>
+									<li style="float : right;" class=${ selectMenu ne null and selectMenu eq "mypage" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/myPage/myPageCart.do?userId=${member.userId}">${member.nickName}님</a></li>
 								</c:if>
 							</ul>
 						</div> 
@@ -186,7 +188,7 @@
 						<input type="password" class="form-control" name="password" placeholder="비밀번호" required>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary thema" >아이디 / 비밀번호 찾기</button>
+						<button type="button" onclick="fn_find();" class="btn btn-primary thema" >아이디 / 비밀번호 찾기</button>
 						<button type="submit" class="btn btn-primary thema" >로그인</button>
 						<button type="button" class="btn btn-primary thema" data-dismiss="modal">취소</button>
 					</div>
@@ -208,5 +210,11 @@
 	</div>
 	
 	</body>
+	
+	<script>
+		function fn_find() {
+			location.href="${pageContext.request.contextPath}/member/findInfo.do";
+		}
+	</script>
 </html>
 

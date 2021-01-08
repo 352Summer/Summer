@@ -113,32 +113,32 @@
 
 	<!-- 구매후기 -->
 		$('#myMenu3').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPageReview.do";
 		});
 
 	<!-- 배송조회 -->
 		$('#myMenu4').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPageDeliveryChk.do";
 		});
 
 	<!-- 마이사이즈 -->
 		$('#myMenu5').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPageMySize.do";
 		});
 
 	<!-- 좋아요목록 -->
 		$('#myMenu6').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPageLike.do";
 		});
 
 	<!-- 포인트내역 -->
 		$('#myMenu7').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPagePoint.do";
 		});
 
 	<!-- 문의내역 -->
 		$('#myMenu8').click(function(){
-			location.href="${pageContext.request.contextPath}/error.do";
+			location.href="${pageContext.request.contextPath}/myPage/myPageQuestion.do";
 		});
 		
 	</script>

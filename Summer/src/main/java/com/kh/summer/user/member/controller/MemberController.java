@@ -318,7 +318,7 @@ public class MemberController {
 	    
 	    System.out.println("key Generate : " + key);
 	    
-	    String subject = "[SUMMER]회원가입 이메일 인증코드입니다.";
+	    String subject = "[SUMMER] 이메일 인증코드입니다.";
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("인증코드는 [ " + key + " ] 입니다.");
 	  
@@ -326,6 +326,92 @@ public class MemberController {
 		
 		return key.toString();
 	}
+	
+	@RequestMapping("/member/findInfo.do")
+	public String findInfoPage() {
+		return "user/member/findInformation";
+	}
+	
+	@RequestMapping("/member/findID.do")
+	public String findID(Member member, Model model, SessionStatus sessionStatus) {
+		
+		String msg = "";
+		String loc = "";
+		
+		Member result = memberService.findID(member);
+		
+		if( result == null ) { msg = "일치하는 정보가 없습니다."; }
+		else { msg = "회원님의 아이디는 [ " + result.getUserId() + " ] 입니다."; }
+		
+		// Logout
+		if( !sessionStatus.isComplete() ) { 
+			sessionStatus.setComplete();
+		}
+		
+		loc = "/";
+		
+		model.addAttribute("msg", msg)
+			 .addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/member/findInfoCheck.do")
+	public Map<String, Object> findInfoCheck(Member member) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean result
+		= memberService.findInfoCheck(member) == 1 ? true : false;
+		
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@RequestMapping("/member/changePW.do")
+	public String changePW(@RequestParam String userId, Model model) {
+		model.addAttribute("userId", userId);
+		return "user/member/changePW";
+	}
+	
+	@RequestMapping("/member/changePwEnd.do")
+	public String changePwEnd(@RequestParam String userId, @RequestParam String password,
+							  SessionStatus sessionStatus, Model model) {
+		
+		Member member = new Member(userId, password);
+		
+		String plainPassword = member.getPassword();
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(plainPassword);
+		
+		System.out.println("원문 : " + plainPassword);
+		System.out.println("암호문 : " + encryptPassword);
+		
+		member.setPassword(encryptPassword);
+		
+		int result = memberService.changePW(member);
+		
+		String msg = "";
+		String loc = "/";
+		
+		if( result > 0 ) {
+			msg = "비밀번호 변경 완료";
+		} else {
+			msg = "비밀번호 변경 실패!";
+		}
+		
+		// Logout
+		if( !sessionStatus.isComplete() ) { 
+			sessionStatus.setComplete();
+		}
+		
+		model.addAttribute("msg", msg)
+			 .addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
 }
 
 

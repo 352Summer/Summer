@@ -55,6 +55,12 @@ public class Member implements Serializable {
 		this.phone = phone;
 		this.address = address;
 	}
+
+	public Member(String userId, String password) {
+		super();
+		this.userId = userId;
+		this.password = password;
+	}
 	
 	
 	
