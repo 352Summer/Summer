@@ -20,6 +20,7 @@
 		<typeAlias type="com.kh.summer.user.top.model.vo.Top" alias="Top" />
 		<typeAlias type="com.kh.summer.user.pants.model.vo.Pants" alias="Pants" />
 		<typeAlias type="com.kh.summer.user.faq.model.vo.FAQ" alias="FAQ" />
+		<typeAlias type="com.kh.summer.user.ioinfo.model.vo.IoInfo" alias="IoInfo" />
 	</typeAliases>
 	
 	<!-- 해당 프로젝트에서 사용하기 위한 TypeHandler 등록 -->

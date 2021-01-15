@@ -11,7 +11,7 @@
   
   	<select id="insertOI" parameterType="OrderInfo" >
 		INSERT INTO ORDERINFO
-		VALUES (SEQ_ONO.NEXTVAL,'홍길동','군포시 아파트','01035142864',DEFAULT,11111,'user01',
-					SYSDATE, DEFAULT, DEFAULT, 1, DEFAULT, DEFAULT )
+		VALUES (SEQ_ONO.NEXTVAL, #{ rName }, #{ rAddress }, #{ rPhone } ,DEFAULT,#{ totalPrice }
+		,#{ userId },DEFAULT, DEFAULT, #{ orderInfo }, 1, DEFAULT, DEFAULT )
 	</select>
 </mapper>

@@ -409,15 +409,17 @@
 						   </div>
 						  
 						   <c:set var = "totalprice" value="${(sAmount + mAmount + lAmount) * store.PPRICE }" />
-						   <div id="old" style="display:none;">
-						   		<form src="/store/successBuyStore.do">
+						   <div id="old">
+						   		<form action="${pageContext.request.contextPath}/store/successBuyStore.do?" method="post" id="successPay">
+						   	    	
 						   	    	수신자명 <input type="text" name="rName" value="${ member.userName }"/>
-						 	  	    <!--  배송주소 <input type="text" name="rAddress" value="${ member.userName }"/> -->
+						 	  	    배송주소 <input type="text" name="rAddress" value="${member.address}"/>
 						 	  		연락처  <input type="text" name="rPhone" value="${ member.phone }" />
 						 	 		총 가격 <input type="text" name="totalPrice" value="${ totalprice}"/>
 						 	 		아이디  <input type="text" name="userId" value="${ member.userId }"/>
-						 	 		주문날짜 <input type="text" name="orderDate" value=""/>
-						 	 		주문정보 <input type="text" name="orderInfo" value="${ member.userName }"/>
+						 	 		<!--  주문날짜 <input type="text" name="orderDate" value=""/> -->
+						 	 		주문정보 <input type="text" name="orderInfo" value="${ store.PNAME }"/>
+						 	 		<button type="submit">gogo</button>
 						   		</form>
 						   </div>
 						</div>
@@ -534,7 +536,7 @@ $('#payBtn').on('click', function(){
 					}
 				});
 				*/
-			        location.href='${pageContext.request.contextPath}/store/successBuyStore.do';
+			        $('#successPay').submit();
 		    } else {
 		        var msg = '결제에 실패하였습니다.';
 		        msg += '\n에러내용 : ' + rsp.error_msg;
