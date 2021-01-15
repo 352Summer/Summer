@@ -122,7 +122,7 @@
 									<ul class="dropdown">
 										<li><a href="${pageContext.request.contextPath}/community/selectFreeList.do">Free</a></li>
 										<li><a href="${pageContext.request.contextPath}/community/selectTradeList.do"">Trade</a></li>
-										<li><a href="${pageContext.request.contextPath}/community/selectNoticeList.do">Notice</a></li>
+										<li><a href="${pageContext.request.contextPath}/community/noticeList.do">Notice</a></li>
 										<c:if test="${ member.membership eq 'A' }">
 											<li><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do">Admin</a></li>
 										</c:if>
@@ -131,7 +131,8 @@
 	
 								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a>
 									<ul class="dropdown">
-										<li><a href="${pageContext.request.contextPath}/service/inquiryBoard.do">1:1 Inquiry</a></li>
+										<li><a href="${pageContext.request.contextPath}/service/frequentlyAskQuestion.do">FAQ</a></li>
+										<li><a href="${pageContext.request.contextPath}/service/inquiryBoard.do">Inquiry</a></li>
 									</ul>
 								</li>
 								

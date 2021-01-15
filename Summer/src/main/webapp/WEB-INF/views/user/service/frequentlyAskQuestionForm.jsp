@@ -7,9 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의사항 작성</title>
+<title>자주묻는질문작성</title>
 
-	<style>
+<style>
 		div#board-container{width:400px; margin:0 auto; text-align:center;}
 		div#board-container input{margin-bottom:15px;}
 		/* 부트스트랩 : 파일라벨명 정렬*/
@@ -18,7 +18,7 @@
 	<script>
 	/* textarea에도 required속성을 적용가능하지만, 공백이 입력된 경우 대비 유효성검사를 실시함. */
 	function validate(){
-		var content = $("[name=aContent]").val();
+		var content = $("[name=fContent]").val();
 		if(content.trim().length==0){
 			alert("내용을 입력하세요");
 			return false;
@@ -29,11 +29,12 @@
 	
 </head>
 <body>
-	<c:import url="/WEB-INF/views/user/common/header.jsp"/>
+
+<c:import url="/WEB-INF/views/user/common/header.jsp"/>
 	<div class="container">
-		<div id="inquiryBoard-container">
+		<div id="faq-container">
 		<br /><br />
-			<form action="${pageContext.request.contextPath}/service/inquiryBoardFormEnd.do" method="post" onsubmit="return validate();">
+			<form action="${pageContext.request.contextPath}/service/frequentlyAskQuestionFormEnd.do" method="post" onsubmit="return validate();">
 				<select name="qtypeno" class="btn thema" style="color : white;">
 				        <option value="1" style="background: white; color : black;">결제</option>
 				        <option value="2" style="background: white; color : black;">환불</option>
@@ -44,9 +45,9 @@
 				        <option value="7" style="background: white; color : black;">포인트</option>
 				</select>
 				<br /><br /><br />
-				<input type="text" class="form-control" placeholder="제목" name="qtitle" id="qTitle" required>
+				<input type="text" class="form-control" placeholder="제목" name="ftitle" id="fTitle" required>
 				<br />
-			    <textarea class="form-control" style="height:300px" name="qcontents" placeholder="내용" required></textarea>
+			    <textarea class="form-control" style="height:300px" name="fcontents" placeholder="내용" required></textarea>
 				<br />
 				<input type="submit" class="btn btn-outline-success" value="등록" >
 			</form>

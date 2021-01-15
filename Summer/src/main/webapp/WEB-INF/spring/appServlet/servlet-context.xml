@@ -47,6 +47,7 @@
 			<exclude-mapping path="/community/selectFreeList.do"/>
 			<exclude-mapping path="/community/selectCommunityMain.do"/>
 			<exclude-mapping path="/service/inquiryBoard.do"/>
+			<exclude-mapping path="/service/inquiryBoardView.do"/>
 			<beans:bean id="loginInterceptor" class="com.kh.summer.common.interceptor.LoginInterceptor" />
 		</interceptor>
 		

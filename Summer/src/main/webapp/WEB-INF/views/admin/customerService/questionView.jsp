@@ -34,11 +34,11 @@
 		</div>
 		<div>
 			<tr>문의제목</tr>
-			<input type="text" class="form-control" placeholder="문의제목" name="questionTitle" id="questionTitle" value="${question.qtitle}" style="width:72%;" readonly required>
+			<input type="text" class="form-control" placeholder="문의제목" name="questionTitle" id="questionTitle" value="${question.qtitle}" style="width:100%;" readonly required>
 		</div>
 		<div>
 			<tr>문의내용</tr>
-			<input type="text" class="form-control" placeholder="문의내용" name="questionQcontents" value="${question.qcontents}" style="width:72%; height:200px;" readonly required>
+			<input type="text" class="form-control" placeholder="문의내용" name="questionQcontents" value="${question.qcontents}" style="width:100%; height:200px;" readonly required>
 		</div>
 		<br><br>
 	<div style="border-bottom:1px solid black;"></div>
@@ -67,7 +67,7 @@
 	
 	<h3>답변 등록 내역</h3>
 	<div>
-		<input type="text" class="form-control" placeholder="답변기록" name="questionAcontents" value="${question.acontents}" style="width:72%; height:200px;" readonly required>
+		<input type="text" class="form-control" placeholder="답변을 등록해 주세요" name="questionAcontents" value="${question.acontents}" style="width:72%; height:200px;" readonly required>
 		<button type="button" id="btnDelete">삭제</button>
 	</div>
 	

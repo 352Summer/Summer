@@ -16,15 +16,6 @@
 	function fn_goinquiryBoardForm(){
 		location.href = "${pageContext.request.contextPath}/service/inquiryBoardForm.do";
 	}
-	
-	$(function(){
-		$("tr[id]").on("click",function(){
-			var QNO = $(this).attr("id");
-			console.log("QNO="+QNO);
-			location.href = "${pageContext.request.contextPath}/user/inquiryBoardService/inquiryBoarView.do?no="+QNO;
-		});
-	});
-	
 </script>
 </head>
 <body>
@@ -33,21 +24,27 @@
 		<section id="question-container" class="container">
 			<input type="button" value="문의사항작성" id="btn-add" class="btn btn-outline-success" onclick="fn_goinquiryBoardForm();"/>
 			<table id="tbl-question" class="table table-striped table-hover">
-				<tr>
-					<th>문의번호</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성일</th>
-				</tr>
-				<c:forEach items="${list}" var="q"> 
-				<tr id="${q.QNO}">
-					<td>${q.QNO}</td>
-					<td>${q.QTITLE}</td>
-					<td>${q.USERID}</td>
-					<td>${q.QDATE}</td>
-				</tr>
-				</c:forEach>
+				<thead>
+					<tr>
+						<th>문의번호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+					<c:forEach items="${list}" var="q"> 
+						<tr id="${q.QNO}">
+							<td>${q.QNO}</td>
+							<td>${q.QTITLE}</td>
+							<td>${q.USERID}</td>
+							<c:set var="qDate" value="${ q.QDATE }"/>
+							<td>${ fn:substring(qDate, 0, 10) }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
+        	
 				<!-- 페이징 처리 사직-->
 				<div class="row">
 					<div class="col-md-12 text-center">
@@ -57,10 +54,43 @@
 					</div>
 				</div>
 				<!-- 페이징 처리 끝-->
+			
+				<!-- 검색 시작 -->
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<form action="${pageContext.request.contextPath}/service/selectInquiryBoardSearch.do" id="Search">
+							<select name="searchCt" class="btn thema" style="color : white;">
+								<option value="all" style="background: white; color : black;">전체</option>
+								<option value="title" style="background: white; color : black;">제목</option>
+								<option value="writer" style="background: white; color : black;">작성자</option>
+							</select>
+							<input type="search" id="search" name="search" class="form-control" placeholder="Search" style="border-radius: 30px; width:30%; display: inline-block;">
+							<button class="btn btn-primary thema" type="submit"><i class="icon-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<!-- 검색 끝 -->
+	        	
 		</section> 
 	</div>
 	
 	<c:import url="/WEB-INF/views/user/common/footer.jsp"/>
+	
+	<script>
+	$(function(){
+		$("#tb tr").on("click",function(){
+			var QNO = $(this).attr("id");
+			location.href = "${pageContext.request.contextPath}/service/inquiryBoardView.do?no="+QNO;
+		});
+	});
+
+	$('#search').keydown(function(e) {
+		if(e.keyCode == 13) {
+			$('#Search').submit();
+		}
+	});
+
+	</script>
 	
 </body>
 </html>

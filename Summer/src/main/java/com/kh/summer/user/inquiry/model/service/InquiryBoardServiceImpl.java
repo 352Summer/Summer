@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.summer.common.exception.BoardException;
 import com.kh.summer.user.inquiry.model.dao.InquiryBoardDAO;
-import com.kh.summer.user.inquiry.model.vo.Question;
+import com.kh.summer.admin.customerService.model.vo.Question;
 
 @Service
 public class InquiryBoardServiceImpl implements InquiryBoardService {
@@ -24,14 +24,14 @@ public class InquiryBoardServiceImpl implements InquiryBoardService {
 
 	@Override
 	public int selectInquiryBoardTotalContents() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return inquiryBoardDAO.selectInquiryBoardTotalContents();
 	}
 
 	@Override
 	public Question selectOneInquiryBoard(int qNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return inquiryBoardDAO.selectOneInquiryBoard(qNo);
 	}
 
 	// 문의글 작성
@@ -45,4 +45,21 @@ public class InquiryBoardServiceImpl implements InquiryBoardService {
 		return result1;
 	}
 
+	@Override
+	public int deleteInquiryBoard(int qNo) {
+
+		return inquiryBoardDAO.deleteInquiryBoard(qNo);
+	}
+
+	@Override
+	public List<Map<String, String>> selectInquiryBoardSearch(int cPage, int numPerPage,
+			Map<String, String> searchMap) {
+
+		return inquiryBoardDAO.selectInquiryBoardSearch(cPage, numPerPage, searchMap);
+	}
+	
+	@Override
+	public int selectInquiryBoardSearchCount(Map<String, String> searchMap) {
+		return inquiryBoardDAO.selectInquiryBoardSearchCount(searchMap);
+	}
 }
