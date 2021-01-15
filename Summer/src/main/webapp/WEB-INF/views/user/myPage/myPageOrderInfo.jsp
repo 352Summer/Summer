@@ -81,7 +81,7 @@
 										</div>
 										<div class="col-md-2">
 											<div class="col justify-content-md-center text-center">
-												<span class="price">${ oi.TOTALPRICE }</span>
+												<span class="price">${ oi.TOTALPRICE }원</span>
 											</div>
 										</div>
 										<div class="col-md-2 text-center">

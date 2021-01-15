@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-	<title>Summer - COMMUNITY - FREE</title> 
+	<title>Summer - COMMUNITY - TRADE</title> 
 	<meta charset="utf-8">
    
 	</head>
@@ -24,10 +24,10 @@
 			<div class="container">
 				<div class="row">
 					<div class="col">
-						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Free</span></p>
+						<p class="bread"><span><a href="${pageContext.request.contextPath}/community/selectCommunityMain.do">Community</a></span> / <span>Trade</span></p>
 					</div>
 				</div>
-				<h1>자유게시판</h1>
+				<h1>거래게시판</h1>
 				<hr style="margin-top:-10px;"/>
 			</div>
 		</div>
@@ -65,7 +65,7 @@
 							</c:if>
 						</table>
 						<button type="button" class="btn btn-primary thema" style="float : right;"
-								onclick="location.href='${pageContext.request.contextPath}/community/insertFreeView.do?'">글쓰기</button>
+								onclick="location.href='${pageContext.request.contextPath}/community/insertTradeView.do?'">글쓰기</button>
 					</div>
 				</div>
 				<!-- 페이징 처리 사직-->
@@ -80,7 +80,7 @@
 				<!-- 검색 시작 -->
 				<div class="row">
 					<div class="col-md-12 text-center">
-						<form action="${pageContext.request.contextPath}/community/selectFreeList.do">
+						<form action="${pageContext.request.contextPath}/community/selectTradeList.do">
 							<select name="search" id="" class="btn thema" style="color : white;">
 								<option value="all" style="background: white; color : black;">전체</option>
 								<option value="title" style="background: white; color : black;">제목</option>
@@ -102,9 +102,9 @@
 	<script>
 		$(function(){
 			$("tr[id]").on("click",function(){
-				var boardNo = $(this).attr("id");
-				console.log("bordNo="+boardNo);
-				location.href = "${pageContext.request.contextPath}/community/selectFreeDetail.do?no="+boardNo;
+				var tradeNo = $(this).attr("id");
+				console.log("tradeNo="+tradeNo);
+				location.href = "${pageContext.request.contextPath}/community/selectTradeDetail.do?no="+tradeNo;
 			});
 		});
 	</script>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.summer.common.util.Utils;
+import com.kh.summer.user.ioinfo.model.service.IoInfoService;
 import com.kh.summer.user.member.model.service.MemberService;
 import com.kh.summer.user.orderinfo.model.service.OrderInfoService;
 import com.kh.summer.user.orderinfo.model.vo.OrderInfo;
@@ -28,6 +29,9 @@ public class StoreController {
 	
 	@Autowired
 	OrderInfoService orderinfoService;
+	
+	@Autowired
+	IoInfoService ioinfoServe;
 	
 	@RequestMapping("/store/selectStoreMain.do")
 	public String selectStoreMain() {
@@ -178,12 +182,27 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/store/successBuyStore.do")
-	public String successBuyStore(OrderInfo orderInfo, Model model
-								 	
-									) {
+	public String successBuyStore(OrderInfo orderInfo, Model model) {
+								//,@RequestParam String userId
+								//,@RequestParam String pCode
+								//,@RequestParam String pPrice
+								//,@RequestParam String Amount) {
+		
+		Map<String, String> ioinfo  = new HashMap<String, String>();
+
+		//ioinfo.put("userId", userId);
+		//ioinfo.put("pCode", pCode);
+		//ioinfo.put("pPrice", pPrice);
+		//ioinfo.put("Amount", Amount);
+
 		int result = orderinfoService.insertOrderInfo(orderInfo);
 		
+		//int io = ioinfoServe.insertIoInfo(ioinfo);
+		
+		
 		System.out.println("result : " + result);
+
+		System.out.println("orderInfo: " + orderInfo);
 		
 		if( result > 0 ) {
 			System.out.println("주문내역 추가 성공"); 
