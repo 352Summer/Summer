@@ -86,7 +86,10 @@
 					<div class="row">
 						<!-- 로고 시작 -->
 						<div class="col-sm-7 col-md-9">
-							<div id="colorlib-logo"><a href="${pageContext.request.contextPath}">Summer</a></div>
+							<div id="colorlib-logo">
+								<img src="${pageContext.request.contextPath}/resources/user/images/logo1.jpg" id="logoImg" width="100px;"/>
+								<a href="${pageContext.request.contextPath}">Summer</a>
+							</div>
 						</div>
 						<!-- 로고 끝 -->
 						<!-- 검색 시작 -->
@@ -129,7 +132,7 @@
 									</ul>
 								</li>
 	
-								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/cs/csMain.jsp">SERVICE</a>
+								<li id="navCS" class=${ selectMenu ne null and selectMenu eq "cs" ? "'has-dropdown active'" : "'has-dropdown'" }><a href="${pageContext.request.contextPath}/service/inquiryBoard.do">SERVICE</a>
 									<ul class="dropdown">
 										<li><a href="${pageContext.request.contextPath}/service/inquiryBoard.do">1:1 Inquiry</a></li>
 									</ul>
@@ -221,6 +224,10 @@
 		function fn_find() {
 			location.href="${pageContext.request.contextPath}/member/findInfo.do";
 		}
+
+		$('#logoImg').on('click', function(){
+			location.href="${pageContext.request.contextPath}/";
+		});
 	</script>
 </html>
 

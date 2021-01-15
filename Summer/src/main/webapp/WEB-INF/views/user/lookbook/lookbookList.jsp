@@ -80,9 +80,9 @@
 				<div class="col-md-12">
 					<p style="font-size:16px; font-weight:bold; color:#88c8bc;">${ msg }</p>
 					<ul id="sort-box">
-						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sortVal=time'">최신순</li>
-						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sortVal=views'">조회수</li>
-						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sortVal=like'">좋아요</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sort=time'">최신순</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sort=views'">조회수</li>
+						<li onclick="location.href='${pageContext.request.contextPath}/lookbook/selectLookbookList.do?sort=like'">좋아요</li>
 					</ul>
 				</div>
 			</div>

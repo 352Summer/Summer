@@ -35,29 +35,17 @@ public class LookbookController {
 // -------------------- 룩북 목록 조회 ----------------- //
 	@RequestMapping("/lookbook/selectLookbookList.do")
 	public String selectLookbookMain(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
-									 @RequestParam(required=false) String sortVal,
+									 @RequestParam(required=false) String sort,
 									 Model model) {
 		int numPerPage = 8; // 한 페이지 당 게시글 and 페이지 수
 		
-		List<Map<String, String>> list = null;
-		String sort = "";
+		List<Map<String, String>> list = lookbookService.selectLookbookList(cPage, numPerPage, sort);
 		
-		// 1. 현재 페이지 게시글 구하기
-		if( sortVal == "views" ) { 	// ------- 조회순 정렬 -------- //
-			sort = sortVal;
-			list = lookbookService.selectLookbookList(cPage, numPerPage, sort);
-		} else if( sortVal == "like" ) {		// ------- 좋아요순 정렬 -------- //
-			sort = sortVal;
-			list = lookbookService.selectLookbookList(cPage, numPerPage, sort);
-		} else {		// ------- 최신순 정렬 -------- //
-			sort = sortVal;
-			list = lookbookService.selectLookbookList(cPage, numPerPage, sort);
-		}
 		// 2. 전체 게시글 수 (페이지 처리를 위함)
 		int totalContents = lookbookService.selectLookbookTotalContents();
 		
 		// 3. 페이지 계산된 HTML 구하기
-		String pageBar = Utils.getPageBar(totalContents, cPage, numPerPage, "selectLookbookList.do");
+		String pageBar = Utils.getPageBar(totalContents, cPage, numPerPage, "selectLookbookList.do", sort);
 		
 		String msg = totalContents + "건의 게시글이 있습니다.";
 		
@@ -90,7 +78,7 @@ public class LookbookController {
 		int totalContents = lookbookService.selectLookbookSearchCount(searchMap);
 		
 		// 3. 페이지 계산된 HTML 구하기
-		String pageBar = Utils.getPageBar(totalContents, cPage, numPerPage, "selectLookbookList.do");
+		String pageBar = Utils.getPageBar(totalContents, cPage, numPerPage, "selectLookbookSearch.do", searchMap);
 		
 		String msg = "검색 결과 : " + totalContents + " 건의 게시글이 있습니다.";
 		
@@ -336,7 +324,6 @@ public class LookbookController {
 		
 		return "user/lookbook/lookbookUpdate";
 	}
-	
 	
 // -------------------- 룩북 수정 완료 ----------------- //
 	@RequestMapping("/lookbook/LookbookUpdateEnd.do")

@@ -18,7 +18,7 @@
 			font-size : 18px;
 		}
 		
-		#mList {
+		#aList {
 			background : #88c8bc;
 			color : white;
 		}
@@ -43,7 +43,23 @@
 			cursor : pointer;
 		}
 		
-		#memberListBox {
+		#insertBtn {
+			background : white;
+			color : #88c8bc;
+			width : 30%;
+			height : 30px;
+			border : 1px solid black;
+			border-radius : 5px;
+			margin-right : 10px;
+		}
+		
+		#insertBtn:hover {
+			background : #88c8bc;
+			color : white;
+			transition : 0.4s;
+		}
+		
+		#adminListBox {
 			border:1px solid black;
 			border-radius : 0px 0px 30px 30px;
 			background:white;
@@ -72,70 +88,57 @@
 			</div>
 			<br>
 			<div class="row">
-				<div class="span12" id="memberListBox">
+				<div class="span12" id="adminListBox">
 					<div class="row">
 						<div class="span12" style="background:#e2e2e2; padding:10px 0 10px 0; border-bottom:1px solid black;">
 							<div class="span2" style="text-align:center;">
 								아이디
 							</div>
 							<div class="span2" style="text-align:center;">
-								닉네임
+								이름
 							</div>
 							<div class="span2" style="text-align:center;">
 								이메일
 							</div>
+							<div class="span2" style="text-align:center;">
+								생성일자
+							</div>
 							<div class="span1" style="text-align:center;">
-								회원등급
+								계정상태
 							</div>
 							<div class="span2" style="text-align:center;">
-								가입일자
-							</div>
-							<div class="span1" style="text-align:center;">
-								회원상태
-							</div>
-							<div class="span1" style="text-align:center;">
-								탈퇴일자
+								삭제일자
 							</div>
 						</div>
 					</div>
-					<c:if test="${ !empty members }">
-						<c:forEach items="${ members }" var="m">
+					<c:if test="${ !empty admins }">
+						<c:forEach items="${ admins }" var="a">
 							<div class="row">
 								<div class="span12" style="padding:10px 0 10px 0; border-bottom : 1px solid grey;">
 									<div class="span2" style="text-align:center;">
-										${ m.USERID }
+										${ a.USERID }
 									</div>
 									<div class="span2" style="text-align:center;">
-										${ m.NICKNAME }
+										${ a.USERNAME }
 									</div>
 									<div class="span2" style="text-align:center;">
-										${ m.EMAIL }
-									</div>
-									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MEMBERSHIP }</button>
-										<ul class="dropdown-menu" id="msList">
-											<li onclick="msUpdate(this, '${ m.USERID }', 'V')">VIP</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'P')">PLATINUM</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'G')">GOLD</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'S')">SILVER</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'M')">MEMBER</li>
-										</ul>
+										${ a.EMAIL }
 									</div>
 									<div class="span2" style="text-align:center;">
-										<c:set var="eDate" value="${ m.ENROLLDATE }"/>
+										<c:set var="eDate" value="${ a.ENROLLDATE }"/>
 										<span>${ fn:substring(eDate, 0, 10) }</span>
 									</div>
 									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MSTATUS }</button>
+										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ a.MSTATUS }</button>
 										<ul class="dropdown-menu" id="mStatus">
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'Y')">Y</li>
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'N')">N</li>
+											<li onclick="mStatusUpdate(this, '${ a.USERID }', 'Y')">Y</li>
+											<li onclick="mStatusUpdate(this, '${ a.USERID }', 'N')">N</li>
 										</ul>
 									</div>
-									<div class="span1" style="text-align:center;">
+									<div class="span2" style="text-align:center;">
 										<c:choose>
-											<c:when test="${ !empty m.DELETEDATE }">
-												<c:set var="dDate" value="${ m.DELETEDATE }"/>
+											<c:when test="${ !empty a.DELETEDATE }">
+												<c:set var="dDate" value="${ a.DELETEDATE }"/>
 												<span>${ fn:substring(dDate, 0, 10) }</span>
 											</c:when>
 											<c:otherwise>-</c:otherwise>
@@ -155,28 +158,32 @@
 					</div>
 					<!-- 페이징 처리 끝-->
 					</c:if>
-					<c:if test="${ empty members }">
+					<c:if test="${ empty admins }">
 						<div class="row">
 							<div class="span12" style="text-align:center; margin:30px">
-								<h2>회원정보가 존재하지 않습니다.</h2>
+								<h2>관리자정보가 존재하지 않습니다.</h2>
 							</div>
 						</div>
 					</c:if>
 					
-					
 					<!-- 검색 시작 -->
 					<div class="row">
-						<div class="span12" style="text-align:center;">
-							<form action="${pageContext.request.contextPath}/admin/selectMemberSearch.do" id="Search">
+						<div class="span4 offset4" style="text-align:center;">
+							<form action="${pageContext.request.contextPath}/admin/selectAdminSearch.do" id="Search">
 								<select name="searchCt" class="btn" style="border-radius:10px; width:100px; height:35px;">
 									<option value="all" style="background: white; color : black;">전체</option>
 									<option value="id" style="background: white; color : black;">아이디</option>
-									<option value="nick" style="background: white; color : black;">닉네임</option>
+									<option value="name" style="background: white; color : black;">이름</option>
 								</select>
-								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:20%; height:26px; margin-top:8px;">
+								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:180px; height:26px; margin-top:8px;">
 								<button class="btn" type="submit" style="border-radius:30px; height:35px; background:#88c8bc; color:white;"><i class="icon-search"></i></button>
 							</form>
 						</div>
+						<c:if test="${ member.userId eq 'admin' }">
+							<div class="span4" style="text-align:right;">
+								<button type="button" id="insertBtn">관리자등록</button>
+							</div>
+						</c:if>
 					</div>
 					<!-- 검색 끝 -->
 				</div>
@@ -267,45 +274,9 @@
 			$(navBtn).addClass("active");
 	    });
 
-		<!-- 회원등급 변경 -->
-	    function msUpdate(obj, userId, membership) {
-		    if(confirm("회원등급을 변경하시겠습니까?")) {
-		    	$.ajax({
-					url : "${pageContext.request.contextPath}/admin/membershipUpdate.do",
-					data : {'userId' : userId, 'membership' : membership},
-					success : function(data){
-						var ms = '';
-						switch(membership){
-						case 'V' :
-							ms = 'V';
-							break;
-						case 'P':
-							ms = 'P';
-							break;
-						case 'G':
-							ms = 'G';
-							break;
-						case 'S':
-							ms = 'S';
-							break;
-						case 'M':
-							ms = 'M';
-							break;
-						case 'X' :
-							alert("회원 등급 변경 실패");
-							break;
-						default :
-							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
-						}
-						$(obj).parent().siblings('button').text(ms);
-					}
-				});
-			}
-		}
-
-	    <!-- 회원상태 변경 -->
+	    <!-- 계정상태 변경 -->
 	    function mStatusUpdate(obj, userId, mstatus) {
-		    if(confirm("회원상태를 변경하시겠습니까?")) {
+		    if(confirm("관리자계정의 상태를 변경하시겠습니까?")) {
 		    	$.ajax({
 					url : "${pageContext.request.contextPath}/admin/mStatusUpdate.do",
 					data : {'userId' : userId, 'mstatus' : mstatus},
@@ -319,7 +290,7 @@
 							mStatus = 'N';
 							break;
 						case 'X' :
-							alert("회원 상태 변경 실패");
+							alert("관리자계정 상태 변경 실패");
 							break;
 						default :
 							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
@@ -330,7 +301,7 @@
 			}
 		}
 
-		$('#mList').on('click', function() {
+	    $('#mList').on('click', function() {
 			location.href="${pageContext.request.contextPath}/admin/selectMemberList.do";
 		});
 
@@ -341,6 +312,12 @@
 		$('#search').keydown(function(e) {
 			if(e.keyCode == 13) {
 				$('#Search').submit();
+			}
+		});
+
+		$('#insertBtn').on('click', function() {
+			if(confirm("관리자를 등록하시겠습니까?")) {
+				location.href="${pageContext.request.contextPath}/admin/insertAdmin.do";
 			}
 		});
 	</script>
