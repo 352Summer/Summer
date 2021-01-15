@@ -7,9 +7,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>회원관리</title>
+	<title>결제/포인트관리</title>
 	<style>
-		#mList, #aList {
+		#oList, #pList {
 			width : 200px;
 			height : 40px;
 			background : snow;
@@ -18,36 +18,39 @@
 			font-size : 18px;
 		}
 		
-		#mList {
+		#oList {
 			background : #88c8bc;
 			color : white;
 		}
 		
-		#mList:hover , #aList:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-		}
-		
-		#msList li:hover {
+		#oList:hover , #pList:hover {
 			background : #88c8bc;
 			color : white;
 			transition : 0.4s;
-			cursor : pointer;
 		}
 		
-		#mStatus li:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-			cursor : pointer;
-		}
-		
-		#memberListBox {
+		#oListBox {
 			border:1px solid black;
 			border-radius : 0px 0px 30px 30px;
 			background:white;
 			box-shadow : 10px 10px 20px 5px grey;
+		}
+		
+		.accordion-toggle:hover {
+			cursor : pointer;
+		}
+		
+		#orderDetail {
+			border : 1px solid black;
+			box-shadow : 2px 2px 5px 1px grey;
+			margin-top : 10px;
+			margin-bottom : 10px;
+			padding-top : 10px;
+		}
+		
+		#orderDetail img {
+			width : 140px;
+			height : 170px;
 		}
 		
 	</style>
@@ -60,90 +63,104 @@
 		<div class="container">
 			<div class="row">
 				<div class="span12">
-					<h1><i class="shortcut-icon icon-user"></i> 회원관리</h1>
+					<h1><i class="shortcut-icon icon-credit-card"></i> 결제/포인트관리</h1>
 				</div>
 			</div>
 			<br>
 			<div class="row">
 				<div class="span8 offset2" style="text-align:center;">
-					<button type="button" id="mList">회원목록</button>
-					<button type="button" id="aList">관리자목록</button>
+					<button type="button" id="oList">결제내역</button>
+					<button type="button" id="pList">포인트내역</button>
 				</div>
 			</div>
 			<br>
 			<div class="row">
-				<div class="span12" id="memberListBox">
+				<div class="span12" id="oListBox">
 					<div class="row">
 						<div class="span12" style="background:#e2e2e2; padding:10px 0 10px 0; border-bottom:1px solid black;">
 							<div class="span2" style="text-align:center;">
+								주문번호
+							</div>
+							<div class="span2" style="text-align:center;">
 								아이디
 							</div>
-							<div class="span2" style="text-align:center;">
-								닉네임
+							<div class="span1" style="text-align:center;">
+								수신자명
 							</div>
-							<div class="span2" style="text-align:center;">
-								이메일
+							<div class="span3" style="text-align:center;">
+								주문정보
 							</div>
 							<div class="span1" style="text-align:center;">
-								회원등급
+								결제금액
 							</div>
 							<div class="span2" style="text-align:center;">
-								가입일자
-							</div>
-							<div class="span1" style="text-align:center;">
-								회원상태
-							</div>
-							<div class="span1" style="text-align:center;">
-								탈퇴일자
+								주문일자
 							</div>
 						</div>
 					</div>
-					<c:if test="${ !empty members }">
-						<c:forEach items="${ members }" var="m">
-							<div class="row">
+					<c:if test="${ !empty orders }">
+						<div class="accordion" id="accordion2">
+						<c:forEach items="${ orders }" var="o">
+							<div class="row accordian-group">
 								<div class="span12" style="padding:10px 0 10px 0; border-bottom : 1px solid grey;">
 									<div class="span2" style="text-align:center;">
-										${ m.USERID }
+										<span id="ono">${ o.ONO }</span>
 									</div>
 									<div class="span2" style="text-align:center;">
-										${ m.NICKNAME }
-									</div>
-									<div class="span2" style="text-align:center;">
-										${ m.EMAIL }
-									</div>
-									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MEMBERSHIP }</button>
-										<ul class="dropdown-menu" id="msList">
-											<li onclick="msUpdate(this, '${ m.USERID }', 'V')">VIP</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'P')">PLATINUM</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'G')">GOLD</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'S')">SILVER</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'M')">MEMBER</li>
-										</ul>
-									</div>
-									<div class="span2" style="text-align:center;">
-										<c:set var="eDate" value="${ m.ENROLLDATE }"/>
-										<span>${ fn:substring(eDate, 0, 10) }</span>
-									</div>
-									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MSTATUS }</button>
-										<ul class="dropdown-menu" id="mStatus">
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'Y')">Y</li>
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'N')">N</li>
-										</ul>
+										${ o.USERID }
 									</div>
 									<div class="span1" style="text-align:center;">
-										<c:choose>
-											<c:when test="${ !empty m.DELETEDATE }">
-												<c:set var="dDate" value="${ m.DELETEDATE }"/>
-												<span>${ fn:substring(dDate, 0, 10) }</span>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
+										${ o.RNAME }
+									</div>
+									<div class="span3"  style="text-align:center;">
+										${ o.ORDERINFO }
+										<button type="button" class="accordion-toggle" id="rotate${ o.ONO }" onclick="fn_rotate(${o.ONO})" value="0" style="float:right;"
+											    data-toggle="collapse" href="#collapse${ o.ONO }"><i class="icon-chevron-down"></i></button>
+									</div>
+									<div class="span1" style="text-align:center;">
+										<fmt:formatNumber value="${ o.TOTALPRICE }" pattern="#,###"/> 원
+									</div>
+									<div class="span2" style="text-align:center;">
+										<c:set var="oDate" value="${ o.ORDERDATE }"/>
+										<span>${ fn:substring(oDate, 0, 10) }</span>
 									</div>
 								</div>
+								
+								<!---------------------- 주문정보 아코디언 시작 ------------------->
+								<div id="collapse${ o.ONO }" class="accordion-body collapse">
+									<div class="accordion-inner">
+        								<div class="span10 offset1" id="orderDetail">
+        									<div class="row" style="text-align:center">
+        										<div class="span2 offset1">사진</div>
+	        									<div class="span3">상품이름</div>
+	        									<div class="span1">수량</div>
+	        									<div class="span2">가격</div>
+        									</div>
+        									<hr>
+        									<c:forEach items="${ o.ios }" var="io">
+	        									<div class="row" style="margin-top:2%; margin-bottom: 2%;">
+		        									<div class="span2 offset1" style="text-align:center">
+		        										<img src="${pageContext.request.contextPath}${io.FILEPATH}${io.NEWFILENAME}"/>
+		        									</div>
+		        									<div class="span3" style="margin-top:70px; text-align:center;">
+		        										${ io.PNAME }
+		        									</div>
+		        									<div class="span1" style="margin-top:70px; text-align:center;">
+		        										${ io.QUANTITY }
+		        									</div>
+		        									<div class="span2" style="margin-top:70px; text-align:center;">
+		        										${ io.PRICE }
+		        									</div>
+	        									</div>
+	        									<hr>
+        									</c:forEach>
+        								</div>
+      								</div>
+								</div>
+								<!---------------------- 주문정보 아코디언 끝 ------------------->
 							</div>
 						</c:forEach>
+						</div>
 					<br>
 					<!-- 페이징 처리 시작-->
 					<div class="row" style="margin: 10px 0 20px 0;">
@@ -155,10 +172,10 @@
 					</div>
 					<!-- 페이징 처리 끝-->
 					</c:if>
-					<c:if test="${ empty members }">
+					<c:if test="${ empty orders }">
 						<div class="row">
 							<div class="span12" style="text-align:center; margin:30px">
-								<h2>회원정보가 존재하지 않습니다.</h2>
+								<h2>결제정보가 존재하지 않습니다.</h2>
 							</div>
 						</div>
 					</c:if>
@@ -167,11 +184,11 @@
 					<!-- 검색 시작 -->
 					<div class="row">
 						<div class="span12" style="text-align:center;">
-							<form action="${pageContext.request.contextPath}/admin/selectMemberSearch.do" id="Search">
+							<form action="${pageContext.request.contextPath}/admin/selectOrderSearch.do" id="Search">
 								<select name="searchCt" class="btn" style="border-radius:10px; width:100px; height:35px;">
 									<option value="all" style="background: white; color : black;">전체</option>
 									<option value="id" style="background: white; color : black;">아이디</option>
-									<option value="nick" style="background: white; color : black;">닉네임</option>
+									<option value="name" style="background: white; color : black;">수신자명</option>
 								</select>
 								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:20%; height:26px; margin-top:8px;">
 								<button class="btn" type="submit" style="border-radius:30px; height:35px; background:#88c8bc; color:white;"><i class="icon-search"></i></button>
@@ -261,81 +278,18 @@
 	
 	<script>
 		$(function() {
-			var navBtn = $('#admin_member');
+			var navBtn = $('#admin_pay');
 			var otherBtn = $('#admin_main');
 			$(otherBtn).removeClass("active");
 			$(navBtn).addClass("active");
 	    });
 
-		<!-- 회원등급 변경 -->
-	    function msUpdate(obj, userId, membership) {
-		    if(confirm("회원등급을 변경하시겠습니까?")) {
-		    	$.ajax({
-					url : "${pageContext.request.contextPath}/admin/membershipUpdate.do",
-					data : {'userId' : userId, 'membership' : membership},
-					success : function(data){
-						var ms = '';
-						switch(membership){
-						case 'V' :
-							ms = 'V';
-							break;
-						case 'P':
-							ms = 'P';
-							break;
-						case 'G':
-							ms = 'G';
-							break;
-						case 'S':
-							ms = 'S';
-							break;
-						case 'M':
-							ms = 'M';
-							break;
-						case 'X' :
-							alert("회원 등급 변경 실패");
-							break;
-						default :
-							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
-						}
-						$(obj).parent().siblings('button').text(ms);
-					}
-				});
-			}
-		}
-
-	    <!-- 회원상태 변경 -->
-	    function mStatusUpdate(obj, userId, mstatus) {
-		    if(confirm("회원상태를 변경하시겠습니까?")) {
-		    	$.ajax({
-					url : "${pageContext.request.contextPath}/admin/mStatusUpdate.do",
-					data : {'userId' : userId, 'mstatus' : mstatus},
-					success : function(data){
-						var mStatus = '';
-						switch(mstatus){
-						case 'Y' :
-							mStatus = 'Y';
-							break;
-						case 'N':
-							mStatus = 'N';
-							break;
-						case 'X' :
-							alert("회원 상태 변경 실패");
-							break;
-						default :
-							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
-						}
-						$(obj).parent().siblings('button').text(mStatus);
-					}
-				});
-			}
-		}
-
-		$('#mList').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/selectMemberList.do";
+		$('#oList').on('click', function() {
+			location.href="${pageContext.request.contextPath}/admin/selectOrderList.do";
 		});
 
-		$('#aList').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/selectAdminList.do";
+		$('#pList').on('click', function() {
+			location.href="${pageContext.request.contextPath}/admin/selectPointList.do";
 		});
 
 		$('#search').keydown(function(e) {
@@ -343,6 +297,18 @@
 				$('#Search').submit();
 			}
 		});
+
+		function fn_rotate(ono) {
+			if($('#rotate'+ono).val() == '0') {
+				$('#rotate'+ono).css('transform', 'rotate(180deg)')
+				   				.css('transform-origin', 'center center')
+				   				.css('transition', '0.3s');
+				$('#rotate'+ono).val('1');
+			} else if($('#rotate'+ono).val() == '1') {
+				$('#rotate'+ono).css('transform', '');
+				$('#rotate'+ono).val('0');
+			}
+		}
 	</script>
 </body>
 </html>

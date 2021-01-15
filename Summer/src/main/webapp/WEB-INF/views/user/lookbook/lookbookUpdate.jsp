@@ -61,7 +61,7 @@
     		text-align : center;
     	}
     	
-    	.img-rounded:hover, .img-thumbnail {
+    	.img-rounded:hover, .img-thumbnail:hover {
     		cursor : pointer;
     	}
     	

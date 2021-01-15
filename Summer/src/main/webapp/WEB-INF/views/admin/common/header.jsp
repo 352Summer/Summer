@@ -180,14 +180,14 @@
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li class="active"><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do"><i class="icon-home"></i><span>메인</span> </a> </li>
-        <li><a href="reports.html"><i class="icon-list-alt"></i><span>통계</span> </a> </li>
-        <li><a href="guidely.html"><i class="icon-shopping-cart"></i><span>상품관리</span> </a></li>
-        <li><a href="charts.html"><i class="icon-user"></i><span>회원관리</span> </a> </li>
-        <li><a href="shortcodes.html"><i class="icon-credit-card"></i><span>결제/포인트</span> </a> </li>
-        <li><a href="shortcodes.html"><i class="icon-comments"></i><span>커뮤니티 관리</span> </a> </li>
+        <li id="admin_main" class="active"><a href="${pageContext.request.contextPath}/admin/selectAdminMain.do"><i class="icon-home"></i><span>메인</span> </a> </li>
+        <li id="admin_chart"><a href="reports.html"><i class="icon-list-alt"></i><span>통계</span> </a> </li>
+        <li id="admin_store"><a href="${pageContext.request.contextPath}/admin/selectProductList.do"><i class="icon-shopping-cart"></i><span>상품관리</span> </a></li>
+        <li id="admin_member"><a href="${pageContext.request.contextPath}/admin/selectMemberList.do"><i class="icon-user"></i><span>회원관리</span> </a> </li>
+        <li id="admin_pay"><a href="${pageContext.request.contextPath}/admin/selectOrderList.do"><i class="icon-credit-card"></i><span>결제/포인트</span> </a> </li>
+        <li id="admin_community"><a href="shortcodes.html"><i class="icon-comments"></i><span>커뮤니티 관리</span> </a> </li>
         
-        <li><a href="${pageContext.request.contextPath}/admin/customerService/customerService.do"><i class="icon-question-sign"></i><span>고객센터</span> </a> </li>
+        <li id="admin_cs"><a href="${pageContext.request.contextPath}/admin/customerService/customerService.do"><i class="icon-question-sign"></i><span>고객센터</span> </a> </li>
         
         <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>Drops</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -206,6 +206,8 @@
   <!-- /subnavbar-inner --> 
 </div>
 <!-- /subnavbar -->
+
+
 
 </body>
 </html>

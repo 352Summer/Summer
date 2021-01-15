@@ -7,9 +7,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>회원관리</title>
+	<title>상품관리</title>
 	<style>
-		#mList, #aList {
+		#pList, #addProduct, #ioList {
 			width : 200px;
 			height : 40px;
 			background : snow;
@@ -18,36 +18,44 @@
 			font-size : 18px;
 		}
 		
-		#mList {
+		#pList {
 			background : #88c8bc;
 			color : white;
 		}
 		
-		#mList:hover , #aList:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-		}
-		
-		#msList li:hover {
+		#pList:hover , #addProduct:hover, #ioList:hover {
 			background : #88c8bc;
 			color : white;
 			transition : 0.4s;
-			cursor : pointer;
 		}
 		
-		#mStatus li:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-			cursor : pointer;
-		}
-		
-		#memberListBox {
+		#oListBox {
 			border:1px solid black;
 			border-radius : 0px 0px 30px 30px;
 			background:white;
 			box-shadow : 10px 10px 20px 5px grey;
+		}
+		
+		.pd1:hover {
+			background : #b0daea;
+			border : 1px solid black;
+			cursor : pointer;
+		}
+		
+		.pd1 img {
+			width : 80px;
+		}
+		
+		#pHead {
+			background:#e2e2e2;
+			padding:10px 0 10px 0;
+			border-top : 1px solid black;
+			border-bottom:1px solid black;
+		}
+		
+		#pHead>div {
+			font-size : 15px;
+			font-weight : bold;
 		}
 		
 	</style>
@@ -60,90 +68,86 @@
 		<div class="container">
 			<div class="row">
 				<div class="span12">
-					<h1><i class="shortcut-icon icon-user"></i> 회원관리</h1>
+					<h1><i class="shortcut-icon icon-shopping-cart"></i> 상품관리</h1>
 				</div>
 			</div>
 			<br>
 			<div class="row">
 				<div class="span8 offset2" style="text-align:center;">
-					<button type="button" id="mList">회원목록</button>
-					<button type="button" id="aList">관리자목록</button>
+					<button type="button" id="pList">상품목록</button>
+					<button type="button" id="addProduct">상품등록</button>
+					<button type="button" id="ioList">입출고관리</button>
 				</div>
 			</div>
 			<br>
 			<div class="row">
-				<div class="span12" id="memberListBox">
-					<div class="row">
-						<div class="span12" style="background:#e2e2e2; padding:10px 0 10px 0; border-bottom:1px solid black;">
-							<div class="span2" style="text-align:center;">
-								아이디
-							</div>
-							<div class="span2" style="text-align:center;">
-								닉네임
-							</div>
-							<div class="span2" style="text-align:center;">
-								이메일
-							</div>
-							<div class="span1" style="text-align:center;">
-								회원등급
-							</div>
-							<div class="span2" style="text-align:center;">
-								가입일자
-							</div>
-							<div class="span1" style="text-align:center;">
-								회원상태
-							</div>
-							<div class="span1" style="text-align:center;">
-								탈퇴일자
+				<div class="span12" id="oListBox">
+					<div class="row" style="padding:10px 0 10px 0;">
+						<div class="span12" style="padding-left:5%;">
+							<div class="btn-group">
+							  <a class="btn dropdown-toggle" data-toggle="dropdown" style="width:100px;">
+							  	정렬 <span class="caret" style="float:right;"></span>
+							  </a>
+							  <ul class="dropdown-menu">
+							    <li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=all">전체</a></li>
+							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=top">상의</a></li>
+							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=pants">하의</a></li>
+							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=outer">아우터</a></li>
+							  </ul>
 							</div>
 						</div>
 					</div>
-					<c:if test="${ !empty members }">
-						<c:forEach items="${ members }" var="m">
-							<div class="row">
+					<div class="row">
+						<div class="span12" id="pHead">
+							<div class="span2" style="text-align:center;">
+								상품이미지
+							</div>
+							<div class="span2" style="text-align:center;">
+								상품명
+							</div>
+							<div class="span1" style="text-align:center;">
+								상품분류
+							</div>
+							<div class="span3" style="text-align:center;">
+								상품설명
+							</div>
+							<div class="span1" style="text-align:center;">
+								상품금액
+							</div>
+							<div class="span2" style="text-align:center;">
+								보유재고
+							</div>
+						</div>
+					</div>
+					<c:if test="${ !empty products }">
+						<div class="accordion" id="accordion2">
+						<c:forEach items="${ products }" var="p">
+							<div class="row pd1" onclick="fn_pDetail(${p.PCODE});">
 								<div class="span12" style="padding:10px 0 10px 0; border-bottom : 1px solid grey;">
 									<div class="span2" style="text-align:center;">
-										${ m.USERID }
+										<img src="${pageContext.request.contextPath}${p.FILEPATH}${p.NEWFILENAME}"/>
 									</div>
-									<div class="span2" style="text-align:center;">
-										${ m.NICKNAME }
+									<div class="span2" style="text-align:center; margin-top:3%;">
+										${ p.PNAME }
 									</div>
-									<div class="span2" style="text-align:center;">
-										${ m.EMAIL }
+									<div class="span1" style="text-align:center; margin-top:3%;">
+										<c:if test="${ p.LCNO == 1 }">상의</c:if>
+										<c:if test="${ p.LCNO == 2 }">하의</c:if>
+										<c:if test="${ p.LCNO == 3 }">아우터</c:if>
 									</div>
-									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MEMBERSHIP }</button>
-										<ul class="dropdown-menu" id="msList">
-											<li onclick="msUpdate(this, '${ m.USERID }', 'V')">VIP</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'P')">PLATINUM</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'G')">GOLD</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'S')">SILVER</li>
-											<li onclick="msUpdate(this, '${ m.USERID }', 'M')">MEMBER</li>
-										</ul>
+									<div class="span3" style="text-align:center; margin-top:3%;">
+										${ p.PDESCRIPTION }
 									</div>
-									<div class="span2" style="text-align:center;">
-										<c:set var="eDate" value="${ m.ENROLLDATE }"/>
-										<span>${ fn:substring(eDate, 0, 10) }</span>
+									<div class="span1" style="text-align:center; margin-top:3%;">
+										<fmt:formatNumber value="${ p.PPRICE }" pattern="#,###"/> 원
 									</div>
-									<div class="span1 btn-group" style="text-align:center;">
-										<button class="btn dropdown-toggle" data-toggle="dropdown" style="width:100%;">${ m.MSTATUS }</button>
-										<ul class="dropdown-menu" id="mStatus">
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'Y')">Y</li>
-											<li onclick="mStatusUpdate(this, '${ m.USERID }', 'N')">N</li>
-										</ul>
-									</div>
-									<div class="span1" style="text-align:center;">
-										<c:choose>
-											<c:when test="${ !empty m.DELETEDATE }">
-												<c:set var="dDate" value="${ m.DELETEDATE }"/>
-												<span>${ fn:substring(dDate, 0, 10) }</span>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
+									<div class="span2" style="text-align:center; margin-top:3%;">
+										${ p.PSTOCK } 개
 									</div>
 								</div>
 							</div>
 						</c:forEach>
+						</div>
 					<br>
 					<!-- 페이징 처리 시작-->
 					<div class="row" style="margin: 10px 0 20px 0;">
@@ -155,10 +159,10 @@
 					</div>
 					<!-- 페이징 처리 끝-->
 					</c:if>
-					<c:if test="${ empty members }">
+					<c:if test="${ empty products }">
 						<div class="row">
 							<div class="span12" style="text-align:center; margin:30px">
-								<h2>회원정보가 존재하지 않습니다.</h2>
+								<h2>상품정보가 존재하지 않습니다.</h2>
 							</div>
 						</div>
 					</c:if>
@@ -167,11 +171,11 @@
 					<!-- 검색 시작 -->
 					<div class="row">
 						<div class="span12" style="text-align:center;">
-							<form action="${pageContext.request.contextPath}/admin/selectMemberSearch.do" id="Search">
+							<form action="${pageContext.request.contextPath}/admin/selectProductSearch.do" id="Search">
 								<select name="searchCt" class="btn" style="border-radius:10px; width:100px; height:35px;">
 									<option value="all" style="background: white; color : black;">전체</option>
-									<option value="id" style="background: white; color : black;">아이디</option>
-									<option value="nick" style="background: white; color : black;">닉네임</option>
+									<option value="pname" style="background: white; color : black;">상품명</option>
+									<option value="pcontents" style="background: white; color : black;">상품설명</option>
 								</select>
 								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:20%; height:26px; margin-top:8px;">
 								<button class="btn" type="submit" style="border-radius:30px; height:35px; background:#88c8bc; color:white;"><i class="icon-search"></i></button>
@@ -261,81 +265,22 @@
 	
 	<script>
 		$(function() {
-			var navBtn = $('#admin_member');
+			var navBtn = $('#admin_store');
 			var otherBtn = $('#admin_main');
 			$(otherBtn).removeClass("active");
 			$(navBtn).addClass("active");
 	    });
 
-		<!-- 회원등급 변경 -->
-	    function msUpdate(obj, userId, membership) {
-		    if(confirm("회원등급을 변경하시겠습니까?")) {
-		    	$.ajax({
-					url : "${pageContext.request.contextPath}/admin/membershipUpdate.do",
-					data : {'userId' : userId, 'membership' : membership},
-					success : function(data){
-						var ms = '';
-						switch(membership){
-						case 'V' :
-							ms = 'V';
-							break;
-						case 'P':
-							ms = 'P';
-							break;
-						case 'G':
-							ms = 'G';
-							break;
-						case 'S':
-							ms = 'S';
-							break;
-						case 'M':
-							ms = 'M';
-							break;
-						case 'X' :
-							alert("회원 등급 변경 실패");
-							break;
-						default :
-							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
-						}
-						$(obj).parent().siblings('button').text(ms);
-					}
-				});
-			}
-		}
-
-	    <!-- 회원상태 변경 -->
-	    function mStatusUpdate(obj, userId, mstatus) {
-		    if(confirm("회원상태를 변경하시겠습니까?")) {
-		    	$.ajax({
-					url : "${pageContext.request.contextPath}/admin/mStatusUpdate.do",
-					data : {'userId' : userId, 'mstatus' : mstatus},
-					success : function(data){
-						var mStatus = '';
-						switch(mstatus){
-						case 'Y' :
-							mStatus = 'Y';
-							break;
-						case 'N':
-							mStatus = 'N';
-							break;
-						case 'X' :
-							alert("회원 상태 변경 실패");
-							break;
-						default :
-							alert("에러가 발생했습니다!! 관리자에게 문의하세요.");
-						}
-						$(obj).parent().siblings('button').text(mStatus);
-					}
-				});
-			}
-		}
-
-		$('#mList').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/selectMemberList.do";
+		$('#pList').on('click', function() {
+			location.href="${pageContext.request.contextPath}/admin/selectProductList.do";
 		});
 
-		$('#aList').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/selectAdminList.do";
+		$('#addProduct').on('click', function() {
+			location.href="${pageContext.request.contextPath}/admin/#";
+		});
+
+		$('#ioList').on('click', function() {
+			location.href="${pageContext.request.contextPath}/admin/#";
 		});
 
 		$('#search').keydown(function(e) {
@@ -343,6 +288,10 @@
 				$('#Search').submit();
 			}
 		});
+
+		function fn_pDetail(pcode) {
+			location.href="${pageContext.request.contextPath}/admin/selectProductDetail.do?pcode="+pcode;
+		};
 	</script>
 </body>
 </html>

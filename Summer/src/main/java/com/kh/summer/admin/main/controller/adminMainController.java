@@ -10,9 +10,4 @@ public class adminMainController {
 	public String selectAdminMain() {
 		return "admin/adminMain"; 
 	}
-	
-	@RequestMapping("/admin/selectMemberList")
-	public String selectMemberList() {
-		return "admin/member/memberList";
-	}
 }
