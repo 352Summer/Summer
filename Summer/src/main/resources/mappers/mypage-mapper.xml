@@ -35,7 +35,7 @@
 		FROM LIKELIST L
 		JOIN BOARD B ON(L.BNO=B.BNO)
 		WHERE B.BSTATUS = 'Y'
-		AND L.USERID = 'answlgns1'
+		AND L.USERID = #{userId}
 		GROUP BY L.USERID
 	</select>
 	

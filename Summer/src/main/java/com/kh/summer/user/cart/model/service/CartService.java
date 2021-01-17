@@ -5,8 +5,11 @@ import java.util.Map;
 
 public interface CartService {
 	
-	List<Map<String, String>> selectCartList(String userId);
+	List<Map<String, String>> selectCartList(int cPage, int numPerPage, String userId);
 	
 	int deleteCart(int cartNo);
+
+	int selectCartTotalContents(String userId);
+
 
 }

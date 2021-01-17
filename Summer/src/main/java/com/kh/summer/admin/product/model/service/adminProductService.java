@@ -26,5 +26,21 @@ public interface adminProductService {
 
 	int updateProduct(Product originProduct, List<Attachment> attachList);
 
+	int insertProduct(Product product, List<Attachment> attachList, Map<String, Object> size);
+
+	List<Map<String, Object>> selectIOList(int cPage, int numPerPage, String sort);
+
+	int selectIOTotalContents(String sort);
+
+	List<Map<String, Object>> selectIOSearch(int cPage, int numPerPage, Map<String, String> searchMap);
+
+	int selectIOSearchCount(Map<String, String> searchMap);
+
+	List<Map<String, String>> pList();
+
+	Map<String, Object> selectOneP(String pcode);
+
+	int insertI(Map<String, Object> map);
+
 	
 }

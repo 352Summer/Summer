@@ -1,5 +1,6 @@
 package com.kh.summer.admin.product.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -91,9 +92,85 @@ public class adminProductServiceImpl implements adminProductService {
 		
 		return totalResult;
 	}
-	
-	
-	
+
+	@Override
+	public int insertProduct(Product product, List<Attachment> attachList, Map<String, Object> size) {
+		int result1 = 0;
+		
+		try {
+			result1 = adminproductDAO.insertProduct(product);
+			if(result1 == 0) throw new ProductException("상품정보 등록 실패");
+			
+			int lcNo = product.getLcNo();
+			
+			String pCode = adminproductDAO.selectPCode(lcNo);
+			int result2 = adminproductDAO.insertProductSize(size, pCode);
+			if(result2 == 0) throw new ProductException("상품사이즈 등록 실패");
+			
+			if(attachList.size() > 0) {
+				for(Attachment a : attachList) {
+					Map<String, Object> map = new HashMap<>();
+					map.put("a", a);
+					map.put("lcNo", lcNo);
+					System.out.println(map);
+					int result3 = adminproductDAO.insertAttachment(map);
+					if(result3 == 0) throw new ProductException("첨부파일 추가 실패!");
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result1;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectIOList(int cPage, int numPerPage, String sort) {
+		return adminproductDAO.selectIOList(cPage, numPerPage, sort);
+	}
+
+	@Override
+	public int selectIOTotalContents(String sort) {
+		return adminproductDAO.selectIOTotalContents(sort);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectIOSearch(int cPage, int numPerPage, Map<String, String> searchMap) {
+		return adminproductDAO.selectIOSearch(cPage, numPerPage, searchMap);
+	}
+
+	@Override
+	public int selectIOSearchCount(Map<String, String> searchMap) {
+		return adminproductDAO.selectIOSearchCount(searchMap);
+	}
+
+	@Override
+	public List<Map<String, String>> pList() {
+		return adminproductDAO.pList();
+	}
+
+	@Override
+	public Map<String, Object> selectOneP(String pcode) {
+		return adminproductDAO.selectOneP(pcode);
+	}
+
+	@Override
+	public int insertI(Map<String, Object> map) {
+		
+		int totalResult = 0;
+		
+		int result = adminproductDAO.insertI(map);
+		if(result == 0) throw new ProductException("상품입고 등록 실패!");
+		
+		int result1 = adminproductDAO.updateStock(map);
+		if(result1 == 0) throw new ProductException("상품입고 등록 실패!");
+		
+		if( result > 0 && result1 > 0 ) {
+			totalResult = 1;
+		}
+		
+		return totalResult;
+	}
 	
 
 }

@@ -232,11 +232,11 @@
 		});
 
 		$('#addProduct').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/#";
+			location.href="${pageContext.request.contextPath}/admin/insertProduct.do";
 		});
 
 		$('#ioList').on('click', function() {
-			location.href="${pageContext.request.contextPath}/admin/#";
+			location.href="${pageContext.request.contextPath}/admin/manageIO.do";
 		});
 
 		$('#search').keydown(function(e) {
