@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>고객센터</title>
+	<title>FAQ</title>
 	
 	<style>
 	/*FAQ작성버튼*/
@@ -39,7 +39,6 @@
 		    border: 1px solid transparent;
 		}
 		
-		
 		#qList, #rList, #fList {
 			width : 200px;
 			height : 40px;
@@ -49,7 +48,7 @@
 			font-size : 18px;
 		}
 		
-		#qList {
+		#fList {
 			background : #88c8bc;
 			color : white;
 		}
@@ -90,6 +89,7 @@
 			transition : 0.4s;
 		}
     
+    
 	</style>
 	
 </head>
@@ -98,47 +98,46 @@
 	<c:import url="../common/header.jsp"/>
 	<div id="container" style="background:white; border: 2px solid black; padding:5%" >
 	
-	<div class="row">
-		<div class="container" style="text-align:center;">
-			<button type="button" id="qList">문의사항관리</button>
-			<button type="button" id="rList">신고관리</button>
-			<button type="button" id="fList">FAQ관리</button>
+		<div class="row">
+			<div class="container" style="text-align:center;">
+				<button type="button" id="qList">문의사항관리</button>
+				<button type="button" id="rList">신고관리</button>
+				<button type="button" id="fList">FAQ관리</button>
+			</div>
 		</div>
-	</div>
-	<br /><br />
-			
-		<div class="col" style="text-align:center;"><h3>문의사항 관리 게시판</h3></div>
-		<section id="question-container" class="container">
-			<p>총 ${totalContents}건의 문의사항이 있습니다.</p>
-			<table id="tbl-question" class="table table-striped table-hover">
-				<tr>
-					<th>문의번호</th>
-					<th>제목</th>
-					<th>답변유무</th>
-					<th>작성자</th>
-					<th>작성일</th>
-				</tr>
-				<c:forEach items="${list}" var="q"> 
-				<tr id="${q.QNO}">
-					<td>${q.QNO}</td>
-					<td>${q.QTITLE}</td>
-					<td>${q.ASTATUS}</td>
-					<td>${q.USERID}</td>
-					<c:set var="qDate" value="${ q.QDATE }"/>
-					<td>${ fn:substring(qDate, 0, 10) }</td>
-				</tr>
-				</c:forEach>
-			</table>
-				<!-- 페이징 처리 사직-->
-				<div class="row">
-					<div class="span12">
-						<div class="block-27" style="text-align:center;">
-							<c:out value="${pageBar}" escapeXml="false"/>
-		            	</div>
+		<br /><br />
+	
+		<div id="container" style="background:white; border: 2px solid black; padding:5%">
+			<div class="col" style="text-align:center;"><h3>FAQ 관리 게시판</h3></div>
+			<input type="button" value="FAQ작성" id="btn-add" class="btn btn-outline-success" onclick="fn_gofaqForm();"/>
+			<section id="faq-container" class="container">
+				<p>총 ${totalContents}건의 등록한 FAQ 게시물이 있습니다.</p>
+				<table id="tbl-faq" class="table table-striped table-hover">
+					<tr>
+						<th>FAQ 번호</th>
+						<th>제목</th>
+						<th>작성일</th>
+					</tr>
+					<c:forEach items="${list}" var="f"> 
+					<tr id="${f.FNO}">
+						<td>${f.FNO}</td>
+						<td>${f.FTITLE}</td>
+						<c:set var="fDate" value="${ F.FDATE }"/>
+						<td>${ fn:substring(fDate, 0, 10) }</td>
+					</tr>
+					</c:forEach>
+				</table>
+					<!-- 페이징 처리 사직-->
+					<div class="row">
+						<div class="span12">
+							<div class="block-27" style="text-align:center;">
+								<c:out value="${pageBar}" escapeXml="false"/>
+			            	</div>
+						</div>
 					</div>
-				</div>
-				<!-- 페이징 처리 끝-->
-		</section> 
+					<!-- 페이징 처리 끝-->
+			</section> 
+		</div>
 	</div>
 	<br /><br />
 	<div class="footer">
@@ -154,18 +153,22 @@
 	  </div>
 	  <!-- /footer-inner --> 
 	</div>
-
 	<script>
 
-	// 문의사항
+	// FAQ
 	$(function(){
 		$("tr[id]").on("click",function(){
-			var QNO = $(this).attr("id");
-			console.log("QNO="+QNO);
-			location.href = "${pageContext.request.contextPath}/admin/customerService/questionView.do?no="+QNO;
+			var FNO = $(this).attr("id");
+			console.log("FNO="+FNO);
+			location.href = "${pageContext.request.contextPath}/admin/customerService/faqView.do?no="+FNO;
 		});
 	});
 
+	function fn_gofaqForm(){
+		location.href = "${pageContext.request.contextPath}/admin/customerService/faqForm.do";
+	}
+
+	
 	$('#qList').on('click', function() {
 		location.href="${pageContext.request.contextPath}/admin/customerService/customerService.do";
 	});
@@ -176,13 +179,8 @@
 		location.href="${pageContext.request.contextPath}/admin/customerService/faqList.do";
 	});
 
-	$(function() {
-		var navBtn = $('#admin_cs');
-		var otherBtn = $('#admin_main');
-		$(otherBtn).removeClass("active");
-		$(navBtn).addClass("active");
-    })
 	
 	</script>
+	
 </body>
 </html>

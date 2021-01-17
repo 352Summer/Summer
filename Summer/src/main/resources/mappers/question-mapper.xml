@@ -17,13 +17,13 @@
   
   	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
   	<update id="updateReply" parameterType="Question">
-  		UPDATE QUESTION SET ACONTENTS = #{acontents}
+  		UPDATE QUESTION SET ACONTENTS = #{acontents}, ASTATUS = 'Y'
   		WHERE QNO = #{qno}
   	</update>
   	
   	<select id="answerList" parameterType="Question">
   		SELECT ACONTENTS FROM QUESTION
-  		WHERE QNO=#{qNo}}
+  		WHERE QNO=#{qNo}
   	</select> 
   	
   	<update id="answerDelete" parameterType="_int">

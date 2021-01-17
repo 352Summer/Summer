@@ -17,6 +17,11 @@
 	<insert id="insertFAQ" parameterType="FAQ">
   		INSERT INTO FAQ
   		VALUES ( SEQ_FNO.NEXTVAL, #{qtypeno}, #{ftitle}, #{fcontents}, #{userid}, #{fdate})
-  	</insert> 	
+  	</insert> 
   	
+  	<delete id="deleteFAQ" parameterType="_int">
+		DELETE FROM FAQ
+		WHERE FNO = #{fno}
+	</delete>	
+
 </mapper>

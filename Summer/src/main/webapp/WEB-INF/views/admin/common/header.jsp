@@ -185,7 +185,8 @@
         <li id="admin_store"><a href="${pageContext.request.contextPath}/admin/selectProductList.do"><i class="icon-shopping-cart"></i><span>상품관리</span> </a></li>
         <li id="admin_member"><a href="${pageContext.request.contextPath}/admin/selectMemberList.do"><i class="icon-user"></i><span>회원관리</span> </a> </li>
         <li id="admin_pay"><a href="${pageContext.request.contextPath}/admin/selectOrderList.do"><i class="icon-credit-card"></i><span>결제/포인트</span> </a> </li>
-        <li id="admin_community"><a href="shortcodes.html"><i class="icon-comments"></i><span>커뮤니티 관리</span> </a> </li>
+       
+        <li id="admin_community"><a href="${pageContext.request.contextPath}/admin/community/adminNoticeList.do"><i class="icon-comments"></i><span>커뮤니티 관리</span> </a> </li>
         
         <li id="admin_cs"><a href="${pageContext.request.contextPath}/admin/customerService/customerService.do"><i class="icon-question-sign"></i><span>고객센터</span> </a> </li>
         

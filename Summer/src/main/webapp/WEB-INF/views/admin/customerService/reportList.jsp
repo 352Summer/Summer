@@ -39,7 +39,6 @@
 		    border: 1px solid transparent;
 		}
 		
-		
 		#qList, #rList, #fList {
 			width : 200px;
 			height : 40px;
@@ -49,7 +48,7 @@
 			font-size : 18px;
 		}
 		
-		#qList {
+		#rList {
 			background : #88c8bc;
 			color : white;
 		}
@@ -90,6 +89,7 @@
 			transition : 0.4s;
 		}
     
+    
 	</style>
 	
 </head>
@@ -98,47 +98,50 @@
 	<c:import url="../common/header.jsp"/>
 	<div id="container" style="background:white; border: 2px solid black; padding:5%" >
 	
-	<div class="row">
-		<div class="container" style="text-align:center;">
-			<button type="button" id="qList">문의사항관리</button>
-			<button type="button" id="rList">신고관리</button>
-			<button type="button" id="fList">FAQ관리</button>
+		<div class="row">
+			<div class="container" style="text-align:center;">
+				<button type="button" id="qList">문의사항관리</button>
+				<button type="button" id="rList">신고관리</button>
+				<button type="button" id="fList">FAQ관리</button>
+			</div>
 		</div>
-	</div>
-	<br /><br />
-			
-		<div class="col" style="text-align:center;"><h3>문의사항 관리 게시판</h3></div>
-		<section id="question-container" class="container">
-			<p>총 ${totalContents}건의 문의사항이 있습니다.</p>
-			<table id="tbl-question" class="table table-striped table-hover">
-				<tr>
-					<th>문의번호</th>
-					<th>제목</th>
-					<th>답변유무</th>
-					<th>작성자</th>
-					<th>작성일</th>
-				</tr>
-				<c:forEach items="${list}" var="q"> 
-				<tr id="${q.QNO}">
-					<td>${q.QNO}</td>
-					<td>${q.QTITLE}</td>
-					<td>${q.ASTATUS}</td>
-					<td>${q.USERID}</td>
-					<c:set var="qDate" value="${ q.QDATE }"/>
-					<td>${ fn:substring(qDate, 0, 10) }</td>
-				</tr>
-				</c:forEach>
-			</table>
-				<!-- 페이징 처리 사직-->
-				<div class="row">
-					<div class="span12">
-						<div class="block-27" style="text-align:center;">
-							<c:out value="${pageBar}" escapeXml="false"/>
-		            	</div>
+		<br /><br />		
+		<div id="container" style="background:white; border: 2px solid black; padding:5%">
+			<div class="col" style="text-align:center;"><h3>신고 게시물 관리 게시판</h3></div>
+			<section id="report-container" class="container">
+				<p>총 ${totalContent}건의 신고 게시물이 있습니다.</p>
+				<table id="tbl-report" class="table table-striped table-hover">
+					<tr>
+						<th>번호</th>
+						<th>참조 게시글 번호</th>
+						<th>참조 댓글 번호</th>
+						<th>처리유무</th>
+						<th>신고자</th>
+						<th>신고일</th>
+					</tr>
+					<c:forEach items="${list2}" var="r"> 
+					<tr id="${r.RNO}">
+						<td>${r.RNO}</td>
+						<td>${r.BNO}</td>
+						<td>${r.BCNO}</td>
+						<td>${r.RSTATUS}</td>
+						<td>${r.USERID}</td>
+						<c:set var="rDate" value="${ r.RDATE }"/>
+						<td>${ fn:substring(rDate, 0, 10) }</td>
+					</tr>
+					</c:forEach>
+				</table>
+					<!-- 페이징 처리 사직-->
+					<div class="row">
+						<div class="span12">
+							<div class="block-27" style="text-align:center;">
+								<c:out value="${pageBar}" escapeXml="false"/>
+			            	</div>
+						</div>
 					</div>
-				</div>
-				<!-- 페이징 처리 끝-->
-		</section> 
+					<!-- 페이징 처리 끝-->
+			</section> 
+		</div>
 	</div>
 	<br /><br />
 	<div class="footer">
@@ -156,16 +159,7 @@
 	</div>
 
 	<script>
-
-	// 문의사항
-	$(function(){
-		$("tr[id]").on("click",function(){
-			var QNO = $(this).attr("id");
-			console.log("QNO="+QNO);
-			location.href = "${pageContext.request.contextPath}/admin/customerService/questionView.do?no="+QNO;
-		});
-	});
-
+	
 	$('#qList').on('click', function() {
 		location.href="${pageContext.request.contextPath}/admin/customerService/customerService.do";
 	});
@@ -175,13 +169,6 @@
 	$('#fList').on('click', function() {
 		location.href="${pageContext.request.contextPath}/admin/customerService/faqList.do";
 	});
-
-	$(function() {
-		var navBtn = $('#admin_cs');
-		var otherBtn = $('#admin_main');
-		$(otherBtn).removeClass("active");
-		$(navBtn).addClass("active");
-    })
 	
 	</script>
 </body>

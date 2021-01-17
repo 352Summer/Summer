@@ -7,13 +7,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>고객센터</title>
+	<title>공지사항 관리</title>
 	
 	<style>
-	/*FAQ작성버튼*/
+		/*FAQ작성버튼*/
 		input#btn-add{float:right; margin: 0 0 15px;}
 		
-	
+		/*페이징 css*/
 		.block-27 ul, .block-27 ul li {
 	  		padding: 0;
 	  		margin: 0;
@@ -38,58 +38,6 @@
 		    color: #fff;
 		    border: 1px solid transparent;
 		}
-		
-		
-		#qList, #rList, #fList {
-			width : 200px;
-			height : 40px;
-			background : snow;
-			border : 2px solid #88c8bc;
-			border-radius : 5px;
-			font-size : 18px;
-		}
-		
-		#qList {
-			background : #88c8bc;
-			color : white;
-		}
-		
-		#qList:hover , #rList:hover, #fList:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-		}
-		
-		#qList li:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-			cursor : pointer;
-		}
-		
-		#qStatus li:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-			cursor : pointer;
-		}
-		
-		#insertBtn {
-			background : white;
-			color : #88c8bc;
-			width : 30%;
-			height : 30px;
-			border : 1px solid black;
-			border-radius : 5px;
-			margin-right : 10px;
-		}
-		
-		#insertBtn:hover {
-			background : #88c8bc;
-			color : white;
-			transition : 0.4s;
-		}
-    
 	</style>
 	
 </head>
@@ -97,35 +45,20 @@
 <body>
 	<c:import url="../common/header.jsp"/>
 	<div id="container" style="background:white; border: 2px solid black; padding:5%" >
-	
-	<div class="row">
-		<div class="container" style="text-align:center;">
-			<button type="button" id="qList">문의사항관리</button>
-			<button type="button" id="rList">신고관리</button>
-			<button type="button" id="fList">FAQ관리</button>
-		</div>
-	</div>
-	<br /><br />
-			
-		<div class="col" style="text-align:center;"><h3>문의사항 관리 게시판</h3></div>
+		<div class="col" style="text-align:center;"><h3>공지사항 관리 게시판</h3></div>
+		<input type="button" value="공지사항작성" id="btn-add" class="btn btn-outline-success" onclick="fn_gonoticeForm();"/>
 		<section id="question-container" class="container">
 			<p>총 ${totalContents}건의 문의사항이 있습니다.</p>
 			<table id="tbl-question" class="table table-striped table-hover">
 				<tr>
-					<th>문의번호</th>
 					<th>제목</th>
-					<th>답변유무</th>
-					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
-				<c:forEach items="${list}" var="q"> 
-				<tr id="${q.QNO}">
-					<td>${q.QNO}</td>
-					<td>${q.QTITLE}</td>
-					<td>${q.ASTATUS}</td>
-					<td>${q.USERID}</td>
-					<c:set var="qDate" value="${ q.QDATE }"/>
-					<td>${ fn:substring(qDate, 0, 10) }</td>
+				<c:forEach items="${list}" var="b"> 
+				<tr id="${b.BO}">
+					<td>${b.BTITLE}</td>
+					<c:set var="bDate" value="${ b.BDATE }"/>
+					<td>${ fn:substring(bDate, 0, 10) }</td>
 				</tr>
 				</c:forEach>
 			</table>
@@ -160,29 +93,22 @@
 	// 문의사항
 	$(function(){
 		$("tr[id]").on("click",function(){
-			var QNO = $(this).attr("id");
-			console.log("QNO="+QNO);
-			location.href = "${pageContext.request.contextPath}/admin/customerService/questionView.do?no="+QNO;
+			var BNO = $(this).attr("id");
+			console.log("BNO="+BNO);
+			location.href = "${pageContext.request.contextPath}/admin/community/noticeView.do?no="+BNO;
 		});
 	});
 
-	$('#qList').on('click', function() {
-		location.href="${pageContext.request.contextPath}/admin/customerService/customerService.do";
-	});
-	$('#rList').on('click', function() {
-		location.href="${pageContext.request.contextPath}/admin/customerService/selectReportList.do";
-	});
-	$('#fList').on('click', function() {
-		location.href="${pageContext.request.contextPath}/admin/customerService/faqList.do";
-	});
+	function fn_gonoticeForm(){
+		location.href = "${pageContext.request.contextPath}/admin/community/noticeForm.do";
+	}
 
 	$(function() {
-		var navBtn = $('#admin_cs');
+		var navBtn = $('#admin_community');
 		var otherBtn = $('#admin_main');
 		$(otherBtn).removeClass("active");
 		$(navBtn).addClass("active");
     })
-	
 	</script>
 </body>
 </html>

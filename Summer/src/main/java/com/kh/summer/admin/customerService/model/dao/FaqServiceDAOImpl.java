@@ -1,4 +1,4 @@
-package com.kh.summer.user.faq.model.dao;
+package com.kh.summer.admin.customerService.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -8,11 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.summer.admin.customerService.model.vo.Question;
 import com.kh.summer.user.faq.model.vo.FAQ;
 
 @Repository
-public class FAQDAOImpl implements FAQDAO {
+public class FaqServiceDAOImpl implements FaqServiceDAO {
 
 	@Autowired
 	SqlSessionTemplate sqlSession;
@@ -40,4 +39,9 @@ public class FAQDAOImpl implements FAQDAO {
 		return sqlSession.insert("faqMapper.insertFAQ", faq);
 	}
 
+	@Override
+	public int faqDelete(int fno) {
+		
+		return sqlSession.delete("faqMapper.deleteFAQ", fno);
+	}
 }
