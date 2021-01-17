@@ -34,7 +34,13 @@ public class StoreController {
 	IoInfoService ioinfoServe;
 	
 	@RequestMapping("/store/selectStoreMain.do")
-	public String selectStoreMain() {
+	public String selectStoreMain(Model model) {
+		List<Map<String, String>> list = storeService.selectStoreMainList();
+		
+		System.out.println("list : " + list);
+		
+		model.addAttribute("list", list);
+		
 		return "user/store/storeMain";
 	}
 	
@@ -51,7 +57,7 @@ public class StoreController {
 		List<Map<String, String>> list = storeService.selectStoreTopList(cPage, numPerPage, sort);
 		
 		System.out.println("list : " + list);
-		
+		 
 		// 2. 전체 게시글 수 (페이지 처리를 위함)
 		int totalContents = storeService.selectStoreTopTotalContents();
 		
@@ -132,7 +138,7 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/store/storeDetail.do")
-	public String storeDetail(@RequestParam int no, Model model) {
+	public String storeDetail(@RequestParam int no, Model model, @RequestParam String Id) {
 		
 		Map<String, String> store = storeService.selectOneStore(no);
 		List<Map<String, String>> attachmentList = storeService.selectAttachmentList(no);
@@ -140,10 +146,15 @@ public class StoreController {
 
 		List<Map<String, String>> size = storeService.selectSize(no);
 		
+		Map<String, Object> mySize = storeService.selectMySize(Id);
+		
+		System.out.println(mySize);
+		
 		model.addAttribute("store", store)
 			 .addAttribute("attachmentList", attachmentList)
 			 .addAttribute("commentList", commentList)
-			 .addAttribute("size", size);
+			 .addAttribute("size", size)
+			 .addAttribute("mySize", mySize);
 		
 		System.out.println("model : " + model);
 		
@@ -182,26 +193,27 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/store/successBuyStore.do")
-	public String successBuyStore(OrderInfo orderInfo, Model model) {
-								//,@RequestParam String userId
-								//,@RequestParam String pCode
+	public String successBuyStore(OrderInfo orderInfo, Model model
+								,@RequestParam String userId) {
+								//,@RequestParam String pCode) {
 								//,@RequestParam String pPrice
 								//,@RequestParam String Amount) {
 		
 		Map<String, String> ioinfo  = new HashMap<String, String>();
-
-		//ioinfo.put("userId", userId);
+		
+		ioinfo.put("userId", userId);
 		//ioinfo.put("pCode", pCode);
 		//ioinfo.put("pPrice", pPrice);
 		//ioinfo.put("Amount", Amount);
-
+		
+		System.out.println("ioinfo : " + ioinfo);
+		
 		int result = orderinfoService.insertOrderInfo(orderInfo);
 		
-		//int io = ioinfoServe.insertIoInfo(ioinfo);
-		
+		//int io = ioinfoServe.insertIoInfo(ioinfo);	
 		
 		System.out.println("result : " + result);
-
+		
 		System.out.println("orderInfo: " + orderInfo);
 		
 		if( result > 0 ) {
