@@ -15,15 +15,20 @@ public class CartServiceImpl implements CartService {
 	CartDAO cartDAO;
 	
 	@Override
-	public List<Map<String, String>> selectCartList(String userId) {
+	public List<Map<String, String>> selectCartList(int cPage, int numPerPage, String userId) {
 		
-		return cartDAO.selectCartList(userId);
+		return cartDAO.selectCartList(cPage, numPerPage, userId);
 	}
 
 	@Override
 	public int deleteCart(int cartNo) {
 		
 		return cartDAO.deleteCart(cartNo);
+	}
+
+	@Override
+	public int selectCartTotalContents(String userId) {
+		return cartDAO.selectCartTotalContents(userId);
 	}
 
 }

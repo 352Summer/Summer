@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>상품관리</title>
+	<title>상품등록</title>
 	<style>
 		#pList, #addProduct, #ioList {
 			width : 200px;
@@ -18,7 +18,7 @@
 			font-size : 18px;
 		}
 		
-		#pList {
+		#ioList {
 			background : #88c8bc;
 			color : white;
 		}
@@ -36,27 +36,56 @@
 			box-shadow : 10px 10px 20px 5px grey;
 		}
 		
-		.pd1:hover {
-			background : #b0daea;
-			border : 1px solid black;
-			cursor : pointer;
+		#btnGroup button {
+			width : 200px;
+			height : 38px;
+			background : snow;
+			border : 2px solid #88c8bc;
+			border-radius : 5px;
+			font-size : 17px;
 		}
 		
-		.pd1 img {
-			width : 80px;
+		#btnGroup button:hover {
+			background : #88c8bc;
+			color : white;
+			transition : 0.4s;
 		}
 		
-		#pHead {
-			background:#e2e2e2;
-			padding:10px 0 10px 0;
-			border-top : 1px solid black;
-			border-bottom:1px solid black;
-		}
-		
-		#pHead>div {
-			font-size : 15px;
-			font-weight : bold;
-		}
+		.img-rounded:hover, .img-thumbnail:hover {
+    		cursor : pointer;
+    	}
+    	
+    	.img-rounded {
+    		width : 200px;
+    		height : 250px;
+    	}
+    	
+    	.img-thumbnail {
+    		width : 290px;
+    		height : 450px;
+    	}
+    	
+    	td {
+    		width : 65px;
+    		text-align : center;
+    		padding : 4px;
+    	}
+    	
+    	td input {
+    		width : 40px;
+    	}
+    	
+    	#topSize, #pantsSize {
+    		border : 1px solid #e2e2e2;
+    		display : none;
+    	}
+    	
+    	caption {
+    		background : #88c8bc;
+    		color : white;
+    		font-size : 16px;
+    	}
+    	
 		
 	</style>
 </head>
@@ -80,111 +109,85 @@
 				</div>
 			</div>
 			<br>
+			<form action="${pageContext.request.contextPath}/admin/insertIEnd.do" id="insertI" method="post">
 			<div class="row">
 				<div class="span12" id="oListBox">
-					<div class="row" style="padding:10px 0 10px 0;">
-						<div class="span12" style="padding-left:5%;">
-							<div class="btn-group">
-							  <a class="btn dropdown-toggle" data-toggle="dropdown" style="width:100px;">
-							  	정렬 <span class="caret" style="float:right;"></span>
-							  </a>
-							  <ul class="dropdown-menu">
-							    <li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=all">전체</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=top">상의</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=pants">하의</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=outer">아우터</a></li>
-							  </ul>
-							</div>
-						</div>
-					</div>
 					<div class="row">
-						<div class="span12" id="pHead">
-							<div class="span2" style="text-align:center;">
-								상품이미지
-							</div>
-							<div class="span2" style="text-align:center;">
-								상품명
-							</div>
-							<div class="span1" style="text-align:center;">
-								상품분류
-							</div>
-							<div class="span3" style="text-align:center;">
-								상품설명
-							</div>
-							<div class="span1" style="text-align:center;">
-								상품금액
-							</div>
-							<div class="span2" style="text-align:center;">
-								보유재고
-							</div>
+						<div class="span12" style="text-align:center; margin-top:2%;">
+							<h1>상품입고등록</h1>
 						</div>
 					</div>
-					<c:if test="${ !empty products }">
-						<div class="accordion" id="accordion2">
-						<c:forEach items="${ products }" var="p">
-							<div class="row pd1" onclick="fn_pDetail(${p.PCODE});">
-								<div class="span12" style="padding:10px 0 10px 0; border-bottom : 1px solid grey;">
-									<div class="span2" style="text-align:center;">
-										<img src="${pageContext.request.contextPath}${p.FILEPATH}${p.NEWFILENAME}"/>
-									</div>
-									<div class="span2" style="text-align:center; margin-top:3%;">
-										${ p.PNAME }
-									</div>
-									<div class="span1" style="text-align:center; margin-top:3%;">
-										<c:if test="${ p.LCNO == 1 }">상의</c:if>
-										<c:if test="${ p.LCNO == 2 }">하의</c:if>
-										<c:if test="${ p.LCNO == 3 }">아우터</c:if>
-									</div>
-									<div class="span3" style="text-align:center; margin-top:3%;">
-										${ p.PDESCRIPTION }
-									</div>
-									<div class="span1" style="text-align:center; margin-top:3%;">
-										<fmt:formatNumber value="${ p.PPRICE }" pattern="#,###"/> 원
-									</div>
-									<div class="span2" style="text-align:center; margin-top:3%;">
-										${ p.PSTOCK } 개
-									</div>
+					<div class="row" style="margin-left:1%;padding:3%;">
+						<div class="span4" style="text-align:center;">
+							<div style="padding:5px; border:2px solid grey; width:295px;" id="thumbImg">
+								<img id="thumbnail" class="img-thumbnail">
+							</div>
+						</div>
+						<div class="span6">
+							<select name="pcode" id="productCt">
+								<option selected disabled>상품 선택</option>
+								<c:forEach items="${ pList }" var="p">
+									<option value="${ p.PCODE }">${ p.PNAME }</option>
+								</c:forEach>
+							</select>
+							<br>
+							<div style="border:1px solid grey;">
+								<div style="width:100%; font-size:16px; background:#88c8bc; color:white; padding:1% 0% 1% 0%; text-align:center;">
+									상품명
+								</div>
+								<div style="width:100%; text-align:center; padding:2% 0% 2% 0%;" id="pname">
+									<input type="hidden" id="pChk" value="0"/>
 								</div>
 							</div>
-						</c:forEach>
-						</div>
-					<br>
-					<!-- 페이징 처리 시작-->
-					<div class="row" style="margin: 10px 0 20px 0;">
-						<div class="span12">
-							<div class="block-27" style="text-align:center;">
-								<c:out value="${pageBar}" escapeXml="false"/>
-					        </div>
-						</div>
-					</div>
-					<!-- 페이징 처리 끝-->
-					</c:if>
-					<c:if test="${ empty products }">
-						<div class="row">
-							<div class="span12" style="text-align:center; margin:30px">
-								<h2>상품정보가 존재하지 않습니다.</h2>
+							<br>
+							<div style="border:1px solid grey;">
+								<div style="width:100%; font-size:16px; background:#88c8bc; color:white; padding:1% 0% 1% 0%; text-align:center;">
+									상품설명
+								</div>
+								<div style="width:100%; text-align:center; padding:2% 0 2% 0;" id="pcontents">
+									
+								</div>
+							</div>
+							<br>
+							<div style="border:1px solid grey;">
+								<div style="width:100%; font-size:16px; background:#88c8bc; color:white; padding:1% 0% 1% 0%; text-align:center;">
+									상품수량
+								</div>
+								<div style="width:100%; text-align:center; padding:2% 0% 2% 0%;" id="pstock">
+									
+								</div>
+							</div>
+							<br>
+							<div style="border:1px solid grey;">
+								<div style="width:100%; font-size:16px; background:#88c8bc; color:white; padding:1% 0% 1% 0%; text-align:center;">
+									상품 가격
+								</div>
+								<div style="width:100%; text-align:center; padding:2% 0% 2% 0%;" id="pprice">
+									
+								</div>
+							</div>
+							<br>
+							<div style="border:1px solid grey;">
+								<div style="width:100%; font-size:16px; background:#88c8bc; color:white; padding:1% 0% 1% 0%; text-align:center;">
+									입고수량
+								</div>
+								<div style="width:100%; text-align:center; padding:2% 0% 2% 0%;">
+									<input type="number" name="addStock" id="addStock" required style="text-align:center;"/>
+								</div>
 							</div>
 						</div>
-					</c:if>
-					
-					
-					<!-- 검색 시작 -->
-					<div class="row">
-						<div class="span12" style="text-align:center;">
-							<form action="${pageContext.request.contextPath}/admin/selectProductSearch.do" id="Search">
-								<select name="searchCt" class="btn" style="border-radius:10px; width:100px; height:35px;">
-									<option value="all" style="background: white; color : black;">전체</option>
-									<option value="pname" style="background: white; color : black;">상품명</option>
-									<option value="pcontents" style="background: white; color : black;">상품설명</option>
-								</select>
-								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:20%; height:26px; margin-top:8px;">
-								<button class="btn" type="submit" style="border-radius:30px; height:35px; background:#88c8bc; color:white;"><i class="icon-search"></i></button>
-							</form>
+					</div>
+					<hr>
+					<div class="row" style="margin:3% 0% 2% 0%;">
+						<div class="span12" style="text-align:center;" id="btnGroup">
+							<button type="button" class="btn" onclick="fn_insert();">등록하기</button> &nbsp; &nbsp;
+							<button type="button" class="btn" onclick="fn_goBack();">취소하기</button>
 						</div>
 					</div>
-					<!-- 검색 끝 -->
+					<br>
 				</div>
 			</div>
+			</form>
 			<!-- /row --> 
 		</div>
 		<!-- /container -->
@@ -283,15 +286,48 @@
 			location.href="${pageContext.request.contextPath}/admin/manageIO.do";
 		});
 
-		$('#search').keydown(function(e) {
-			if(e.keyCode == 13) {
-				$('#Search').submit();
-			}
+		<!-------------------------------- 상품선택 시작 ------------------------------------->
+		$(document).ready(function() {
+			$('#productCt').on('change', function(){
+				pcode = this.value;
+				$.ajax({
+					url : "${pageContext.request.contextPath}/admin/selectP.do",
+					type : "post",
+					data : {pcode : pcode},
+					success : function(data){
+								$('#thumbnail').attr('src', '${pageContext.request.contextPath}'+data.FILEPATH+data.NEWFILENAME);
+								$('#pname').append('<span>'+data.PNAME+'</span>');
+								$('#pcontents').append('<span>'+data.PDESCRIPTION+'</span>');
+								$('#pstock').append('<span>'+data.PSTOCK+'</span>');
+								$('#pprice').append('<span>'+data.PPRICE+'</span>');
+								$('#pChk').val(1);
+							}
+				});
+			});
 		});
+		<!-------------------------------- 상품선택 끝 ------------------------------------->
 
-		function fn_pDetail(pcode) {
-			location.href="${pageContext.request.contextPath}/admin/selectProductDetail.do?pcode="+pcode;
+		function fn_insert() {
+			if($('#pChk').val() == 0) {
+				alert("상품을 선택해주세요.");
+				return false;
+			}
+			if($('#addStock').val() == '') {
+				alert("입고수량을 입력해주세요.");
+				$('#addStock').focus();
+				return false;
+			}
+			if(confirm("등록하시겠습니까?")) {
+				$('#insertI').submit();
+			}
+		}
+		
+		function fn_goBack() {
+			if(confirm("돌아가시겠습니까?")) {
+				location.href="${pageContext.request.contextPath}/admin/manageIO.do";
+			}
 		};
+
 	</script>
 </body>
 </html>

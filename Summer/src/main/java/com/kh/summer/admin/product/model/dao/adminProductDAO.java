@@ -32,5 +32,29 @@ public interface adminProductDAO {
 
 	int updateAttachment(Attachment a);
 
+	int insertProduct(Product product);
+
+	int insertAttachment(Map<String, Object> map);
+
+	int insertProductSize(Map<String, Object> size, String pCode);
+
+	String selectPCode(int lcNo);
+
+	List<Map<String, Object>> selectIOList(int cPage, int numPerPage, String sort);
+
+	int selectIOTotalContents(String sort);
+
+	List<Map<String, Object>> selectIOSearch(int cPage, int numPerPage, Map<String, String> searchMap);
+
+	int selectIOSearchCount(Map<String, String> searchMap);
+
+	List<Map<String, String>> pList();
+
+	Map<String, Object> selectOneP(String pcode);
+
+	int insertI(Map<String, Object> map);
+
+	int updateStock(Map<String, Object> map);
+
 
 }

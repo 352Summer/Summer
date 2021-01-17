@@ -18,7 +18,7 @@
 			font-size : 18px;
 		}
 		
-		#pList {
+		#ioList {
 			background : #88c8bc;
 			color : white;
 		}
@@ -35,16 +35,7 @@
 			background:white;
 			box-shadow : 10px 10px 20px 5px grey;
 		}
-		
-		.pd1:hover {
-			background : #b0daea;
-			border : 1px solid black;
-			cursor : pointer;
-		}
-		
-		.pd1 img {
-			width : 80px;
-		}
+
 		
 		#pHead {
 			background:#e2e2e2;
@@ -86,13 +77,12 @@
 						<div class="span12" style="padding-left:5%;">
 							<div class="btn-group">
 							  <a class="btn dropdown-toggle" data-toggle="dropdown" style="width:100px;">
-							  	정렬 <span class="caret" style="float:right;"></span>
+							  	필터 <span class="caret" style="float:right;"></span>
 							  </a>
 							  <ul class="dropdown-menu">
-							    <li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=all">전체</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=top">상의</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=pants">하의</a></li>
-							  	<li><a href="${pageContext.request.contextPath}/admin/selectProductList.do?sort=outer">아우터</a></li>
+							    <li><a href="${pageContext.request.contextPath}/admin/manageIO.do?sort=all">전체</a></li>
+							  	<li><a href="${pageContext.request.contextPath}/admin/manageIO.do?sort=in">입고내역</a></li>
+							  	<li><a href="${pageContext.request.contextPath}/admin/manageIO.do?sort=out">출고내역</a></li>
 							  </ul>
 							</div>
 						</div>
@@ -100,54 +90,61 @@
 					<div class="row">
 						<div class="span12" id="pHead">
 							<div class="span2" style="text-align:center;">
-								상품이미지
-							</div>
-							<div class="span2" style="text-align:center;">
-								상품명
+								입출고번호
 							</div>
 							<div class="span1" style="text-align:center;">
-								상품분류
-							</div>
-							<div class="span3" style="text-align:center;">
-								상품설명
-							</div>
-							<div class="span1" style="text-align:center;">
-								상품금액
+								구분
 							</div>
 							<div class="span2" style="text-align:center;">
-								보유재고
+								상품번호
+							</div>
+							<div class="span1" style="text-align:center;">
+								수량
+							</div>
+							<div class="span2" style="text-align:center;">
+								상품가격
+							</div>
+							<div class="span2" style="text-align:center;">
+								아이디
+							</div>
+							<div class="span1" style="text-align:center;">
+								날짜
 							</div>
 						</div>
 					</div>
-					<c:if test="${ !empty products }">
+					<c:if test="${ !empty ios }">
 						<div class="accordion" id="accordion2">
-						<c:forEach items="${ products }" var="p">
-							<div class="row pd1" onclick="fn_pDetail(${p.PCODE});">
+						<c:forEach items="${ ios }" var="io">
+							<div class="row">
 								<div class="span12" style="padding:10px 0 10px 0; border-bottom : 1px solid grey;">
 									<div class="span2" style="text-align:center;">
-										<img src="${pageContext.request.contextPath}${p.FILEPATH}${p.NEWFILENAME}"/>
+										${ io.IONO }
 									</div>
-									<div class="span2" style="text-align:center; margin-top:3%;">
-										${ p.PNAME }
+									<div class="span1" style="text-align:center;">
+										<c:if test="${ io.IO == 'I' }">입고</c:if>
+										<c:if test="${ io.IO == 'O' }">출고</c:if>
 									</div>
-									<div class="span1" style="text-align:center; margin-top:3%;">
-										<c:if test="${ p.LCNO == 1 }">상의</c:if>
-										<c:if test="${ p.LCNO == 2 }">하의</c:if>
-										<c:if test="${ p.LCNO == 3 }">아우터</c:if>
+									<div class="span2" style="text-align:center;">
+										${ io.PCODE }
 									</div>
-									<div class="span3" style="text-align:center; margin-top:3%;">
-										${ p.PDESCRIPTION }
+									<div class="span1" style="text-align:center;">
+										${ io.QUANTITY } 개
 									</div>
-									<div class="span1" style="text-align:center; margin-top:3%;">
-										<fmt:formatNumber value="${ p.PPRICE }" pattern="#,###"/> 원
+									<div class="span2" style="text-align:center;">
+										<fmt:formatNumber value="${ io.PRICE }" pattern="#,###"/> 원
 									</div>
-									<div class="span2" style="text-align:center; margin-top:3%;">
-										${ p.PSTOCK } 개
+									<div class="span2" style="text-align:center;">
+										${ io.USERID }
+									</div>
+									<div class="span1" style="text-align:center;">
+										<c:set var="ioDate" value="${ io.IODATE }"/>
+										<span>${ fn:substring(ioDate, 0, 10) }</span>
 									</div>
 								</div>
 							</div>
 						</c:forEach>
 						</div>
+					<button type="button" onclick="fn_insertI();" class="btn btn-info" style="float:right; margin-right:3%;">상품입고</button>
 					<br>
 					<!-- 페이징 처리 시작-->
 					<div class="row" style="margin: 10px 0 20px 0;">
@@ -159,23 +156,22 @@
 					</div>
 					<!-- 페이징 처리 끝-->
 					</c:if>
-					<c:if test="${ empty products }">
+					<c:if test="${ empty ios }">
 						<div class="row">
 							<div class="span12" style="text-align:center; margin:30px">
-								<h2>상품정보가 존재하지 않습니다.</h2>
+								<h2>입출고내역이 존재하지 않습니다.</h2>
 							</div>
 						</div>
 					</c:if>
 					
-					
 					<!-- 검색 시작 -->
 					<div class="row">
 						<div class="span12" style="text-align:center;">
-							<form action="${pageContext.request.contextPath}/admin/selectProductSearch.do" id="Search">
+							<form action="${pageContext.request.contextPath}/admin/selectIOSearch.do" id="Search">
 								<select name="searchCt" class="btn" style="border-radius:10px; width:100px; height:35px;">
 									<option value="all" style="background: white; color : black;">전체</option>
-									<option value="pname" style="background: white; color : black;">상품명</option>
-									<option value="pcontents" style="background: white; color : black;">상품설명</option>
+									<option value="iono" style="background: white; color : black;">입출고번호</option>
+									<option value="userid" style="background: white; color : black;">아이디</option>
 								</select>
 								<input type="search" id="search" name="search" placeholder="Search" style="border-radius: 30px; width:20%; height:26px; margin-top:8px;">
 								<button class="btn" type="submit" style="border-radius:30px; height:35px; background:#88c8bc; color:white;"><i class="icon-search"></i></button>
@@ -289,9 +285,11 @@
 			}
 		});
 
-		function fn_pDetail(pcode) {
-			location.href="${pageContext.request.contextPath}/admin/selectProductDetail.do?pcode="+pcode;
-		};
+		function fn_insertI() {
+			if(confirm("상품을 입고하시겠습니까?")) {
+				location.href="${pageContext.request.contextPath}/admin/insertI.do";
+			}
+		}
 	</script>
 </body>
 </html>

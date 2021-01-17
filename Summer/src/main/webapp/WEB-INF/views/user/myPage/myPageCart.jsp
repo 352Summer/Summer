@@ -101,7 +101,7 @@
 										</div>
 										<div class="one-eight text-center">
 											<div class="display-tc">
-												<span class="price">${ c.PPRICE }</span>
+												<span class="price"><fmt:formatNumber value="${ c.PPRICE }" pattern="#,###"/> 원</span>
 											</div>
 										</div>
 										<div class="one-eight text-center">
@@ -111,7 +111,7 @@
 										</div>
 										<div class="one-eight text-center">
 											<div class="display-tc">
-												<span class="price">${ c.PPRICE * c.AMOUNT }</span>
+												<span class="price"><fmt:formatNumber value="${ c.PPRICE * c.AMOUNT }" pattern="#,###"/> 원</span>
 											</div>
 										</div>
 										<div class="one-eight text-center">
@@ -124,7 +124,15 @@
 							
 							</c:when>
 						</c:choose>
-						
+					<!-- 페이징 처리 시작-->
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<div class="block-27">
+								<c:out value="${pageBar}" escapeXml="false"/>
+			            	</div>
+						</div>
+					</div>
+					<!-- 페이징 처리 끝-->
 					</div>
 					<div class="col" style="text-align:center;">
 						<button type="button" class="btn btn-primary thema">결제페이지로 이동</button>

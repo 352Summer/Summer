@@ -39,16 +39,30 @@ public class myPageController {
 	
 // --------------------- 마이페이지 장바구니 목록 조회 ---------------------------- //
 	@RequestMapping("/myPage/myPageCart.do")
-	public String myPageCart(@RequestParam String userId, Model model) {
+	public String myPageCart(@RequestParam(value="cPage", required=false, defaultValue="1") int cPage,
+							 HttpServletRequest request, Model model) {
 		
-		Member m = memberService.selectOneMember(userId);
-		List<Map<String, String>> c = cartService.selectCartList(userId);
+		int numPerPage = 5; // 한 페이지 당 게시글 and 페이지 수
+		
+		HttpSession session = request.getSession();
+		
+		Member member = (Member)session.getAttribute("member");
+		
+		String userId = member.getUserId();
+		
+		List<Map<String, String>> c = cartService.selectCartList(cPage, numPerPage, userId);
+		
+		int totalContents = cartService.selectCartTotalContents(userId);
+		
+		String pageBar = Utils.getPageBar(totalContents, cPage, numPerPage, "myPageCart.do");
+		
+		String msg = totalContents + "건의 구매후기가 있습니다.";
 		
 		model.addAttribute("c", c)
-			 .addAttribute("member", m);
-		
-		System.out.println(m);
-		System.out.println(c);
+			 .addAttribute("totalContents", totalContents)
+			 .addAttribute("numPerPage", numPerPage)
+			 .addAttribute("pageBar", pageBar)
+			 .addAttribute("msg", msg);
 		
 		return "user/myPage/myPageCart";
 	}
