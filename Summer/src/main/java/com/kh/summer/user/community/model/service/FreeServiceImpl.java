@@ -13,7 +13,7 @@ import com.kh.summer.user.community.model.dao.FreeDAO;
 
 @Service
 public class FreeServiceImpl implements FreeService {
-	
+	 
 	@Autowired
 	private FreeDAO freeDAO;
 
