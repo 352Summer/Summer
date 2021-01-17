@@ -99,5 +99,15 @@ public class storeServiceImpl implements StoreService {
 		return storeDAO.deleteStoreComment(bcNo);
 	}
 
+	@Override
+	public List<Map<String, String>> selectStoreMainList() {
+		return storeDAO.selectStoreMainList();
+	}
+
+	@Override
+	public Map<String, Object> selectMySize(String Id) {
+		return storeDAO.selectSize(Id);
+	}
+
 
 }

@@ -410,7 +410,10 @@
 						  
 						   <c:set var = "totalprice" value="${(sAmount + mAmount + lAmount) * store.PPRICE }" />
 						   <div id="old">
-						   		<form action="${pageContext.request.contextPath}/store/successBuyStore.do?" method="post" id="successPay">
+						   		<form action="${pageContext.request.contextPath}/store/successBuyStore.do?userid=" 
+						   		+ ${ member.userId };
+											 
+						   						style="display:none;" method="post" id="successPay">
 						   	    	
 						   	    	수신자명 <input type="text" name="rName" value="${ member.userName }"/>
 						 	  	    배송주소 <input type="text" name="rAddress" value="${member.address}"/>

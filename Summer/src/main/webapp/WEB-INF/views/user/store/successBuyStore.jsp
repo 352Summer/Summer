@@ -34,13 +34,12 @@
 		</div>
 		<br><br><br><br><br>
 		<div class="center">
-					<button onclick="location.href='#'" class="btn btn-primary thema">메인으로</button>&nbsp;&nbsp;&nbsp;&nbsp;
-					<button onclick="location.href='#'" class="btn btn-primary thema">구매내역</button>
+					<button onclick="location.href='${pageContext.request.contextPath}'" class="btn btn-primary thema">메인으로</button>&nbsp;&nbsp;&nbsp;&nbsp;
+					<button onclick="location.href='${pageContext.request.contextPath}/myPage/myPageOI.do?userId=${member.userId}'" class="btn btn-primary thema">구매내역</button>
 		</div>
 	</div>
 	
-	
-	
+
 	
 	
 	

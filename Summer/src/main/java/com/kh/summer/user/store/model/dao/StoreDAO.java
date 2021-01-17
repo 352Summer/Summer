@@ -42,6 +42,10 @@ public interface StoreDAO {
 
 	int deleteStoreComment(int bcNo);
 
+	List<Map<String, String>> selectStoreMainList();
+
+	Map<String, Object> selectSize(String Id);
+
 
 	
 }

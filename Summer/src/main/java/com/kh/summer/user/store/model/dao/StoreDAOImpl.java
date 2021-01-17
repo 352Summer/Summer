@@ -111,4 +111,14 @@ public class StoreDAOImpl implements StoreDAO {
 		return sqlSession.delete("storeMapper.deleteStoreComment", bcNo);
 	}
 
+	@Override
+	public List<Map<String, String>> selectStoreMainList() {
+		return sqlSession.selectList("storeMapper.selectStoreMainList");
+	}
+
+	@Override
+	public Map<String, Object> selectSize(String Id) {
+		return sqlSession.selectOne("storeMapper.selectMySize", Id);
+	}
+
 }

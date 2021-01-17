@@ -109,18 +109,22 @@
 					</div>
 				</div>
 				<div class="row row-pb-md">
-					<c:forEach items="${list}" var="p" begin="0" end="3"> 
-					<div class="col-md-3 col-lg-3 mb-4 text-center top" id="${ p.BNO }">
-						<div class="product-entry border">
-							<a href="${pageContext.request.contextPath}/store/storeDetail.do" class="prod-img">
-								<img src="${pageContext.request.contextPath}${ p.FILEPATH }${ p.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="${pageContext.request.contextPath}/store/storeDetail.do">${p.PNAME}</a></h2>
-								<span class="price">${p.PPRICE}</span>
+					<c:forEach items="${list}" var="b" begin="0" end="3"> 
+					<div class="col-md-3 col-lg-3 mb-4 text-center top" id="${ b.BNO }">
+					<div class="product-entry border" id="${b.BNO}">
+						<img src="${pageContext.request.contextPath}${ b.FILEPATH }${ b.NEWFILENAME }" class="img-fluid" alt="Free html5 bootstrap 4 template">
+						<div class="desc">
+							<h2>${b.BTITLE}</h2>
+							<div class="desc_price">
+								￦${b.PPRICE}원
+							</div>
+							<div class="desc_like">
+								<i class="icon-heart" aria-hidden="true"></i>${b.BLIKE} &nbsp;
+								<i class="icon-eye" aria-hidden="true"></i>${b.VIEWS} 
 							</div>
 						</div>
 					</div>
+				</div>
 					</c:forEach>
 			</div>
 			<br>
@@ -191,8 +195,9 @@
 		$(function(){
 			$(".top").on("click",function(){
 				var storeNo = $(this).attr("id");
+				var userId = '${member.userId}';
 				console.log("storeNo="+storeNo);
-				location.href = "${pageContext.request.contextPath}/store/storeDetail.do?no="+storeNo;
+				location.href = "${pageContext.request.contextPath}/store/storeDetail.do?no="+storeNo+"&Id="+userId;
 			});
 		});
 

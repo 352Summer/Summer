@@ -38,4 +38,8 @@ public interface StoreService {
 
 	int deleteStoreComment(int bcNo);
 
+	List<Map<String, String>> selectStoreMainList();
+
+	Map<String, Object> selectMySize(String Id);
+
 }

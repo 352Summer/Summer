@@ -390,19 +390,20 @@
 								</tr>
 								<tr>
 									<th>MY</th>
-									<th>-</th>
-									<th>-</th>
-									<th>-</th>
-									<th>-</th>
+									<th>${mySize.TOTAL}</th>
+									<th>${mySize.SHOULDER}</th>
+									<th>${mySize.CHEST}</th>
+									<th>${mySize.SLEEVE}</th>
 								</tr>
 								<c:forEach items="${size}" var="s">
+								
 								<tr>
 									<th>${s.TSIZE}</th>
 									<th>${s.TOTAL}</th>
 									<th>${s.SHOULDER}</th>
 									<th>${s.CHEST}</th>
 									<th>${s.SLEEVE}</th>
-								</tr>	
+								</tr> 
 								</c:forEach>					
 							</table>
 						</div>
@@ -543,7 +544,7 @@
 										<td>${comment.WRITER} ${comment.DATE2CHAR}</td>
 										<td style="float:right;">
 										<c:if test="${member.userId eq comment.USERID}">
-											<button type="button" class="btn btn-primary thema">수정</button>
+											
 											<button type="button" class="btn btn-primary thema" onclick="fn_deleteStoreComment(${comment.BCNO});">삭제</button>
 										</c:if>
 										</td>

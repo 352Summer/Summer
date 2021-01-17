@@ -98,6 +98,12 @@
 		ORDER BY TOPNO ASC
 	</select>
 	
+	<select id="selectMySize" parameterType="string" resultType="hashmap">
+		 SELECT T.*
+		FROM TOP T
+		WHERE T.USERID = #{Id}
+	</select>
+	
 	<select id="selectSmallSize" parameterType="hashmap" resultType="hashmap">
 		SELECT T.TSIZE, P.PPRICE
 		FROM TOP T, PRODUCT P
@@ -111,5 +117,15 @@
 	<delete id="deleteStoreComment" parameterType="_int">
 		DELETE FROM BOARDCOMMENT WHERE BCNO = #{ bcNo }
 	</delete>
+	
+	<select id="selectStoreMainList" resultType="hashmap">
+		SELECT B.*, P.*,  A.*
+                , NVL((SELECT COUNT(*) FROM LIKELIST WHERE B.BNO = BNO GROUP BY B.BNO), 0) BLIKE
+		FROM PRODUCT P , BOARD B JOIN ATTACHMENT A ON (A.BNO = B.BNO)
+		WHERE PSTOCK > 0 AND BTNO = 2 AND B.BSTATUS = 'Y' AND P.BNO = B.BNO
+        ORDER BY B.VIEWS DESC
+		
+		
+	</select>
 	
 </mapper>
